@@ -21,6 +21,7 @@ export default function Chat() {
     ws.onclose = () => console.log("❌ Disconnected from server");
     ws.onerror = (err) => console.error("⚠️ WebSocket error:", err);
 
+    setSocket(ws);
   }, []);
 
   const sendMessage = () => {
