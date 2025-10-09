@@ -39,9 +39,16 @@ class Server:
     def __init__(self):
         asyncio.run(self.start_server())
 
-    async def handle_client(self):
-        pass
-
+    async def handle_client(self, websocket):
+        print("New client connected")
+        try:
+            async for msg in websocket:
+                data = json.loads(msg)
+                print(data)
+                data_response = {"data" : "hello from server!"}
+                await websocket.send(json.dumps(data_response))
+        except:
+            pass
 
     async def start_server(self):
         try:
