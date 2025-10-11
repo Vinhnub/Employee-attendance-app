@@ -2,12 +2,17 @@ import asyncio
 import websockets
 import json
 import threading
-from config import *
-from google_sheet import *
+from server.utils.config import *
+from server.utils.gsheet_service import *
+from server.controllers.auth_controller import AuthController
+from server.controllers.employee_controller import EmployeeController
+
 
 class Server:
     def __init__(self):
         self.sheet = GGSheet()
+        self.auth_controller = AuthController()
+        self.emp_controller = EmployeeController()
         asyncio.run(self.start_server())
         
     async def handle_client(self, websocket):
