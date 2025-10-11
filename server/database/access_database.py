@@ -19,3 +19,4 @@ class DatabaseFetcher:
         conn.commit()
         conn.close()
         return result
+    
