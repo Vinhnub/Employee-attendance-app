@@ -12,6 +12,14 @@ class UserService:
         for _row in row:
             if username == _row[0]: return True
         return False
+    
+    def _is_manager(self, username):
+        query = "SELECT role FROM User WHERE username=?"
+        row = self.db.execute(query, (username,), fetchone=True)
+        if row:
+            return (row[0] == "manager")
+        else:
+            return False
 
     def login(self, username, password):
         query = "SELECT * FROM User WHERE username=?"
@@ -38,3 +46,12 @@ class UserService:
             return True
         else:
             return None
+        
+    def reset_password(self, manager_name, username, new_password):
+        if self._is_manager(manager_name) is False:
+            return False
+        
+        new_password_hashed = hash_password(new_password)
+        query = "UPDATE User SET password=? WHERE username=?"
+        self.db.execute(query, (new_password_hashed, username))
+        return True

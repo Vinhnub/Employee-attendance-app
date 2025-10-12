@@ -13,5 +13,9 @@ class ManagerController:
         else:
             return {"status" : "fail", "message" : "Username already exists"}
 
-    def reset_password(self):
-        pass
+    def reset_password(self, manager_name, username, new_password):
+        result = self.user_service.reset_password(manager_name, username, new_password)
+        if result:
+            return {"status" : "success", "message" : "Successful"}
+        else:
+            return {"status" : "fail", "message" : "Do not have permission"}

@@ -33,3 +33,12 @@
 {"status": "success", "message" : "Successful"}
 //Fail
 {"status": "fail", "message": "Username already exists"}
+
+//Reset password
+// Request
+{"type" : "reset_password", "params" : {"manager_name" : ?, "username" : ?, "new_password" : ?}}
+//Response
+//Success 
+{"status": "success", "message" : "Successful"}
+//Fail
+{"status": "fail", "message": "Do not have permission"}

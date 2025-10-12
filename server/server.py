@@ -39,6 +39,8 @@ class Server:
                 if data["type"] == "create_account":
                     data_response = self.manager_controller.create_account(data["params"]["username"],data["params"]["password"], data["params"]["fullname"], data["params"]["role"])
                 
+                if data["type"] == "reset_password":
+                    data_response = self.manager_controller.reset_password(data["params"]["manager_name"], data["params"]["username"], data["params"]["new_password"])
 
                 print(data_response)
                 await websocket.send(json.dumps(data_response))

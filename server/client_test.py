@@ -9,7 +9,7 @@ async def client():
         print("✅ Connected to server!")
 
         # Gửi dữ liệu test
-        data = {"type": "create_account", "params" : {"username" : "admin", "password" : "vinh1255", "fullname" : "Nguyễn Văn Vinh", "role" : "manager"}}
+        data = {"type": "reset_password", "params" : {"manager_name" : "admin", "username" : "staff01", "new_password" : "vinh1255"}}
         await websocket.send(json.dumps(data))
         print(f"➡️ Sent: {data}")
 
