@@ -2,6 +2,7 @@ from server.models.shift import Shift
 from server.database.access_database import DatabaseFetcher
 import datetime
 
+#### Time format: Y-M-D H-M-S
 class ShiftService:
     def __init__(self):
         self.db = DatabaseFetcher()

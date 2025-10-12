@@ -3,8 +3,6 @@ from google.oauth2.service_account import Credentials
 import time
 from server.utils.config import *
 
-
-
 class GGSheet:
     SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
     def __init__(self):
