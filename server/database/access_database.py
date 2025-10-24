@@ -7,16 +7,21 @@ class DatabaseFetcher:
     def connect(self):
         return sqlite3.connect(self.db_path)
 
-    def execute(self, query, params=(), fetchone=False, fetchall=False):
-        conn = self.connect()
+    def execute(self, query, params=None, fetchone=False, fetchall=False):
+        conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-        cursor.execute(query, params)
+
+        if params:
+            cursor.execute(query, params)
+        else:
+            cursor.execute(query)
+
         result = None
         if fetchone:
             result = cursor.fetchone()
         elif fetchall:
             result = cursor.fetchall()
+
         conn.commit()
         conn.close()
         return result
-    

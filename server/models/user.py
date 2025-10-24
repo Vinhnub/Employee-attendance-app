@@ -13,3 +13,6 @@ class User:
             "username": self.username,
             "role": self.role
         }
+    
+    def get_password(self):
+        return self.__password
