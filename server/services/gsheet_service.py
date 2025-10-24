@@ -13,3 +13,6 @@ class GGSheet:
 
     def update_cell(self, x, y, data):
         self.ws.update_cell(x, y, data)
+
+    def update_staff_on_working(self, staffs):
+        pass

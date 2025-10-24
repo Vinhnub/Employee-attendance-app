@@ -7,10 +7,10 @@ class UserService:
         self.db = DatabaseFetcher()
 
     def _check_username_exist(self, username):
-        query = "SELECT username FROM User"
-        row = self.db.execute(query, fetchall=True)
-        for _row in row:
-            if username == _row[0]: return True
+        query = "SELECT username FROM User WHERE username=?"
+        row = self.db.execute(query, (username,), fetchone=True)
+        if row:
+            return True
         return False
     
     def _is_manager(self, username):
@@ -23,13 +23,16 @@ class UserService:
 
     def login(self, username, password):
         query = "SELECT * FROM User WHERE username=?"
-        row = self.db.execute(query, (username, ), fetchone=True)
+        row = self.db.execute(query, (username,), fetchone=True)
         if row:
-            return User(*row)
-        return None
+            user = User(*row)
+            if verify_password(password, user.get_password()):
+                return user
+        return False
 
-    def create_user(self, username, password, fullname, role):
-        if self._check_username_exist(username):
+
+    def create_user(self, manager_name, username, password, fullname, role):
+        if self._check_username_exist(username) or (not self._is_manager(manager_name)):
             return False
         password_hashed = hash_password(password)
         query = "INSERT INTO User (username, password, fullname, role) VALUES (?, ?, ?, ?)"
@@ -37,6 +40,8 @@ class UserService:
         return True
 
     def change_password(self, username, old_password, new_password):
+        if not self._check_username_exist(username):
+            return False
         query = "SELECT password FROM User WHERE username=?"
         row = self.db.execute(query, (username,), fetchone=True)
         if verify_password(old_password, row[0]):
@@ -45,10 +50,10 @@ class UserService:
             self.db.execute(query, (new_password_hashed, username))
             return True
         else:
-            return None
+            return False
         
     def reset_password(self, manager_name, username, new_password):
-        if self._is_manager(manager_name) is False:
+        if self._is_manager(manager_name) is False or (not self._check_username_exist(username)):
             return False
         
         new_password_hashed = hash_password(new_password)
