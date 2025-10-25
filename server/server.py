@@ -1,13 +1,14 @@
-import asyncio
-import websockets
-import json
-import threading
 from server.utils.config import *
-from server.utils.gsheet_service import *
+from server.services.gsheet_service import *
 from server.controllers.auth_controller import AuthController
 from server.controllers.employee_controller import EmployeeController
 from server.controllers.manager_controller import ManagerController
+from server.database.access_database import DatabaseFetcher
 
+
+import threading
+import time
+from datetime import datetime
 
 class Server:
     def __init__(self):
@@ -15,49 +16,48 @@ class Server:
         self.auth_controller = AuthController()
         self.emp_controller = EmployeeController()
         self.manager_controller = ManagerController()
-        self.emp_onworking = {}
-        asyncio.run(self.start_server())
+        self.__db = DatabaseFetcher()
+        self.__cache = {"staff_on_working" : {}, "last_update" : 0}
+        self.__shift_today = []
+        threading.Thread(target=self.automatic_end_working, daemon=True).start()
+
+    def fetch_staff_on_working(self): # to get staff is working and get shift on today
+        self.__shift_today = []
+        self.__cache["staff_on_working"] = {}
+        now = datetime.now()
+        today = datetime.now().strftime("%Y-%m-%d") 
+        query = """
+        SELECT U.username, U.fullname, S.start_time, S.end_time, S.note
+        FROM Shift S
+        JOIN User U ON S.user_id = U.id
+        WHERE DATE(S.start_time) = ?
+        ORDER BY S.start_time
+        """
+        result = self.__db.execute(query, (today,), fetchall=True)
+        for item in result:
+            if now < datetime.strptime(item[3], "%Y-%m-%d %H:%M:%S"):
+                if item[0] not in self.__cache["staff_on_working"]:
+                    start_time = datetime.strptime(item[2], "%Y-%m-%d %H:%M:%S")
+                    end_time = datetime.strptime(item[3], "%Y-%m-%d %H:%M:%S")
+                    self.__cache["staff_on_working"][item[0]] = {"start_time" : start_time.strftime("%H:%M:%S"), "end_time" : end_time.strftime("%H:%M:%S")}
+                self.__shift_today.append(list((item[1], item[2], item[3], True, item[4])))
+            else:
+                self.__shift_today.append(list((item[1], item[2], item[3], False, item[4])))
+        self.sheet.update_shift_today(self.__shift_today)
+        return
+
+    def append_shift_today(self, data):
+        start_time = datetime.strptime(data["start_time"], "%Y-%m-%d %H:%M:%S")
+        end_time = datetime.strptime(data["end_time"], "%Y-%m-%d %H:%M:%S")
+        self.__cache["staff_on_working"][data["username"]] = {"start_time" : start_time.strftime("%H:%M:%S"), "end_time" : end_time.strftime("%H:%M:%S")}
+        self.sheet.append_shift_today(data)
 
     def automatic_end_working(self):
-        pass
-        
-    async def handle_client(self, websocket):
-        client_ip, client_port = websocket.remote_address
-        print(f"🌐 New client connected: {client_ip}:{client_port}")
+        while True:
+            if time.time() - self.__cache["last_update"] > TIME_REFRESH:
+                self.fetch_staff_on_working()
+                self.__cache["last_update"] = time.time()
 
-        try:
-            async for msg in websocket:
-                data = json.loads(msg)
-                print(data)
+    def get_staff_on_working(self):
+        return self.__cache["staff_on_working"]
 
-                if data["type"] == "login":
-                    data_response = self.auth_controller.login(data["params"]["username"], data["params"]["password"])
-
-                if data["type"] == "change_password":
-                    data_response = self.auth_controller.change_password(data["params"]["username"], data["params"]["old_password"], data["params"]["new_password"])
-
-                if data["type"] == "create_account":
-                    data_response = self.manager_controller.create_account(data["params"]["username"],data["params"]["password"], data["params"]["fullname"], data["params"]["role"])
-                
-                if data["type"] == "reset_password":
-                    data_response = self.manager_controller.reset_password(data["params"]["manager_name"], data["params"]["username"], data["params"]["new_password"])
-
-                print(data_response)
-                await websocket.send(json.dumps(data_response))
-
-        except websockets.exceptions.ConnectionClosed:
-            print(f"Client disconnected.")  
-
-    async def start_server(self):
-        try:
-            threading.Thread(target=self.automatic_end_working, daemon=True).start()
-            async with websockets.serve(self.handle_client, SERVER_IP, PORT_TCP):
-                print('Websockets Server Started')
-                await asyncio.Future()
-        except Exception as e:
-            print(e)
-        finally:
-            pass
-
-    
-o_server = Server()

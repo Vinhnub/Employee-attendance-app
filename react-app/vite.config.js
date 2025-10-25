@@ -1,14 +1,10 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-// https://vite.dev/config/
-export default {
-  server: {
-    proxy: {
-      '/ws': {
-        target: 'ws://192.168.1.6:5555',
-        ws: true
-      }
-    }
-  }
-}
+export default defineConfig({
+  plugins: [react()],
+  define: {
+    IP_NETWORK: JSON.stringify('26.253.176.29'),
+    PORT: JSON.stringify('5555'),
+  },
+});

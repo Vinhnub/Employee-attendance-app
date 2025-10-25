@@ -5,7 +5,8 @@ class DatabaseFetcher:
         self.db_path = db_path
 
     def connect(self):
-        return sqlite3.connect(self.db_path)
+        conn = sqlite3.connect(self.db_path)
+        return conn
 
     def execute(self, query, params=None, fetchone=False, fetchall=False):
         conn = sqlite3.connect(self.db_path)
