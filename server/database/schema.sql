@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS Shift;
 
 CREATE TABLE User (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT NOT NULL,
+    username TEXT PRIMARY KEY,
     password TEXT NOT NULL,
     fullname TEXT,
     role TEXT

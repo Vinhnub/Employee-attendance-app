@@ -1,26 +1,29 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
 from server.dependencies import get_server
+from server.utils.auth_jwt import get_current_user_id
 
 manager_router = APIRouter(prefix="/manager", tags=["Manager"])
 
 class CreateAccountRequest(BaseModel):
-    manager_name: str
     username: str
     password: str
     fullname: str
     role: str
 
 class ResetPasswordRequest(BaseModel):
-    manager_name: str
     username: str
     new_password: str
 
 @manager_router.post("/create_account", status_code=status.HTTP_200_OK)
-def create_account(data: CreateAccountRequest, server_instance=Depends(get_server)):
+def create_account(
+    data: CreateAccountRequest,
+    user_id: int = Depends(get_current_user_id), 
+    server_instance=Depends(get_server)
+):
     try:
         result = server_instance.manager_controller.create_account(
-            data.manager_name, data.username, data.password, data.fullname, data.role
+            user_id, data.username, data.password, data.fullname, data.role
         )
         return result
     except Exception as e:
@@ -28,10 +31,14 @@ def create_account(data: CreateAccountRequest, server_instance=Depends(get_serve
 
 
 @manager_router.post("/reset_password", status_code=status.HTTP_200_OK)
-def reset_password(data: ResetPasswordRequest, server_instance=Depends(get_server)):
+def reset_password(
+    data: ResetPasswordRequest, 
+    user_id: int = Depends(get_current_user_id), 
+    server_instance=Depends(get_server)
+):
     try:
         result = server_instance.manager_controller.reset_password(
-            data.manager_name, data.username, data.new_password
+            user_id, data.username, data.new_password
         )
         return result
     except Exception as e:
