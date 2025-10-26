@@ -18,12 +18,15 @@ class ResetPasswordRequest(BaseModel):
 @manager_router.post("/create_account", status_code=status.HTTP_200_OK)
 def create_account(
     data: CreateAccountRequest,
-    user_id: int = Depends(get_current_user_id), 
+    user = Depends(get_current_user_id), 
     server_instance=Depends(get_server)
 ):
     try:
+        user_id = user["user_id"]
+        role = user["role"]
+
         result = server_instance.manager_controller.create_account(
-            user_id, data.username, data.password, data.fullname, data.role, server_instance
+            user_id, role, data.username, data.password, data.fullname, data.role, server_instance
         )
         return result
     except Exception as e:
@@ -34,12 +37,15 @@ def create_account(
 def reset_password(
     id: int,
     data: ResetPasswordRequest, 
-    user_id: int = Depends(get_current_user_id), 
+    user = Depends(get_current_user_id), 
     server_instance=Depends(get_server)
 ):
     try:
+        user_id = user["user_id"]
+        role = user["role"]
+        
         result = server_instance.manager_controller.reset_password(
-            user_id, id, data.new_password
+            user_id, role, id, data.new_password
         )
         return result
     except Exception as e:
@@ -48,12 +54,15 @@ def reset_password(
 @manager_router.delete("/users/{id}", status_code=status.HTTP_200_OK)
 def delete_account(
     id: int,
-    user_id: int = Depends(get_current_user_id), 
+    user = Depends(get_current_user_id), 
     server_instance=Depends(get_server)
 ):
     try:
+        user_id = user["user_id"]
+        role = user["role"]
+        
         result = server_instance.manager_controller.delete_account(
-            user_id, id
+            user_id, role, id
         )
         return result
     except Exception as e:
@@ -61,43 +70,55 @@ def delete_account(
     
 @manager_router.get("/users")
 def get_all_users(
-    user_id: int = Depends(get_current_user_id),
+    user = Depends(get_current_user_id), 
     server_instance=Depends(get_server)
 ):
     try:
-        return server_instance.manager_controller.users(user_id)
+        user_id = user["user_id"]
+        role = user["role"]
+        
+        return server_instance.manager_controller.users(user_id, role)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     
 @manager_router.get("/users/{id}")
 def get_user_by_id(
     id : int,
-    user_id: int = Depends(get_current_user_id),
+    user = Depends(get_current_user_id), 
     server_instance=Depends(get_server)
 ):
     try:
-        return server_instance.manager_controller.get_data_of(user_id, id)
+        user_id = user["user_id"]
+        role = user["role"]
+        
+        return server_instance.manager_controller.get_data_of(user_id, role, id)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     
 @manager_router.get("/users/{id}/logs")
 def get_log_by_user_id(
     id : int,
-    user_id: int = Depends(get_current_user_id),
+    user = Depends(get_current_user_id), 
     server_instance=Depends(get_server)
 ):
     try:
-        return server_instance.manager_controller.get_log_by_user_id(user_id, id)
+        user_id = user["user_id"]
+        role = user["role"]
+        
+        return server_instance.manager_controller.get_log_by_user_id(user_id, role, id)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     
 @manager_router.get("/shifts") # get list of shift today
 def get_all_shifts_today(
-    user_id: int = Depends(get_current_user_id),
+    user = Depends(get_current_user_id), 
     server_instance=Depends(get_server)
 ):
     try:
-        return server_instance.manager_controller.get_all_shifts_today(user_id, server_instance)
+        user_id = user["user_id"]
+        role = user["role"]
+        
+        return server_instance.manager_controller.get_all_shifts_today(user_id, role, server_instance)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     
@@ -106,10 +127,13 @@ def get_log_by_day(
     year : int,
     month : int,
     day : int,
-    user_id: int = Depends(get_current_user_id),
+    user = Depends(get_current_user_id), 
     server_instance=Depends(get_server)
 ):
     try:
-        return server_instance.manager_controller.get_log_by_day(user_id, year, month, day)
+        user_id = user["user_id"]
+        role = user["role"]
+        
+        return server_instance.manager_controller.get_log_by_day(user_id, role, year, month, day)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))

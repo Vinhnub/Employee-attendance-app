@@ -16,10 +16,13 @@ class ChangePasswordRequest(BaseModel):
 
 @auth_router.get("/me")
 def me(
-    user_id: int = Depends(get_current_user_id),
+    user = Depends(get_current_user_id), 
     server_instance=Depends(get_server)
 ):
     try:
+        user_id = user["user_id"]
+        role = user["role"]
+        
         return server_instance.auth_controller.me(user_id)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -37,10 +40,13 @@ def login(
 @auth_router.put("/change_password", status_code=status.HTTP_200_OK)
 def change_password(
     data: ChangePasswordRequest,
-    user_id: int = Depends(get_current_user_id),  
+    user = Depends(get_current_user_id),  
     server_instance=Depends(get_server)
 ):
     try:
+        user_id = user["user_id"]
+        role = user["role"]
+
         return server_instance.auth_controller.change_password(
             user_id, data.old_password, data.new_password
         )

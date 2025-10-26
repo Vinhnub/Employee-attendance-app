@@ -22,8 +22,9 @@ class AuthController:
 
         user_data = result.to_dict()
         user_id = user_data["id"]
+        role = user_data["role"]
 
-        access_token = create_access_token({"user_id": user_id})
+        access_token = create_access_token({"user_id": user_id, "role" : role})
 
         if user_data["username"] in server.get_staff_on_working():
             current_shift = server.get_staff_on_working()[user_data["username"]]
@@ -41,8 +42,7 @@ class AuthController:
     def change_password(self, user_id, old_password, new_password):
         result = self.user_service.change_password(user_id, old_password, new_password)
         if result:
-            log_content = "Change password"
-            self.log_service.write_log(log_content, user_id)
+            self.log_service.write_log("Change password", user_id)
             return {"status": "success", "message": "Change password successful"}
         else:
             return {"status": "fail", "message": "wrong password or username does not exist"}

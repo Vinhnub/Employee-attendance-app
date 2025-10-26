@@ -34,7 +34,7 @@ class UserService(BaseService):
             return False
 
     def create_user(self, user_id, username, password, fullname, role):
-        if self._check_username_exist_by_name(username) or (not self._is_manager(user_id)):
+        if self._check_username_exist_by_name(username):
             return False
         password_hashed = hash_password(password)
         query = "INSERT INTO User (username, password, fullname, role) VALUES (?, ?, ?, ?)"
