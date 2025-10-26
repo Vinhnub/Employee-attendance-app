@@ -42,11 +42,11 @@ class GGSheet:
         self.ws_today.append_row([shift["fullname"], start_time.strftime("%H:%M:%S"), end_time.strftime("%H:%M:%S"), "Trong ca làm", shift["note"]])
 
     def append_shift_current_month(self, list_shift, row, column):
-        values = "||" 
+        values = "" 
         for shift in list_shift:
             start_time = datetime.strptime(shift["start_time"], "%Y-%m-%d %H:%M:%S")
             end_time = datetime.strptime(shift["end_time"], "%Y-%m-%d %H:%M:%S")
-            values += f"{start_time.strftime("%H:%M")}-{end_time.strftime("%H:%M")}({shift["note"]})||"
+            values += f"{start_time.strftime("%H:%M")}-{end_time.strftime("%H:%M")}({shift["note"]})\n"
         self.ws_cur_month.update_cell(row, column, values)
 
     def append_staff(self, staff):
@@ -85,7 +85,7 @@ class GGSheet:
 
     def draw_new_month(self, list_staff):
         days = self.get_days_of_current_month()
-        values = [["Ngày"] + days + ["Tổng"]]
+        values = [["Tên nhân viên/Ngày"] + days + ["Tổng"]]
      
         self.ws_cur_month.clear()
         num_columns = len(values[0])
@@ -96,3 +96,12 @@ class GGSheet:
 
         values = [[staff["fullname"]] for staff in list_staff]
         self.ws_cur_month.update(f"A2:A{len(values) + 1}", values)
+
+    def update_total_hour_of(self, row, time_delta):
+        last_col = len(self.ws_cur_month.row_values(1))
+        cell_value = self.ws_cur_month.cell(row, last_col).value
+        if cell_value == "" or cell_value is None:
+            cell_value = 0
+        else: cell_value = float(cell_value)
+        new_value = float(time_delta) + cell_value
+        self.ws_cur_month.update_cell(row, last_col, str(round(new_value, 2)))

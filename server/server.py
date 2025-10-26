@@ -85,6 +85,10 @@ class Server:
         column = now.day + 1
         self.sheet.append_shift_current_month(list_shifts, row, column)
 
+    def update_total_hour_of(self, user_id, time_delta):
+        row = self.__staff_index[user_id]
+        self.sheet.update_total_hour_of(row, time_delta)
+
     def append_staff(self, staff):
         self.__staff_index[staff["id"]] = self.__last_index
         self.__last_index += 1
