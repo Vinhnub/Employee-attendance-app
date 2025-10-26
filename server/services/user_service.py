@@ -39,14 +39,59 @@ class UserService(BaseService):
         password_hashed = hash_password(password)
         query = "INSERT INTO User (username, password, fullname, role) VALUES (?, ?, ?, ?)"
         self.db.execute(query, (username, password_hashed, fullname, role))
-        return True
+        query = "SELECT * FROM User WHERE username=?"
+        result = self.db.execute(query, (username, ), fetchone=True)
+        user = User(*result)
+        return user.to_dict()
 
         
-    def reset_password(self, user_id, username, new_password):
-        if (not self._is_manager(user_id)) or (not self._check_username_exist_by_name(username)):
+    def reset_password(self, user_id, id, new_password):
+        if (not self._is_manager(user_id)) or (not self._check_username_exist_by_id(id)):
             return False
     
         new_password_hashed = hash_password(new_password)
-        query = "UPDATE User SET password=? WHERE username=?"
-        self.db.execute(query, (new_password_hashed, username))
+        query = "UPDATE User SET password=? WHERE id=?"
+        self.db.execute(query, (new_password_hashed, id))
         return True
+    
+    def delete_user(self, user_id, id):
+        if (not self._is_manager(user_id)) or (not self._check_username_exist_by_id(id)):
+            return False
+        
+        query = "DELETE FROM User WHERE id=?"
+        self.db.execute(query, (id,))
+        return True
+    
+    def get_all_user(self, user_id):
+        if (not self._is_manager(user_id)):
+            return False
+        
+        list_user = []
+        query = "SELECT * FROM User"
+        all_user = self.db.execute(query, fetchall=True)
+        for user in all_user:
+            o_user = User(*user)
+            list_user.append(o_user.to_dict())
+        return list_user
+    
+    def get_staffs(self):
+        query = "SELECT * FROM User WHERE role != 'manager'"
+        list_staffs = []
+        staffs = self.db.execute(query, fetchall=True)
+        for staff in staffs:
+            o_staff = User(*staff)
+            list_staffs.append(o_staff.to_dict())
+        return list_staffs
+    
+    def get_data_of(self, user_id, id):
+        if (not self._is_manager(user_id)) or (not self._check_username_exist_by_id(id)):
+            return False
+        
+        query = "SELECT * FROM User WHERE id=?"
+        user_data = self.db.execute(query, (id,), fetchone=True)
+        o_user = User(*user_data)
+        return o_user.to_dict()
+
+
+        
+

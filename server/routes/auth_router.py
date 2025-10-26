@@ -15,7 +15,7 @@ class ChangePasswordRequest(BaseModel):
     new_password: str
 
 @auth_router.get("/me")
-def login(
+def me(
     user_id: int = Depends(get_current_user_id),
     server_instance=Depends(get_server)
 ):
@@ -34,7 +34,7 @@ def login(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@auth_router.post("/change_password", status_code=status.HTTP_200_OK)
+@auth_router.put("/change_password", status_code=status.HTTP_200_OK)
 def change_password(
     data: ChangePasswordRequest,
     user_id: int = Depends(get_current_user_id),  
