@@ -1,8 +1,7 @@
 import jwt
 from datetime import datetime, timedelta
+from server.utils.secret import *
 
-SECRET_KEY = "my_secret_key_123"    
-ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  
 
 def create_access_token(data: dict):
