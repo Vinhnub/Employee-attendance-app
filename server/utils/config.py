@@ -1,4 +1,4 @@
-SERVER_IP = "10.13.11.52"
+SERVER_IP = "10.13.13.27"
 PORT_TCP = 5555
 DB_PATH = "server/database/data.db"
 GSHEET_CREDENTIALS = "server/database/credentials.json"
