@@ -23,15 +23,15 @@ class GGSheet:
         data = [["Nhân viên", "Thời gian bắt đầu", "Thời gian kết thúc", "Trạng thái làm việc", "Ghi chú"]]
 
         for shift in shifts:
-            start_time = datetime.strptime(shift[1], "%Y-%m-%d %H:%M:%S")
-            end_time = datetime.strptime(shift[2], "%Y-%m-%d %H:%M:%S")
-            status = "Trong ca làm" if shift[3] else "Đã kết thúc ca"
+            start_time = datetime.strptime(shift["start_time"], "%Y-%m-%d %H:%M:%S")
+            end_time = datetime.strptime(shift["end_time"], "%Y-%m-%d %H:%M:%S")
+            status = "Trong ca làm" if shift["is_working"] else "Đã kết thúc ca"
             data.append([
-                shift[0],
+                shift["fullname"],
                 start_time.strftime("%H:%M:%S"),
                 end_time.strftime("%H:%M:%S"),
                 status,
-                shift[4]
+                shift["note"]
             ])
 
         self.ws_today.update(f"A1:E{len(data)}", data)

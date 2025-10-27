@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks
 from pydantic import BaseModel
 from server.dependencies import get_server
 from server.utils.auth_jwt import get_current_user_id
@@ -119,6 +119,24 @@ def get_all_shifts_today(
         role = user["role"]
         
         return server_instance.manager_controller.get_all_shifts_today(user_id, role, server_instance)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    
+@manager_router.put("/shifts/{id}/end_shift") # end shift which have id = {id}
+def end_shift_id(
+    id : int,
+    background_tasks : BackgroundTasks,
+    user = Depends(get_current_user_id), 
+    server_instance=Depends(get_server)
+):
+    try:
+        user_id = user["user_id"]
+        role = user["role"]
+        
+        result =  server_instance.manager_controller.end_shift_id(id, user_id, role)
+        if result["status"] == "success":
+            background_tasks.add_task(server_instance.emp_controller.update_data, result["staff_id"], server_instance, result["time_delta"])
+        return result   
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     

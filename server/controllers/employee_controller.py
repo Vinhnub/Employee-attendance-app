@@ -2,7 +2,7 @@ from server.services.shift_service import ShiftService
 from server.services.log_service import LogService
 from datetime import datetime
 
-class EmployeeController:
+class EmployeeController():
     def __init__(self):
         self.shift_service = ShiftService()
         self.log_service = LogService() 
@@ -11,7 +11,6 @@ class EmployeeController:
         data = self.shift_service.get_shift_today_of(user_id)
         server.update_shift_of(user_id, data)
         server.update_total_hour_of(user_id, time_delta)
-
 
     def start_shift(self, user_id, role, end_time, note, server):
         if role != "staff" : return {"status": "fail", "message": "You are not staff"}

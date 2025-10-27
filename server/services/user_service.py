@@ -46,7 +46,7 @@ class UserService(BaseService):
 
         
     def reset_password(self, user_id, id, new_password):
-        if (not self._is_manager(user_id)) or (not self._check_username_exist_by_id(id)):
+        if (not self._check_username_exist_by_id(id)):
             return False
     
         new_password_hashed = hash_password(new_password)
@@ -55,7 +55,7 @@ class UserService(BaseService):
         return True
     
     def delete_user(self, user_id, id):
-        if (not self._is_manager(user_id)) or (not self._check_username_exist_by_id(id)):
+        if (not self._check_username_exist_by_id(id)):
             return False
         
         query = "DELETE FROM User WHERE id=?"
@@ -63,9 +63,6 @@ class UserService(BaseService):
         return True
     
     def get_all_user(self, user_id):
-        if (not self._is_manager(user_id)):
-            return False
-        
         list_user = []
         query = "SELECT * FROM User"
         all_user = self.db.execute(query, fetchall=True)
@@ -84,7 +81,7 @@ class UserService(BaseService):
         return list_staffs
     
     def get_data_of(self, user_id, id):
-        if (not self._is_manager(user_id)) or (not self._check_username_exist_by_id(id)):
+        if (not self._check_username_exist_by_id(id)):
             return False
         
         query = "SELECT * FROM User WHERE id=?"
