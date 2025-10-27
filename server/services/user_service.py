@@ -21,8 +21,8 @@ class UserService(BaseService):
         return False
     
     def change_password(self, user_id, old_password, new_password):
-        if not self._check_username_exist_by_id(user_id):
-            return False
+        # if not self._check_username_exist_by_id(user_id):
+        #     return False
         query = "SELECT password FROM User WHERE id=?"
         row = self.db.execute(query, (user_id,), fetchone=True)
         if verify_password(old_password, row[0]):

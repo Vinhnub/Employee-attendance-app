@@ -1,6 +1,6 @@
 curl -X POST "http://26.253.176.29:5555/manager/create_account" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJyb2xlIjoibWFuYWdlciIsImV4cCI6MTc2MTU3OTk3OH0.LHF0UaBMReRGEQF64CIlgCCVvVNkWcJ0c6ye5xQtEjc" -H "accept: application/json" -H "Content-Type: application/json" -d "{\"username\": \"thong\", \"password\": \"thong\", \"fullname\": \"Thông\", \"role\": \"staff\"}"
 
-curl -X GET "http://26.253.176.29:5555/manager/logs/{2025}/{10}/{26}" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJyb2xlIjoibWFuYWdlciIsImV4cCI6MTc2MTU3OTk3OH0.LHF0UaBMReRGEQF64CIlgCCVvVNkWcJ0c6ye5xQtEjc" -H "accept: application/json" -H "Content-Type: application/json"
+curl -X GET "http://10.13.13.27:5555/manager/logs/{2025}/{10}/{26}" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJyb2xlIjoibWFuYWdlciIsImV4cCI6MTc2MTYyNTgyMH0.1S0nLkNiBBvJfay4h4Miv-dOMxa7Rh7Ua6voUD1MU8c" -H "accept: application/json" -H "Content-Type: application/json"
 
 curl -X POST "http://26.253.176.29:5555/employee/start_shift" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJyb2xlIjoic3RhZmYiLCJleHAiOjE3NjE1ODA5OTN9.BKYmhtgfzzksJcVoEnWaHGCf9VgHomS1WZ8BGJnER_A" -H "accept: application/json" -H "Content-Type: application/json" -d "{\"end_time\": \"2025-10-26 23:30:00\", \"note\": \"No thing\"}"
 

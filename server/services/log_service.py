@@ -20,7 +20,7 @@ class LogService(BaseService):
             return False
         
         log_data = []
-        query = """ SELECT * FROM UserLog
+        query = """ SELECT UL.id, content, date_time, U.id, U.fullname  FROM UserLog UL INNER JOIN User U ON UL.user_id = U.id
         WHERE strftime('%Y', datetime(date_time)) = ?
         AND strftime('%m', datetime(date_time)) = ?
         AND strftime('%d', datetime(date_time)) = ?

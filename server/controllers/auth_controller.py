@@ -45,4 +45,4 @@ class AuthController:
             self.log_service.write_log("Change password", user_id)
             return {"status": "success", "message": "Change password successful"}
         else:
-            return {"status": "fail", "message": "wrong password or username does not exist"}
+            return {"status": "fail", "message": "Wrong password"}
