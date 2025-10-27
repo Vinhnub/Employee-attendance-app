@@ -206,3 +206,4 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 server/database/credentials.json
+server/utils/secret.py

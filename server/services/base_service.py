@@ -34,3 +34,4 @@ class BaseService:
             return (row[0] == "manager")
         else:
             return False
+        
