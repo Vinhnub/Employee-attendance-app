@@ -1,2 +1,11 @@
 PyJWT
 fastapi
+sqlite3
+pydantic
+gspread
+openpyxl
+google
+calendar
+bcrypt
+uvicorn
+threading
