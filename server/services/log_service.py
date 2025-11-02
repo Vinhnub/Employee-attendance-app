@@ -41,5 +41,4 @@ class LogService(BaseService):
         for log in logs:
             o_log = Log(*log)
             log_data.append(o_log.to_dict())
-        print(logs)
         return log_data

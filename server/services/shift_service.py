@@ -59,7 +59,6 @@ class ShiftService(BaseService):
     
     def get_shifts_of(self, user_id): # get all shifts of month of user_id
         shifts_data = []
-
         query = "SELECT * FROM Shift WHERE strftime('%Y-%m', start_time) = strftime('%Y-%m', 'now') AND user_id=?"
         shifts = self.db.execute(query, (user_id,), fetchall=True)
         for shift in shifts:
@@ -68,8 +67,6 @@ class ShiftService(BaseService):
         return shifts_data
     
     def get_all_shifts_today(self, user_id, server): #get all shifts of to day of all staff
-        if (not self._is_manager(user_id)):
-            return False
         shifts_data = server.get_shift_today()
         return shifts_data
     

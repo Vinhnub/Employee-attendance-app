@@ -1,6 +1,12 @@
 import jwt
 from datetime import datetime, timedelta
-from server.utils.secret import *
+from dotenv import load_dotenv
+import os
+from server.utils.secret import SECRET_KEY
+
+load_dotenv()
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM = os.getenv("ALGORITHM")
 
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  
 

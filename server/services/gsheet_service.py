@@ -1,10 +1,14 @@
 import gspread
 from openpyxl import Workbook
 from google.oauth2.service_account import Credentials
-from server.utils.config import *
 from datetime import datetime
-import os
 import calendar
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+GSHEET_CREDENTIALS = os.getenv("GSHEET_CREDENTIALS")
+SHEET_ID = os.getenv("SHEET_ID")
 
 class GGSheet:
     SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]

@@ -2,7 +2,6 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
 from server.dependencies import get_server
 from server.utils.auth_jwt import get_current_user_id
-from server.models.user import User
 
 auth_router = APIRouter(prefix="/auth", tags=["Auth"])
 
