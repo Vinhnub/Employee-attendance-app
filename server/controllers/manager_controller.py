@@ -2,7 +2,7 @@ from server.services.shift_service import ShiftService
 from server.services.user_service import UserService
 from server.services.log_service import LogService
 
-class ManagerController:
+class ManagerController():
     def __init__(self):
         self.shift_service = ShiftService()
         self.user_service = UserService()
@@ -52,7 +52,15 @@ class ManagerController:
         result = self.shift_service.get_all_shifts_today(user_id, server)
         if result:
             return {"status" : "success", "message" : f"Get all shifts successful", "data" : result}
-        return {"status" : "fail", "message" : "Do not have permission or any shift"}
+        return {"status" : "fail", "message" : "Do not have any shift"}
+    
+    def end_shift_id(self, id, user_id, role):
+        if role != "manager": return {"status" : "fail", "message" : "Do not have permission"}
+        result = self.shift_service.end_shift_id(id)
+        if result:
+            self.log_service.write_log(f"End shift {id} by manager", user_id)
+            return {"status" : "success", "message" : f"End shift {id} successful", "time_delta" : result[0], "staff_id" : result[1]}
+        return {"status" : "fail", "message" : "The shift is over"}
     
     def get_log_by_day(self, user_id, role, year, month, day):
         if role != "manager": return {"status" : "fail", "message" : "Do not have permission"}

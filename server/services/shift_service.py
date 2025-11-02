@@ -38,6 +38,17 @@ class ShiftService(BaseService):
         query = "UPDATE Shift SET end_time=? WHERE user_id=? AND end_time > ?"
         self.db.execute(query, (now, user_id, now))
         return time_delta
+    
+    def end_shift_id(self, id):
+        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        query = "SELECT * FROM Shift WHERE id=? AND end_time > ?"
+        result = self.db.execute(query, (id, now), fetchone=True)
+        if result:
+            time_delta =  (datetime.strptime(now, "%Y-%m-%d %H:%M:%S") - datetime.strptime(result[2], "%Y-%m-%d %H:%M:%S")).total_seconds() / 3600
+            query = "UPDATE Shift SET end_time=? WHERE id=?"
+            self.db.execute(query, (now, id))
+            return (time_delta, result[4])
+        return False
 
     def edit_shift(self, user_id, new_end_time, new_note, staff_on_working):
         if user_id not in staff_on_working:
@@ -70,7 +81,7 @@ class ShiftService(BaseService):
         shifts_data = server.get_shift_today()
         return shifts_data
     
-    def get_shift_today_of(self, user_id): #get shift of user_id on today
+    def get_shift_today_of(self, user_id): #get shift of user_id on today and only for server
         list_shifts = []
         query = "SELECT * FROM Shift WHERE user_id=? AND strftime('%Y-%m-%d', start_time) = strftime('%Y-%m-%d', 'now')"
         shifts = self.db.execute(query, (user_id,), fetchall=True)

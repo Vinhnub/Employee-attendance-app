@@ -27,7 +27,7 @@ def start_shift(
         
         result = server_instance.emp_controller.start_shift(user_id, role, data.end_time, data.note, server_instance)
         if result["status"] == "success":
-            background_tasks.add_task(server_instance.emp_controller.update_data, user_id, server_instance, result["result"])
+            background_tasks.add_task(server_instance.emp_controller.update_data, user_id, server_instance, result["time_delta"])
         return result
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -44,7 +44,7 @@ def end_shift(
         
         result = server_instance.emp_controller.end_shift(user_id, role, server_instance)
         if result["status"] == "success":
-            background_tasks.add_task(server_instance.emp_controller.update_data, user_id, server_instance, result["result"])
+            background_tasks.add_task(server_instance.emp_controller.update_data, user_id, server_instance, result["time_delta"])
         return result
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -62,7 +62,7 @@ def edit_shift(
         
         result = server_instance.emp_controller.edit_shift(user_id, role, data.new_end_time, data.new_note, server_instance)
         if result["status"] == "success":
-            background_tasks.add_task(server_instance.emp_controller.update_data, user_id, server_instance, result["result"])
+            background_tasks.add_task(server_instance.emp_controller.update_data, user_id, server_instance, result["time_delta"])
         return result
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
