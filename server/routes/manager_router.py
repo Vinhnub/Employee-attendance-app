@@ -95,6 +95,35 @@ def get_user_by_id(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     
+@manager_router.get("/users/{id}/shifts") # get all shifts of user in current month 
+def get_all_shifts_current_month(
+    id : int,
+    user = Depends(get_current_user_id), 
+    server_instance=Depends(get_server)
+):
+    try:
+        user_id = user["user_id"]
+        role = user["role"]
+        
+        return server_instance.manager_controller.get_data_of(user_id, role, id)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    
+@manager_router.put("/users/{id}/shifts/{shift_id}/edit_shift") # edit the shift which have id = shift_id
+def edit_shift(
+    id : int,
+    shift_id : int,
+    user = Depends(get_current_user_id), 
+    server_instance=Depends(get_server)
+):
+    try:
+        user_id = user["user_id"]
+        role = user["role"]
+        
+        return server_instance.manager_controller.get_data_of(user_id, role, id)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    
 @manager_router.get("/users/{id}/logs")
 def get_log_by_user_id(
     id : int,

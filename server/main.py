@@ -12,7 +12,7 @@ from server.routes.employee_router import employee_router
 
 
 # ---------------------- Config FastAPI ----------------------
-app = FastAPI(title="Attendance REST API Server", version="1.0")
+app = FastAPI(title="Attendance API Server", version="1.0")
 app.include_router(auth_router)
 app.include_router(manager_router)
 app.include_router(employee_router)

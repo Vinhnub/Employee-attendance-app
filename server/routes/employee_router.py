@@ -68,7 +68,7 @@ def edit_shift(
         raise HTTPException(status_code=400, detail=str(e))
     
 @employee_router.get("/shifts") #shift in current month
-def get_shifts(
+def get_shifts_current_month(
     user = Depends(get_current_user_id), 
     server_instance=Depends(get_server)
 ):
