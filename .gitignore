@@ -207,3 +207,4 @@ marimo/_lsp/
 __marimo__/
 server/database/credentials.json
 server/utils/secret.py
+server/database/data_per_month/*.xlsx

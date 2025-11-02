@@ -1,14 +1,17 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
-
-from server.utils.config import *
-from server.services.gsheet_service import *
 import uvicorn
 
 from server.routes.auth_router import auth_router 
 from server.routes.manager_router import manager_router
 from server.routes.employee_router import employee_router
+
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+SERVER_IP = os.getenv("SERVER_IP")
+PORT_TCP = os.getenv("PORT_TCP")
 
 
 # ---------------------- Config FastAPI ----------------------
@@ -33,4 +36,4 @@ app.add_middleware(
 
 # ---------------------- Run Server ----------------------
 if __name__ == "__main__":
-    uvicorn.run(app, host=SERVER_IP, port=PORT_TCP)
+    uvicorn.run(app, host=SERVER_IP, port=int(PORT_TCP))
