@@ -65,7 +65,7 @@ class UserService(BaseService):
     def get_all_user(self, user_id):
         query = "SELECT * FROM User"
         all_user = self.db.execute(query, fetchall=True)
-        return [User(*user).to_dict() for user in list_user]
+        return [User(*user).to_dict() for user in all_user]
     
     def get_all_staffs(self):
         query = "SELECT * FROM User WHERE role != 'manager'"
