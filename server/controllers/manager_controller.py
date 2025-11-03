@@ -43,10 +43,17 @@ class ManagerController():
     
     def get_data_of(self, user_id, role, id):
         if role != "manager": return {"status" : "fail", "message" : "Do not have permission"}
-        result = self.user_service.get_data_of(user_id, id)
-        if result:
-            return {"status" : "success", "message" : f"Get data of {id} successful", "data" : result}
-        return {"status" : "fail", "message" : "Username does not exists"}
+        staff_data = self.user_service.get_data_of(user_id, id)
+        if staff_data:
+            return {"status" : "success", "message" : f"Get data of {id} successful", "data" : staff_data}
+        return {"status" : "fail", "message" : "User does not exists"}
+
+    def get_shifts_of(self, user_id, role, id):
+        if role != "manager" : return  {"status" : "fail", "message" : "Do not have permission"}
+        staff_shifts = self.shift_service.get_shifts_of(id)
+        if staff_shifts:
+            return {"status" : "success", "message" : f"Get shifts successful", "data" : staff_shifts}
+        return {"status" : "fail", "message" : "User does not exists"}
     
     def get_all_shifts_today(self, user_id, role, server): # get list of shifts today
         result = self.shift_service.get_all_shifts_today(user_id, server)
