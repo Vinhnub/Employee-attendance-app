@@ -1,7 +1,6 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Request
 from pydantic import BaseModel
 from server.dependencies import get_server
-from server.utils.auth_jwt import get_current_user_id
 
 auth_router = APIRouter(prefix="/auth", tags=["Auth"])
 
@@ -15,14 +14,14 @@ class ChangePasswordRequest(BaseModel):
 
 @auth_router.get("/me")
 def me(
-    user = Depends(get_current_user_id), 
+    request: Request,
     server_instance=Depends(get_server)
 ):
     try:
-        user_id = user["user_id"]
-        role = user["role"]
+        user_id = request.state.user_id
+        role = request.state.role
         
-        return server_instance.auth_controller.me(user_id)
+        return server_instance.auth_controller.me(user_id, server_instance)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -39,12 +38,12 @@ def login(
 @auth_router.put("/change_password", status_code=status.HTTP_200_OK)
 def change_password(
     data: ChangePasswordRequest,
-    user = Depends(get_current_user_id),  
+    request: Request,
     server_instance=Depends(get_server)
 ):
     try:
-        user_id = user["user_id"]
-        role = user["role"]
+        user_id = request.state.user_id
+        role = request.state.role
 
         return server_instance.auth_controller.change_password(
             user_id, data.old_password, data.new_password

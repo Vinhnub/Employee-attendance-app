@@ -63,22 +63,14 @@ class UserService(BaseService):
         return True
     
     def get_all_user(self, user_id):
-        list_user = []
         query = "SELECT * FROM User"
         all_user = self.db.execute(query, fetchall=True)
-        for user in all_user:
-            o_user = User(*user)
-            list_user.append(o_user.to_dict())
-        return list_user
+        return [User(*user).to_dict() for user in list_user]
     
-    def get_staffs(self):
+    def get_all_staffs(self):
         query = "SELECT * FROM User WHERE role != 'manager'"
-        list_staffs = []
         staffs = self.db.execute(query, fetchall=True)
-        for staff in staffs:
-            o_staff = User(*staff)
-            list_staffs.append(o_staff.to_dict())
-        return list_staffs
+        return [User(*staff).to_dict() for staff in staffs]
     
     def get_data_of(self, user_id, id):
         if (not self._check_username_exist_by_id(id)):

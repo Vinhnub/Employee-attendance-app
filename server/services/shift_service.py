@@ -69,27 +69,19 @@ class ShiftService(BaseService):
         return time_delta
     
     def get_shifts_of(self, user_id): # get all shifts of month of user_id
-        shifts_data = []
         now = datetime.now()
         query = "SELECT * FROM Shift WHERE strftime('%Y-%m', start_time) = strftime('%Y-%m', 'now') AND user_id=?"
         shifts = self.db.execute(query, (user_id,), fetchall=True)
-        for shift in shifts:
-            o_shift = Shift(shift[1], shift[2], shift[3], id=shift[0], is_working=(now < datetime.strptime(shift[2], "%Y-%m-%d %H:%M:%S")))
-            shifts_data.append(o_shift.to_dict())
-        return shifts_data
+        return [Shift(shift[1], shift[2], shift[3], id=shift[0], is_working=(now < datetime.strptime(shift[2], "%Y-%m-%d %H:%M:%S"))).to_dict() for shift in shifts]
     
     def get_all_shifts_today(self, user_id, server): #get all shifts of to day of all staff
         shifts_data = server.get_shift_today()
         return shifts_data
     
     def get_shift_today_of(self, user_id): #get shift of user_id on today and only for server
-        list_shifts = []
         query = "SELECT * FROM Shift WHERE user_id=? AND strftime('%Y-%m-%d', start_time) = strftime('%Y-%m-%d', 'now')"
         shifts = self.db.execute(query, (user_id,), fetchall=True)
-        for shift in shifts:
-            o_shift = Shift(shift[1], shift[2], shift[3], id=shift[0], user_id=shift[4])
-            list_shifts.append(o_shift.to_dict())
-        return list_shifts
+        return [Shift(shift[1], shift[2], shift[3], id=shift[0], user_id=shift[4]).to_dict() for shift in shifts]
     
 
     
