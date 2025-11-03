@@ -16,9 +16,6 @@ class LogService(BaseService):
         pass
 
     def get_log_by_day(self, user_id, year, month, day):
-        if (not self._is_manager(user_id)):
-            return False
-        
         log_data = []
         query = """ SELECT UL.id, content, date_time, U.id, U.fullname  FROM UserLog UL INNER JOIN User U ON UL.user_id = U.id
         WHERE strftime('%Y', datetime(date_time)) = ?
@@ -32,9 +29,6 @@ class LogService(BaseService):
         return log_data
 
     def get_log_by_user_id(self, user_id, id):
-        if (not self._is_manager(user_id)):
-            return False
-        
         log_data = []
         query = "SELECT * FROM UserLog WHERE user_id=?"
         logs = self.db.execute(query, (id,), fetchall=True)

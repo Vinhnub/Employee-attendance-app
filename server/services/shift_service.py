@@ -10,7 +10,7 @@ class ShiftService(BaseService):
 
     def start_shift(self, user_id, end_time, note, staff_on_working):
         user = self._get_user_data_by_id(user_id)
-        if (not user):
+        if not user:
             return False
         elif user_id in staff_on_working:
             return False
@@ -39,7 +39,7 @@ class ShiftService(BaseService):
         self.db.execute(query, (now, user_id, now))
         return time_delta
     
-    def end_shift_id(self, id):
+    def end_shift_id(self, id): # for manager
         now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         query = "SELECT * FROM Shift WHERE id=? AND end_time > ?"
         result = self.db.execute(query, (id, now), fetchone=True)
@@ -47,7 +47,7 @@ class ShiftService(BaseService):
             time_delta =  (datetime.strptime(now, "%Y-%m-%d %H:%M:%S") - datetime.strptime(result[2], "%Y-%m-%d %H:%M:%S")).total_seconds() / 3600
             query = "UPDATE Shift SET end_time=? WHERE id=?"
             self.db.execute(query, (now, id))
-            return (time_delta, result[4])
+            return time_delta, result[4]
         return False
 
     def edit_shift(self, user_id, new_end_time, new_note, staff_on_working):
@@ -56,8 +56,8 @@ class ShiftService(BaseService):
         
         now = datetime.now() 
         now_str = now.strftime("%Y-%m-%d %H:%M:%S")
-        new_end_time_temp = datetime.strptime(new_end_time, "%Y-%m-%d %H:%M:%S")
-        if now > new_end_time_temp:
+        new_end_time_str = datetime.strptime(new_end_time, "%Y-%m-%d %H:%M:%S")
+        if now > new_end_time_str:
             return False
         
         query = "SELECT end_time FROM Shift WHERE user_id=? AND end_time > ?"
@@ -67,28 +67,35 @@ class ShiftService(BaseService):
         query = "UPDATE Shift SET end_time=?, note=? WHERE user_id=? AND end_time > ?"
         self.db.execute(query, (new_end_time, new_note, user_id, now_str))
         return time_delta
+
+    def edit_shift_by_manager(self, shift_id, new_start_time, new_note): # edit staff's shift by manager
+        query = "SELECT * FROM Shift WHERE id=?"
+        shift = self.db.execute(query, (shift_id, ), fetchone=True)
+        o_shift = Shift(shift[1], shift[2], shift[3], id=shift[0], user_id=shift[4])
+        if not o_shift:
+            return False
+        if o_shift.end_time < new_start_time:
+            return False
+
+        time_delta = (datetime.strptime(o_shift.start_time, "%Y-%m-%d %H:%M:%S") - datetime.strptime(new_start_time,"%Y-%m-%d %H:%M:%S")).total_seconds() / 3600
+        query = "UPDATE Shift SET start_time=?, note=? WHERE id=?"
+        self.db.execute(query, (new_start_time, new_note, shift_id))
+        return time_delta
     
     def get_shifts_of(self, user_id): # get all shifts of month of user_id
-        shifts_data = []
+        now = datetime.now()
         query = "SELECT * FROM Shift WHERE strftime('%Y-%m', start_time) = strftime('%Y-%m', 'now') AND user_id=?"
         shifts = self.db.execute(query, (user_id,), fetchall=True)
-        for shift in shifts:
-            o_shift = Shift(shift[1], shift[2], shift[3], id=shift[0])
-            shifts_data.append(o_shift.to_dict())
-        return shifts_data
+        return [Shift(shift[1], shift[2], shift[3], id=shift[0], is_working=(now < datetime.strptime(shift[2], "%Y-%m-%d %H:%M:%S"))).to_dict() for shift in shifts]
     
     def get_all_shifts_today(self, user_id, server): #get all shifts of to day of all staff
         shifts_data = server.get_shift_today()
         return shifts_data
     
     def get_shift_today_of(self, user_id): #get shift of user_id on today and only for server
-        list_shifts = []
         query = "SELECT * FROM Shift WHERE user_id=? AND strftime('%Y-%m-%d', start_time) = strftime('%Y-%m-%d', 'now')"
         shifts = self.db.execute(query, (user_id,), fetchall=True)
-        for shift in shifts:
-            o_shift = Shift(shift[1], shift[2], shift[3], id=shift[0], user_id=shift[4])
-            list_shifts.append(o_shift.to_dict())
-        return list_shifts
+        return [Shift(shift[1], shift[2], shift[3], id=shift[0], user_id=shift[4]).to_dict() for shift in shifts]
     
 
     

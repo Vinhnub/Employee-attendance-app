@@ -1,7 +1,6 @@
-from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks
+from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks, Request
 from pydantic import BaseModel
 from server.dependencies import get_server
-from server.utils.auth_jwt import get_current_user_id
 
 manager_router = APIRouter(prefix="/manager", tags=["Manager"])
 
@@ -14,16 +13,19 @@ class CreateAccountRequest(BaseModel):
 class ResetPasswordRequest(BaseModel):
     new_password: str
 
+class EditShiftRequestManager(BaseModel):
+    new_start_time: str
+    new_note: str
 
 @manager_router.post("/create_account", status_code=status.HTTP_200_OK)
 def create_account(
     data: CreateAccountRequest,
-    user = Depends(get_current_user_id), 
+    request: Request,
     server_instance=Depends(get_server)
 ):
     try:
-        user_id = user["user_id"]
-        role = user["role"]
+        user_id = request.state.user_id
+        role = request.state.role
 
         result = server_instance.manager_controller.create_account(
             user_id, role, data.username, data.password, data.fullname, data.role, server_instance
@@ -37,13 +39,13 @@ def create_account(
 def reset_password(
     id: int,
     data: ResetPasswordRequest, 
-    user = Depends(get_current_user_id), 
+    request: Request,
     server_instance=Depends(get_server)
 ):
     try:
-        user_id = user["user_id"]
-        role = user["role"]
-        
+        user_id = request.state.user_id
+        role = request.state.role
+
         result = server_instance.manager_controller.reset_password(
             user_id, role, id, data.new_password
         )
@@ -54,12 +56,12 @@ def reset_password(
 @manager_router.delete("/users/{id}", status_code=status.HTTP_200_OK)
 def delete_account(
     id: int,
-    user = Depends(get_current_user_id), 
+    request: Request,
     server_instance=Depends(get_server)
 ):
     try:
-        user_id = user["user_id"]
-        role = user["role"]
+        user_id = request.state.user_id
+        role = request.state.role
         
         result = server_instance.manager_controller.delete_account(
             user_id, role, id
@@ -70,12 +72,12 @@ def delete_account(
     
 @manager_router.get("/users")
 def get_all_users(
-    user = Depends(get_current_user_id), 
+    request: Request,
     server_instance=Depends(get_server)
 ):
     try:
-        user_id = user["user_id"]
-        role = user["role"]
+        user_id = request.state.user_id
+        role = request.state.role
         
         return server_instance.manager_controller.users(user_id, role)
     except Exception as e:
@@ -84,26 +86,61 @@ def get_all_users(
 @manager_router.get("/users/{id}")
 def get_user_by_id(
     id : int,
-    user = Depends(get_current_user_id), 
+    request: Request,
     server_instance=Depends(get_server)
 ):
     try:
-        user_id = user["user_id"]
-        role = user["role"]
+        user_id = request.state.user_id
+        role = request.state.role
         
         return server_instance.manager_controller.get_data_of(user_id, role, id)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    
+@manager_router.get("/users/{id}/shifts") # get all shifts of user in current month
+def get_all_shifts_current_month(
+    id : int,
+    request: Request,
+    server_instance=Depends(get_server)
+):
+    try:
+        user_id = request.state.user_id
+        role = request.state.role
+        
+        return server_instance.manager_controller.get_shifts_of(user_id, role, id)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    
+@manager_router.put("/users/{id}/shifts/{shift_id}/edit_shift") # edit the shift which have id = shift_id
+def edit_shift_by_manager(
+    id : int,
+    shift_id : int,
+    background_tasks : BackgroundTasks,
+    data: EditShiftRequestManager,
+    request: Request,
+    server_instance=Depends(get_server)
+):
+    try:
+        user_id = request.state.user_id
+        role = request.state.role
+        
+        result = server_instance.manager_controller.edit_shift(user_id, role, id, shift_id, data.new_start_time, data.new_note, server_instance.get_staff_on_working())
+        if result["status"] == "success":
+            background_tasks.add_task(server_instance.emp_controller.update_data, id, server_instance, result["time_delta"])
+        return result
+
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     
 @manager_router.get("/users/{id}/logs")
 def get_log_by_user_id(
     id : int,
-    user = Depends(get_current_user_id), 
+    request: Request,
     server_instance=Depends(get_server)
 ):
     try:
-        user_id = user["user_id"]
-        role = user["role"]
+        user_id = request.state.user_id
+        role = request.state.role
         
         return server_instance.manager_controller.get_log_by_user_id(user_id, role, id)
     except Exception as e:
@@ -111,12 +148,12 @@ def get_log_by_user_id(
     
 @manager_router.get("/shifts") # get list of shift today
 def get_all_shifts_today(
-    user = Depends(get_current_user_id), 
+    request: Request,
     server_instance=Depends(get_server)
 ):
     try:
-        user_id = user["user_id"]
-        role = user["role"]
+        user_id = request.state.user_id
+        role = request.state.role
         
         return server_instance.manager_controller.get_all_shifts_today(user_id, role, server_instance)
     except Exception as e:
@@ -126,12 +163,12 @@ def get_all_shifts_today(
 def end_shift_id(
     id : int,
     background_tasks : BackgroundTasks,
-    user = Depends(get_current_user_id), 
+    request: Request,
     server_instance=Depends(get_server)
 ):
     try:
-        user_id = user["user_id"]
-        role = user["role"]
+        user_id = request.state.user_id
+        role = request.state.role
         
         result =  server_instance.manager_controller.end_shift_id(id, user_id, role)
         if result["status"] == "success":
@@ -145,12 +182,12 @@ def get_log_by_day(
     year : int,
     month : int,
     day : int,
-    user = Depends(get_current_user_id), 
+    request: Request,
     server_instance=Depends(get_server)
 ):
     try:
-        user_id = user["user_id"]
-        role = user["role"]
+        user_id = request.state.user_id
+        role = request.state.role
         
         return server_instance.manager_controller.get_log_by_day(user_id, role, year, month, day)
     except Exception as e:
