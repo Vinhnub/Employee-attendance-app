@@ -1,26 +1,34 @@
 import React, { useState } from "react";
-import * as 
+import * as management from "../Service/management";
 
 export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [fullname, setFullname] = useState("");
   const [role, setRole] = useState("");
-  const [error, setError] = useState("");
   const roleOption = [
     "employee",
     "manager"
   ]
-  const loginInfo = {
+  const registerInfo = {
     username: username,
     password: password,
     fullname: fullname,
     role: role
   }
   const handleRegister = async (e) => {
-    e.preventdefault();
+    e.preventDefault();
     try {
-      const response = await 
+      const response = await management.register(registerInfo);
+      if (response.data.stuats=="success") {
+        alert("register successfully");
+      }
+      else {
+        alert("register failed");
+      }
+    } catch (err) {
+      alert("register failed");
+      console.error(err);
     }
   }
   return (
@@ -39,7 +47,8 @@ export default function Register() {
           placeholder="Username"
           onChange={(e) => setUsername(e.target.value)} />
         <br/>
-        <select>
+        <select value={role} onChange={(e) => setRole(e.target.value)}>
+          <option value="">Select role</option>
           {roleOption.map((role,key) => (
             <option key={key} value={role}>{role}</option>
           ))}
@@ -51,9 +60,8 @@ export default function Register() {
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)} />
         <br/>
-        <button type="submit">Login</button>
+        <button type="submit">Register</button>
       </form>
-      {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
 }
