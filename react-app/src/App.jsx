@@ -9,6 +9,7 @@ import WorkPage from './Page/WorkPage'
 import CheckOut from './Page/CheckOut'
 import OverTime from './Page/OverTime'
 import Register from './Page/Register'
+import UserList from './Page/UserList'
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
         <Route path="/checkout" element={<CheckOut/>} />
         <Route path="/overtime" element={<OverTime/>} />
         <Route path="/register" element={<Register/>} />
+        <Route path="/userlist" element={<UserList/>} />
       </Routes>
     </BrowserRouter>
   )

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import * as management from "../Service/management";
+import * as management from "../Service/Management";
 
 export default function Register() {
   const [username, setUsername] = useState("");

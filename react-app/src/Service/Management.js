@@ -18,3 +18,7 @@ API.interceptors.request.use((config) => {
 export function register(data) {
   return API.post("/create_account",data);
 }
+
+export function getAllUser() {
+  return API.get("/users");
+}

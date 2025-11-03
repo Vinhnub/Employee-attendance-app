@@ -1,0 +1,7 @@
+.user {
+  transition: transform 0.1s ease-in-out;
+}
+
+.user:hover {
+  transform: scale(1.1);
+}
