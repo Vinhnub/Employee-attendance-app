@@ -56,6 +56,14 @@ class AuthController:
             "access_token": access_token
         }
 
+    def logout(self, user_id, role, token, expire, server_instance):
+        token_banned = server_instance.get_token_banned()
+        token_banned[token] = expire
+        return {
+            "status": "success",
+            "message": "Logout Successful"
+        }
+
     def change_password(self, user_id, old_password, new_password):
         result = self.user_service.change_password(user_id, old_password, new_password)
 
