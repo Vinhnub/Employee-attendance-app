@@ -1,22 +1,32 @@
 import React, { useState, useEffect } from "react";
-import {useWebSocket} from "../Service/WebsocketProvicer"
+import * as authService from "../Service/Auth";
 
 export default function Login() {
-  const { socket, isConnected } = useWebSocket();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
   const [error, setError] = useState("");
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+  const loginInfo = {
+    username: username,
+    password: password
+  }
 
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      socket.send(JSON.stringify({
-        type: "login",
-        username,
-        password
-      }));
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await authService.login(loginInfo);
+      if (response.data.status == "success") {
+        console.log("Login success:", response.data);
+        sessionStorage.setItem("token",response.data.access_token);
+        setLoggedIn(true);
+      }
+      else {
+        alert(JSON.stringify(response));
+      }
+    } catch (err) {
+      console.error("Login failed:", err);
+      setError("Invalid username or password");
     }
   };
 
@@ -46,3 +56,4 @@ export default function Login() {
     </div>
   );
 }
+
