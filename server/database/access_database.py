@@ -51,7 +51,6 @@ class DatabaseFetcher:
         for table_name in table:
             if query.find(table_name) != -1:
                 query = query.replace(table_name, f'"{table_name}"')
-                break
         try:
             if params:
                 cursor.execute(query, params)
