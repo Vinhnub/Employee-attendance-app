@@ -7,7 +7,7 @@ export default function Register() {
   const [fullname, setFullname] = useState("");
   const [role, setRole] = useState("");
   const roleOption = [
-    "employee",
+    "staff",
     "manager"
   ]
   const registerInfo = {
