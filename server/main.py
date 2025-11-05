@@ -27,7 +27,9 @@ app.middleware("http")(auth_middleware)
 
 
 origins = [
-    "http://26.212.75.55:5173",  
+    "http://26.212.75.55:5173",
+    "http://10.12.96.95:5173",
+    "https://employee-attendance-app-wf8c.onrender.com",
     # "https://your-frontend-domain.com",  # add if deployed later
 ]
 
@@ -40,5 +42,5 @@ app.add_middleware(
 )
 
 # ---------------------- Run Server ----------------------
-if __name__ == "__main__":
-    uvicorn.run(app, host=SERVER_IP, port=int(PORT_TCP))
+# if __name__ == "__main__":
+#     uvicorn.run(app, host=SERVER_IP, port=int(PORT_TCP))

@@ -35,9 +35,9 @@ def create_account(
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@manager_router.put("/users/{id}/reset_password", status_code=status.HTTP_200_OK)
+@manager_router.put("/users/{target_id}/reset_password", status_code=status.HTTP_200_OK)
 def reset_password(
-    id: int,
+    target_id: int,
     data: ResetPasswordRequest, 
     request: Request,
     server_instance=Depends(get_server)
@@ -47,15 +47,15 @@ def reset_password(
         role = request.state.role
 
         result = server_instance.manager_controller.reset_password(
-            user_id, role, id, data.new_password
+            user_id, role, target_id, data.new_password
         )
         return result
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     
-@manager_router.delete("/users/{id}", status_code=status.HTTP_200_OK)
+@manager_router.delete("/users/{target_id}", status_code=status.HTTP_200_OK)
 def delete_account(
-    id: int,
+    target_id: int,
     request: Request,
     server_instance=Depends(get_server)
 ):
@@ -64,7 +64,7 @@ def delete_account(
         role = request.state.role
         
         result = server_instance.manager_controller.delete_account(
-            user_id, role, id
+            user_id, role, target_id
         )
         return result
     except Exception as e:
@@ -83,9 +83,9 @@ def get_all_users(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     
-@manager_router.get("/users/{id}")
+@manager_router.get("/users/{target_id}")
 def get_user_by_id(
-    id : int,
+    target_id : int,
     request: Request,
     server_instance=Depends(get_server)
 ):
@@ -93,13 +93,13 @@ def get_user_by_id(
         user_id = request.state.user_id
         role = request.state.role
         
-        return server_instance.manager_controller.get_data_of(user_id, role, id)
+        return server_instance.manager_controller.get_data_of(user_id, role, target_id)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     
-@manager_router.get("/users/{id}/shifts") # get all shifts of user in current month
+@manager_router.get("/users/{target_id}/shifts") # get all shifts of user in current month
 def get_all_shifts_current_month(
-    id : int,
+    target_id : int,
     request: Request,
     server_instance=Depends(get_server)
 ):
@@ -107,13 +107,13 @@ def get_all_shifts_current_month(
         user_id = request.state.user_id
         role = request.state.role
         
-        return server_instance.manager_controller.get_shifts_of(user_id, role, id)
+        return server_instance.manager_controller.get_shifts_of(user_id, role, target_id)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     
-@manager_router.put("/users/{id}/shifts/{shift_id}/edit_shift") # edit the shift which have id = shift_id
+@manager_router.put("/users/{target_id}/shifts/{shift_id}/edit_shift") # edit the shift which have id = shift_id
 def edit_shift_by_manager(
-    id : int,
+    target_id : int,
     shift_id : int,
     background_tasks : BackgroundTasks,
     data: EditShiftRequestManager,
@@ -124,17 +124,17 @@ def edit_shift_by_manager(
         user_id = request.state.user_id
         role = request.state.role
         
-        result = server_instance.manager_controller.edit_shift(user_id, role, id, shift_id, data.new_start_time, data.new_note, server_instance.get_staff_on_working())
+        result = server_instance.manager_controller.edit_shift(user_id, role, target_id, shift_id, data.new_start_time, data.new_note, server_instance.get_staff_on_working())
         if result["status"] == "success":
-            background_tasks.add_task(server_instance.emp_controller.update_data, id, server_instance, result["time_delta"])
+            background_tasks.add_task(server_instance.emp_controller.update_data, target_id, server_instance, result["time_delta"])
         return result
 
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     
-@manager_router.get("/users/{id}/logs")
+@manager_router.get("/users/{target_id}/logs")
 def get_log_by_user_id(
-    id : int,
+    target_id : int,
     request: Request,
     server_instance=Depends(get_server)
 ):
@@ -142,7 +142,7 @@ def get_log_by_user_id(
         user_id = request.state.user_id
         role = request.state.role
         
-        return server_instance.manager_controller.get_log_by_user_id(user_id, role, id)
+        return server_instance.manager_controller.get_log_by_user_id(user_id, role, target_id)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     
@@ -159,9 +159,9 @@ def get_all_shifts_today(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     
-@manager_router.put("/shifts/{id}/end_shift") # end shift which have id = {id}
+@manager_router.put("/shifts/{target_id}/end_shift") # end shift which have id = {id}
 def end_shift_id(
-    id : int,
+    target_id : int,
     background_tasks : BackgroundTasks,
     request: Request,
     server_instance=Depends(get_server)
@@ -170,7 +170,7 @@ def end_shift_id(
         user_id = request.state.user_id
         role = request.state.role
         
-        result =  server_instance.manager_controller.end_shift_id(id, user_id, role)
+        result =  server_instance.manager_controller.end_shift_id(target_id, user_id, role)
         if result["status"] == "success":
             background_tasks.add_task(server_instance.emp_controller.update_data, result["staff_id"], server_instance, result["time_delta"])
         return result   

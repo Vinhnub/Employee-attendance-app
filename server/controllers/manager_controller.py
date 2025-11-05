@@ -2,7 +2,7 @@ from server.services.shift_service import ShiftService
 from server.services.user_service import UserService
 from server.services.log_service import LogService
 
-class ManagerController():
+class ManagerController:
     def __init__(self):
         self.shift_service = ShiftService()
         self.user_service = UserService()
@@ -36,17 +36,17 @@ class ManagerController():
                 "message" : "Username already exists"
             }
 
-    def reset_password(self, user_id, role, id, new_password):
+    def reset_password(self, user_id, role, target_id, new_password):
         if role != "manager":
             return {
                 "status" : "fail",
                 "message" : "Do not have permission"
             }
 
-        result = self.user_service.reset_password(user_id, id, new_password)
+        result = self.user_service.reset_password(user_id, target_id, new_password)
 
         if result:
-            self.log_service.write_log(f"Reset password {id}", user_id)
+            self.log_service.write_log(f"Reset password {target_id}", user_id)
             return {
                 "status" : "success",
                 "message" : "Successful"
@@ -56,17 +56,17 @@ class ManagerController():
             "message" : "Username does not exists"
         }
         
-    def delete_account(self, user_id, role, id):
+    def delete_account(self, user_id, role, target_id):
         if role != "manager":
             return {
                 "status" : "fail",
                 "message" : "Do not have permission"
             }
 
-        result = self.user_service.delete_user(user_id, id)
+        result = self.user_service.delete_user(user_id, target_id)
 
         if result:
-            self.log_service.write_log(f"Delete account {id}", user_id)
+            self.log_service.write_log(f"Delete account {target_id}", user_id)
             return {
                 "status" : "success",
                 "message" : "Successful"
@@ -95,19 +95,19 @@ class ManagerController():
             "message" : "Do not have permission"
         }
     
-    def get_data_of(self, user_id, role, id):
+    def get_data_of(self, user_id, role, target_id):
         if role != "manager":
             return {
             "status" : "fail",
                 "message" : "Do not have permission"
             }
 
-        staff_data = self.user_service.get_data_of(user_id, id)
+        staff_data = self.user_service.get_data_of(user_id, target_id)
 
         if staff_data:
             return {
                 "status" : "success",
-                "message" : f"Get data of {id} successful",
+                "message" : f"Get data of {target_id} successful",
                 "data" : staff_data
             }
         return {
@@ -115,14 +115,14 @@ class ManagerController():
             "message" : "User does not exists"
         }
 
-    def get_shifts_of(self, user_id, role, id):
+    def get_shifts_of(self, user_id, role, target_id):
         if role != "manager" :
             return  {
                 "status" : "fail",
                 "message" : "Do not have permission"
             }
 
-        staff_shifts = self.shift_service.get_shifts_of(id)
+        staff_shifts = self.shift_service.get_shifts_of(target_id)
 
         if staff_shifts:
             return {
@@ -149,15 +149,15 @@ class ManagerController():
             "message" : "Do not have any shift"
         }
     
-    def end_shift_id(self, id, user_id, role):
+    def end_shift_id(self, target_id, user_id, role):
         if role != "manager": return {"status" : "fail", "message" : "Do not have permission"}
-        result = self.shift_service.end_shift_id(id)
+        result = self.shift_service.end_shift_id(target_id)
 
         if result:
-            self.log_service.write_log(f"End shift {id} by manager", user_id)
+            self.log_service.write_log(f"End shift {target_id} by manager", user_id)
             return {
                 "status" : "success",
-                "message" : f"End shift {id} successful",
+                "message" : f"End shift {target_id} successful",
                 "time_delta" : result[0],
                 "staff_id" : result[1]
             }
@@ -166,14 +166,14 @@ class ManagerController():
             "message" : "The shift is over"
         }
 
-    def edit_shift(self, user_id, role, id, shift_id, new_start_time, new_note, staff_on_working):
+    def edit_shift(self, user_id, role, target_id, shift_id, new_start_time, new_note, staff_on_working):
         if role != "manager":
             return {
                 "status": "fail",
                 "message": "Do not have permission"
             }
 
-        if id in staff_on_working:
+        if target_id in staff_on_working:
             return {
                 "status": "fail",
                 "message" : "User is working"
@@ -213,14 +213,14 @@ class ManagerController():
             "message" : "Do not have any log"
         }
     
-    def get_log_by_user_id(self, user_id, role, id):
+    def get_log_by_user_id(self, user_id, role, target_id):
         if role != "manager":
             return {
                 "status" : "fail",
                 "message" : "Do not have permission"
             }
 
-        result = self.log_service.get_log_by_user_id(user_id, id)
+        result = self.log_service.get_log_by_user_id(user_id, target_id)
 
         if result:
             return {

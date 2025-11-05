@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useWebSocket } from "../Service/WebsocketProvicer";
 
 export default function Chat() {
   const { socket, isConnected } = useWebSocket();

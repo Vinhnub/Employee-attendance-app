@@ -2,7 +2,7 @@ from server.services.shift_service import ShiftService
 from server.services.log_service import LogService
 from datetime import datetime
 
-class EmployeeController():
+class EmployeeController:
     def __init__(self):
         self.shift_service = ShiftService()
         self.log_service = LogService() 

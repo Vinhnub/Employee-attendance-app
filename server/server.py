@@ -80,10 +80,10 @@ class Server:
                     start_time = datetime.strptime(item[2], "%Y-%m-%d %H:%M:%S")
                     end_time = datetime.strptime(item[3], "%Y-%m-%d %H:%M:%S")
                     self.__cache["staff_on_working"][item[0]] = {"start_time" : start_time.strftime("%H:%M:%S"), "end_time" : end_time.strftime("%H:%M:%S")}
-                shift = Shift(item[2], item[3], item[4], id=item[5], user_id=item[0], fullname=item[1], is_working=True)
+                shift = Shift(item[2], item[3], item[4], shift_id=item[5], user_id=item[0], fullname=item[1], is_working=True)
                 self.__shift_today.append(shift.to_dict())
             else:
-                shift = Shift(item[2], item[3], item[4], id=item[5], user_id=item[0], fullname=item[1], is_working=False)
+                shift = Shift(item[2], item[3], item[4], shift_id=item[5], user_id=item[0], fullname=item[1], is_working=False)
                 self.__shift_today.append(shift.to_dict())
         return
 
