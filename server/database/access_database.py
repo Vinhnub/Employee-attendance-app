@@ -45,12 +45,23 @@ class DatabaseFetcher:
     def execute(self, query, params=None, fetchone=False, fetchall=False):
         conn = self.connect()
         cursor = conn.cursor()
+        # convert query to use postgred cloud db
         table = ["UserLog", "User", "Shift"]
         query = query.replace('"', "'")
         query = query.replace("?", "%s")
         for table_name in table:
-            if query.find(table_name) != -1:
+            if table_name == "User":
+                start = 0
+                while True:
+                    index = query.find(table_name, start)
+                    if index == -1:
+                        break
+                    if query[index + len(table_name)] != "L":
+                        query = query.replace(table_name, f'"{table_name}"')
+                    start = index + len(table_name)
+            else:
                 query = query.replace(table_name, f'"{table_name}"')
+
         try:
             if params:
                 cursor.execute(query, params)
