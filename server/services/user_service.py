@@ -41,8 +41,7 @@ class UserService(BaseService):
         self.db.execute(query, (username, password_hashed, fullname, role))
         query = "SELECT * FROM User WHERE username=?"
         result = self.db.execute(query, (username, ), fetchone=True)
-        user = User(*result)
-        return user.to_dict()
+        return User(*result).to_dict()
 
         
     def reset_password(self, user_id, id, new_password):
@@ -65,7 +64,7 @@ class UserService(BaseService):
     def get_all_user(self, user_id):
         query = "SELECT * FROM User"
         all_user = self.db.execute(query, fetchall=True)
-        return [User(*user).to_dict() for user in list_user]
+        return [User(*user).to_dict() for user in all_user]
     
     def get_all_staffs(self):
         query = "SELECT * FROM User WHERE role != 'manager'"

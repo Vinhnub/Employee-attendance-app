@@ -12,7 +12,6 @@ class AuthController:
 
         if user:
             user_data = user.to_dict()
-            print(server.get_staff_on_working())
             if user_data["id"] in server.get_staff_on_working():
                 current_shift = server.get_staff_on_working()[user_data["id"]]
             else:

@@ -13,6 +13,9 @@ class CreateAccountRequest(BaseModel):
 class ResetPasswordRequest(BaseModel):
     new_password: str
 
+class EditShiftRequestManager(BaseModel):
+    new_start_time: str
+    new_note: str
 
 @manager_router.post("/create_account", status_code=status.HTTP_200_OK)
 def create_account(
@@ -109,9 +112,11 @@ def get_all_shifts_current_month(
         raise HTTPException(status_code=400, detail=str(e))
     
 @manager_router.put("/users/{id}/shifts/{shift_id}/edit_shift") # edit the shift which have id = shift_id
-def edit_shift(
+def edit_shift_by_manager(
     id : int,
     shift_id : int,
+    background_tasks : BackgroundTasks,
+    data: EditShiftRequestManager,
     request: Request,
     server_instance=Depends(get_server)
 ):
@@ -119,7 +124,11 @@ def edit_shift(
         user_id = request.state.user_id
         role = request.state.role
         
-        return server_instance.manager_controller.get_data_of(user_id, role, id)
+        result = server_instance.manager_controller.edit_shift(user_id, role, id, shift_id, data.new_start_time, data.new_note, server_instance.get_staff_on_working())
+        if result["status"] == "success":
+            background_tasks.add_task(server_instance.emp_controller.update_data, id, server_instance, result["time_delta"])
+        return result
+
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     

@@ -126,7 +126,7 @@ class ManagerController():
             }
         return {
             "status" : "fail",
-            "message" : "User does not exists"
+            "message" : "User does not have any shifts or exists"
         }
     
     def get_all_shifts_today(self, user_id, role, server): # get list of shifts today
@@ -159,7 +159,34 @@ class ManagerController():
             "status" : "fail",
             "message" : "The shift is over"
         }
-    
+
+    def edit_shift(self, user_id, role, id, shift_id, new_start_time, new_note, staff_on_working):
+        if role != "manager":
+            return {
+                "status": "fail",
+                "message": "Do not have permission"
+            }
+
+        if id in staff_on_working:
+            return {
+                "status": "fail",
+                "message" : "User is working"
+            }
+
+        result = self.shift_service.edit_shift_by_manager(shift_id, new_start_time, new_note)
+
+        if result:
+            self.log_service.write_log(f"Edit shift new start time {new_start_time}, new note {new_note} by manager", user_id)
+            return {
+                "status": "success",
+                "message": "Edited successfully",
+                "time_delta" : result
+            }
+        return {
+            "status": "fail",
+            "message": "Invalid time"
+        }
+
     def get_log_by_day(self, user_id, role, year, month, day):
         if role != "manager":
             return {
