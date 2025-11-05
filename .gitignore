@@ -203,7 +203,7 @@ cython_debug/
 
 # Marimo
 marimo/_static/
-marimo/_lsp/
+marimox/_lsp/
 __marimo__/
 server/database/credentials.json
 server/utils/secret.py

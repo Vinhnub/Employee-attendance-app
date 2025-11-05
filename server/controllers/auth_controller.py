@@ -48,7 +48,7 @@ class AuthController:
         else:
             current_shift = None
 
-        self.log_service.write_log("Login", user_data[id])
+        self.log_service.write_log("Login", user_data["id"])
         return {
             "status": "success",
             "message": "Login Successful",

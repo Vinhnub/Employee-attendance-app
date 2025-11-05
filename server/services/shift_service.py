@@ -39,14 +39,14 @@ class ShiftService(BaseService):
         self.db.execute(query, (now, user_id, now))
         return time_delta
     
-    def end_shift_id(self, id): # for manager
+    def end_shift_id(self, target_id): # for manager
         now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         query = "SELECT * FROM Shift WHERE id=? AND end_time > ?"
-        result = self.db.execute(query, (id, now), fetchone=True)
+        result = self.db.execute(query, (target_id, now), fetchone=True)
         if result:
             time_delta =  (datetime.strptime(now, "%Y-%m-%d %H:%M:%S") - datetime.strptime(result[2], "%Y-%m-%d %H:%M:%S")).total_seconds() / 3600
             query = "UPDATE Shift SET end_time=? WHERE id=?"
-            self.db.execute(query, (now, id))
+            self.db.execute(query, (now, target_id))
             return time_delta, result[4]
         return False
 

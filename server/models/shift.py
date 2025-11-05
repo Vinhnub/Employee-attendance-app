@@ -1,6 +1,6 @@
 class Shift:
-    def __init__(self, start_time, end_time, note, fullname=None, id=None, user_id=None, is_working=None):
-        self.id = id
+    def __init__(self, start_time, end_time, note, fullname=None, shift_id=None, user_id=None, is_working=None):
+        self._id = shift_id
         self.fullname = fullname
         self.start_time = start_time
         self.end_time = end_time
@@ -10,7 +10,7 @@ class Shift:
 
     def to_dict(self):
         return {
-            "id": self.id,
+            "id": self._id,
             "fullname": self.fullname,
             "user_id" : self.user_id,
             "start_time": self.start_time,

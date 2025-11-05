@@ -28,10 +28,10 @@ class LogService(BaseService):
             log_data.append(o_log.to_dict())
         return log_data
 
-    def get_log_by_user_id(self, user_id, id):
+    def get_log_by_user_id(self, user_id, target_id):
         log_data = []
         query = "SELECT * FROM UserLog WHERE user_id=?"
-        logs = self.db.execute(query, (id,), fetchall=True)
+        logs = self.db.execute(query, (target_id,), fetchall=True)
         for log in logs:
             o_log = Log(*log)
             log_data.append(o_log.to_dict())

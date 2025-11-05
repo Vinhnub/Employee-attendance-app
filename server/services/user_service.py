@@ -44,21 +44,21 @@ class UserService(BaseService):
         return User(*result).to_dict()
 
         
-    def reset_password(self, user_id, id, new_password):
-        if (not self._check_username_exist_by_id(id)):
+    def reset_password(self, user_id, target_id, new_password):
+        if not self._check_username_exist_by_id(target_id):
             return False
     
         new_password_hashed = hash_password(new_password)
         query = "UPDATE User SET password=? WHERE id=?"
-        self.db.execute(query, (new_password_hashed, id))
+        self.db.execute(query, (new_password_hashed, target_id))
         return True
     
-    def delete_user(self, user_id, id):
-        if (not self._check_username_exist_by_id(id)):
+    def delete_user(self, user_id, target_id):
+        if not self._check_username_exist_by_id(target_id):
             return False
         
         query = "DELETE FROM User WHERE id=?"
-        self.db.execute(query, (id,))
+        self.db.execute(query, (target_id,))
         return True
     
     def get_all_user(self, user_id):
@@ -71,12 +71,12 @@ class UserService(BaseService):
         staffs = self.db.execute(query, fetchall=True)
         return [User(*staff).to_dict() for staff in staffs]
     
-    def get_data_of(self, user_id, id):
-        if (not self._check_username_exist_by_id(id)):
+    def get_data_of(self, user_id, target_id):
+        if not self._check_username_exist_by_id(target_id):
             return False
         
         query = "SELECT * FROM User WHERE id=?"
-        user_data = self.db.execute(query, (id,), fetchone=True)
+        user_data = self.db.execute(query, (target_id,), fetchone=True)
         o_user = User(*user_data)
         return o_user.to_dict()
 

@@ -31,7 +31,7 @@ class BaseService:
         query = "SELECT role FROM User WHERE id=?"
         row = self.db.execute(query, (user_id,), fetchone=True)
         if row:
-            return (row[0] == "manager")
+            return row[0] == "manager"
         else:
             return False
         
