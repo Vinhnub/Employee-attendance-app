@@ -42,10 +42,7 @@ class DatabaseFetcher:
     def connect(self):
         return psycopg2.connect(self.db_url)
 
-    def execute(self, query, params=None, fetchone=False, fetchall=False):
-        conn = self.connect()
-        cursor = conn.cursor()
-        # convert query to use postgred cloud db
+    def _convert_query(self, query):
         table = ["UserLog", "User", "Shift"]
         query = query.replace('"', "'")
         query = query.replace("?", "%s")
@@ -56,12 +53,21 @@ class DatabaseFetcher:
                     index = query.find(table_name, start)
                     if index == -1:
                         break
+                    if index + len(table_name) >= len(query):
+                        query = query.replace(table_name, f'"{table_name}"')
+                        break
                     if query[index + len(table_name)] != "L":
                         query = query.replace(table_name, f'"{table_name}"')
                     start = index + len(table_name)
             else:
                 query = query.replace(table_name, f'"{table_name}"')
+        return query
 
+    def execute(self, query, params=None, fetchone=False, fetchall=False):
+        conn = self.connect()
+        cursor = conn.cursor()
+        # convert query to use postgred cloud db
+        query = self._convert_query(query)
         try:
             if params:
                 cursor.execute(query, params)
