@@ -3,7 +3,7 @@ from server.database.access_database import DatabaseFetcher
 from datetime import datetime
 from server.services.base_service import BaseService
 
-#### Time format: Y-M-D H-M-S
+#### Time format: Y-M-D H:M:S
 class ShiftService(BaseService):
     def __init__(self):
         self.db = DatabaseFetcher()
