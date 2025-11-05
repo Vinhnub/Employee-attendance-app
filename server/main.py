@@ -27,7 +27,8 @@ app.middleware("http")(auth_middleware)
 
 
 origins = [
-    "http://26.212.75.55:5173",  
+    "http://26.212.75.55:5173",
+    "http://10.12.96.95:5173",
     # "https://your-frontend-domain.com",  # add if deployed later
 ]
 
