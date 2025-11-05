@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import * as employeeService from "../Service/Employee";
+import * as authService from "../Service/Auth";
 
 export default function CheckIn() {
   const [endtime, setEndtime] = useState(() => {
@@ -19,6 +20,7 @@ export default function CheckIn() {
   const handleCheckIn = async (e) => {
     e.preventDefault();
     try {
+      alert(JSON.stringify(authService.me()));
       const response = await employeeService.start_shift(shiftInfo);
       if (response.data.status == "success") {
         alert("Check in successfully");

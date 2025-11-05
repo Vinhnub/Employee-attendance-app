@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: `http://${IP_NETWORK}:${PORT}/auth`
+  baseURL: `${IP_NETWORK}/auth`
 });
 
 API.interceptors.request.use((config) => {
