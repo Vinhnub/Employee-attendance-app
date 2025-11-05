@@ -22,3 +22,10 @@ export function register(data) {
 export function getAllUser() {
   return API.get("/users");
 }
+
+export function getUser(id) {
+  return API.get(`/users/${id}`)
+}
+export function resetPassword(id, password) {
+  return API.put(`/users/${id}/reset_password`,password);
+}

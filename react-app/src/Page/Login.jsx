@@ -15,10 +15,8 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      console.log(IP_NETWORK);
       const response = await authService.login(loginInfo);
       if (response.data.status == "success") {
-        console.log("Login success:", response.data);
         sessionStorage.setItem("token",response.data.access_token);
         setLoggedIn(true);
       }
