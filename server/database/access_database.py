@@ -62,6 +62,16 @@ class DatabaseFetcher:
 #             AND EXTRACT(DAY FROM date_time) = %s;
 #             """
 #
+#         if query == """SELECT *
+#         FROM Shift
+#         WHERE strftime('%Y-%m', start_time) = strftime('%Y-%m', 'now')
+#         ORDER BY user_id
+#         """:
+#             return """SELECT *
+#             FROM "Shift"
+#             WHERE TO_CHAR(start_time::timestamp, 'YYYY-MM') = TO_CHAR(NOW(), 'YYYY-MM')
+#             ORDER BY user_id;"""
+#
 #         table = ["UserLog", "User", "Shift"]
 #         query = query.replace('"', "'")
 #         query = query.replace("?", "%s")

@@ -107,9 +107,10 @@ class Server:
         self.sheet.append_shift_current_month(list_shifts, row, column)
 
     def refresh_sheet(self, all_shifts_current_month):
+        self.sheet.draw_new_month(self.manager_controller.get_staffs())
         prev_day = 0
         prev_user_id = 0
-        list_shifts = [] # list shift to combine shift per user to day and update each day
+        list_shifts = [] # list shift to combine shift per user by day and update each day to current month
         for shift in all_shifts_current_month:
             shift_day = datetime.strptime(shift["start_time"], "%Y-%m-%d %H:%M:%S").day
             if shift_day != prev_day or prev_user_id != shift["user_id"]:

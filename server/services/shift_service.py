@@ -81,7 +81,7 @@ class ShiftService(BaseService):
         query = "UPDATE Shift SET start_time=?, note=? WHERE id=?"
         self.db.execute(query, (new_start_time, new_note, shift_id))
         return time_delta
-    
+
     def get_shifts_of(self, user_id): # get all shifts of month of user_id
         now = datetime.now()
         query = "SELECT * FROM Shift WHERE strftime('%Y-%m', start_time) = strftime('%Y-%m', 'now') AND user_id=?"
@@ -98,7 +98,11 @@ class ShiftService(BaseService):
         return [Shift(shift[1], shift[2], shift[3], shift_id=shift[0], user_id=shift[4]).to_dict() for shift in shifts]
 
     def get_all_shifts_current_month(self):
-        query = "SELECT * FROM Shift WHERE strftime('%Y-%m', start_time) = strftime('%Y-%m', 'now') ORDER BY user_id"
+        query = """SELECT *
+        FROM Shift  
+        WHERE strftime('%Y-%m', start_time) = strftime('%Y-%m', 'now') 
+        ORDER BY user_id
+        """
         shifts = self.db.execute(query, fetchall=True)
         return [Shift(shift[1], shift[2], shift[3], shift_id=shift[0], user_id=shift[4]).to_dict() for shift in shifts]
 

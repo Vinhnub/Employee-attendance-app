@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import * as employeeService from "../Service/Employee";
 
 export default function WorkPage() {
@@ -21,7 +21,6 @@ export default function WorkPage() {
         setLoading(false);
       }
     };
-
     fetchShifts();
   }, []);
 
@@ -36,30 +35,47 @@ export default function WorkPage() {
   return (
     <div style={{ padding: 20 }}>
       <h2>Work Shifts</h2>
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-        <thead>
-          <tr>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Note</th>
-          </tr>
-        </thead>
-        <tbody>
-          {shifts.length > 0 ? (
-            shifts.map((shift, index) => (
-              <tr key={index} style={{ color: `${shift.is_working ? '#ff0000' : '#00ff00'}`}}>
-                <td style={{border:'5px solid pink', padding:'1rem'}}>{shift.start_time || 'N/A'}</td>
-                <td style={{border:'5px solid pink', padding:'1rem'}}>{shift.end_time || 'N/A'}</td>
-                <td style={{border:'5px solid pink', padding:'1rem'}}>{shift.note || ''}</td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="3">No shifts found</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+      <ShiftsTable shifts={shifts} extra={(shift) => (
+        <tr>
+          <td colSpan={3}>expaned</td>
+        </tr>
+      )} />
     </div>
+  );
+}
+
+export function ShiftsTable({ shifts, func, extra }) {
+
+  return (
+    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+      <thead>
+        <tr>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        {shifts.length > 0 ? (
+          shifts.map((shift) => (
+            <React.Fragment key={shift.id}>
+              <tr
+                style={{ color: `${shift.is_working ? '#ff0000' : '#00ff00'}` }}
+                onClick={() => { func && func({ ...shift }) }}
+              >
+                <td style={{ border: '5px solid pink', padding: '1rem' }}>{shift.start_time || 'N/A'}</td>
+                <td style={{ border: '5px solid pink', padding: '1rem' }}>{shift.end_time || 'N/A'}</td>
+                <td style={{ border: '5px solid pink', padding: '1rem' }}>{shift.note || ''}</td>
+              </tr>
+              {extra && extra(shift)}
+            </React.Fragment>
+          ))
+        ) : (
+          <tr>
+            <td colSpan="3">No shifts found</td>
+          </tr>
+        )}
+      </tbody>
+    </table>
   );
 }

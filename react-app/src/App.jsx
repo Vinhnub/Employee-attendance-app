@@ -10,8 +10,9 @@ import CheckOut from './Page/CheckOut'
 import OverTime from './Page/OverTime'
 import Register from './Page/Register'
 import UserList from './Page/UserList'
+import User from './Page/User'
 
-function App() {
+export default function App() {
 
   return (
     <BrowserRouter>
@@ -25,9 +26,9 @@ function App() {
         <Route path="/overtime" element={<OverTime/>} />
         <Route path="/register" element={<Register/>} />
         <Route path="/userlist" element={<UserList/>} />
+        <Route path="/user/:id" element={<User/>} />
       </Routes>
     </BrowserRouter>
   )
 }
 
-export default App

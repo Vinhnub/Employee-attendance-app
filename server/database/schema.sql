@@ -2,6 +2,8 @@ DROP TABLE IF EXISTS User;
 DROP TABLE IF EXISTS Shift;
 DROP TABLE IF EXISTS UserLog;
 
+PRAGMA foreign_keys = ON;
+
 CREATE TABLE User (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE NOT NULL,
@@ -15,14 +17,14 @@ CREATE TABLE Shift (
     end_time TEXT,
     note TEXT,
     user_id INTEGER,
-    FOREIGN KEY (user_id) REFERENCES User(id)
+    FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
 );
 CREATE TABLE UserLog (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     content TEXT,
     date_time TEXT,
     user_id INTEGER,
-    FOREIGN KEY (user_id) REFERENCES User(id)
+    FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
 );
 
 CREATE INDEX idx_shift_time ON Shift (start_time, end_time);
