@@ -22,7 +22,7 @@ class LogService(BaseService):
         AND strftime('%m', datetime(date_time)) = ?
         AND strftime('%d', datetime(date_time)) = ?
         """
-        logs = self.db.execute(query, (str(year), str(month), str(day)), fetchall=True)
+        logs = self.db.execute(query, (year, month, day), fetchall=True)
         for log in logs:
             o_log = Log(*log)
             log_data.append(o_log.to_dict())

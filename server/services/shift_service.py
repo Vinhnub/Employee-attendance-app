@@ -96,7 +96,12 @@ class ShiftService(BaseService):
         query = "SELECT * FROM Shift WHERE user_id=? AND strftime('%Y-%m-%d', start_time) = strftime('%Y-%m-%d', 'now')"
         shifts = self.db.execute(query, (user_id,), fetchall=True)
         return [Shift(shift[1], shift[2], shift[3], shift_id=shift[0], user_id=shift[4]).to_dict() for shift in shifts]
-    
+
+    def get_all_shifts_current_month(self):
+        query = "SELECT * FROM Shift WHERE strftime('%Y-%m', start_time) = strftime('%Y-%m', 'now') ORDER BY user_id"
+        shifts = self.db.execute(query, fetchall=True)
+        return [Shift(shift[1], shift[2], shift[3], shift_id=shift[0], user_id=shift[4]).to_dict() for shift in shifts]
+
 
     
         
