@@ -15,6 +15,7 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
+      console.log(IP_NETWORK);
       const response = await authService.login(loginInfo);
       if (response.data.status == "success") {
         console.log("Login success:", response.data);
@@ -22,7 +23,8 @@ export default function Login() {
         setLoggedIn(true);
       }
       else {
-        alert(JSON.stringify(response));
+        console.error(JSON.stringify(response));
+        setError("Invalid username or password");
       }
     } catch (err) {
       console.error("Login failed:", err);
@@ -31,7 +33,7 @@ export default function Login() {
   };
 
   if (loggedIn) {
-    return <h2>✅ Welcome, {username}!</h2>;
+    return <h2>Welcome, {username}!</h2>;
   }
 
   return (
@@ -56,4 +58,3 @@ export default function Login() {
     </div>
   );
 }
-

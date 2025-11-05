@@ -15,7 +15,7 @@ export default function UserList() {
           setUserList([]);
         }
       } catch (err) {
-        setError("Failed to load users list: " + err.message);
+        console.error(err);
       }
     };
     fetchUserList();
@@ -25,7 +25,6 @@ export default function UserList() {
       <table>
         <thead>
           <tr>
-            <th>ID</th>
             <th>UserName</th>
             <th>Full Name</th>
             <th>Role</th>
@@ -35,7 +34,6 @@ export default function UserList() {
           {userList.length > 0 ? (
             userList.map((user, index) => (
               <tr className={styles.user} key={index}>
-                <th>{user.id}</th>
                 <th>{user.username}</th>
                 <th>{user.fullname}</th>
                 <th>{user.role}</th>
@@ -44,7 +42,7 @@ export default function UserList() {
             ))
           ) : (
             <tr>
-              <th colSpan={4}>No users</th>
+              <th colSpan={3}>No users</th>
             </tr>
           )}
         </tbody>

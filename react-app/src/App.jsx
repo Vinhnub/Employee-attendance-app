@@ -11,7 +11,7 @@ import OverTime from './Page/OverTime'
 import Register from './Page/Register'
 import UserList from './Page/UserList'
 
-function App() {
+export default function App() {
 
   return (
     <BrowserRouter>
@@ -30,4 +30,3 @@ function App() {
   )
 }
 
-export default App
