@@ -21,6 +21,7 @@ export default function UserList() {
     };
     fetchUserList();
   }, []);
+
   return (
     <div>
       <table>
@@ -34,14 +35,14 @@ export default function UserList() {
         <tbody>
           {userList.length > 0 ? (
             userList.map((user, index) => (
-              <tr 
-                className={styles.user} 
+              <tr
+                className={styles.user}
                 key={index}
-                onClick={()=> navigate(`/user/${user.id}`)}
+                onClick={() => navigate(`/user/${user.id}`)}
               >
-                  <td>{user.username}</td>
-                  <td>{user.fullname}</td>
-                  <td>{user.role}</td>
+                <td>{user.username}</td>
+                <td>{user.fullname}</td>
+                <td>{user.role}</td>
               </tr>
             ))
           ) : (
