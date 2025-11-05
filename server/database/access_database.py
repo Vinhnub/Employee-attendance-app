@@ -43,6 +43,25 @@ class DatabaseFetcher:
         return psycopg2.connect(self.db_url)
 
     def _convert_query(self, query):
+        if query == "SELECT * FROM Shift WHERE user_id=? AND strftime('%Y-%m-%d', start_time) = strftime('%Y-%m-%d', 'now')":
+            return """SELECT * FROM "Shift" WHERE TO_CHAR(start_time::timestamp, 'YYYY-MM') = TO_CHAR(NOW(), 'YYYY-MM') AND user_id = %s"""
+
+        if query == "SELECT * FROM Shift WHERE strftime('%Y-%m', start_time) = strftime('%Y-%m', 'now') AND user_id=?":
+            return """SELECT * FROM "Shift" WHERE TO_CHAR(start_time::timestamp, 'YYYY-MM') = TO_CHAR(NOW(), 'YYYY-MM') AND user_id = %s;"""
+
+        if query == """SELECT UL.id, content, date_time, U.id, U.fullname  FROM UserLog UL INNER JOIN User U ON UL.user_id = U.id
+                    WHERE strftime('%Y', datetime(date_time)) = ?
+                    AND strftime('%m', datetime(date_time)) = ?
+                    AND strftime('%d', datetime(date_time)) = ?
+                    """:
+            return """SELECT UL.id, content, date_time, U.id, U.fullname
+            FROM "UserLog" UL
+            INNER JOIN "User" U ON UL.user_id = U.id
+            WHERE EXTRACT(YEAR FROM date_time) = %s
+            AND EXTRACT(MONTH FROM date_time) = %s
+            AND EXTRACT(DAY FROM date_time) = %s;
+            """
+
         table = ["UserLog", "User", "Shift"]
         query = query.replace('"', "'")
         query = query.replace("?", "%s")

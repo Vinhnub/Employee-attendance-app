@@ -15,6 +15,12 @@ class ManagerController:
                 "message" : "Do not have permission"
             }
 
+        if role not in ("manager", "staff"):
+            return {
+                "status" : "fail",
+                "message" : "Role must be 'manager' or 'staff'"
+            }
+
         result = self.user_service.create_user(user_id, username, password, fullname, role)
 
         if result:

@@ -17,7 +17,7 @@ class LogService(BaseService):
 
     def get_log_by_day(self, user_id, year, month, day):
         log_data = []
-        query = """ SELECT UL.id, content, date_time, U.id, U.fullname  FROM UserLog UL INNER JOIN User U ON UL.user_id = U.id
+        query = """SELECT UL.id, content, date_time, U.id, U.fullname  FROM UserLog UL INNER JOIN User U ON UL.user_id = U.id
         WHERE strftime('%Y', datetime(date_time)) = ?
         AND strftime('%m', datetime(date_time)) = ?
         AND strftime('%d', datetime(date_time)) = ?

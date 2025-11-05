@@ -17,7 +17,7 @@ class Server:
         self.emp_controller = EmployeeController()
         self.manager_controller = ManagerController()
         self.__db = DatabaseFetcher()
-        self.__cache = {"staff_on_working" : {}, "last_update" : 0}
+        self.__cache = {"staff_on_working" : {}, "last_update" : 0, "token_banned" : {}}
         self.__shift_today = []
         self.__last_index = 0
         self.__staff_index = {}
@@ -30,6 +30,9 @@ class Server:
     
     def get_staff_on_working(self):
         return self.__cache["staff_on_working"]
+
+    def get_token_banned(self):
+        return self.__cache["token_banned"]
 
     def _load_current_month(self):
         path = "server/database/current_month.txt"
@@ -51,6 +54,12 @@ class Server:
         else:
             self.__cur_month = today.month
             return False
+
+    def _check_token_expired(self):
+        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        for token, expire in self.__cache["token_banned"].items():
+            if expire < now:
+                del self.__cache["token_banned"][token]
 
     def fetch_staff_on_working(self): # to get staff is working and get shift on today
         self.__shift_today = []
@@ -112,6 +121,7 @@ class Server:
                 self.fetch_staff_on_working()
                 self.__cache["last_update"] = time.time()
                 self.sheet.update_shift_today(self.__shift_today)
+                self._check_token_expired()
                 if self._is_new_month():
                     list_staff = self.manager_controller.get_staffs()
                     self.sheet.save_data_per_month()

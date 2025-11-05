@@ -35,6 +35,21 @@ def login(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
+@auth_router.put("/logout")
+def login(
+    request: Request,
+    server_instance=Depends(get_server)
+):
+    try:
+        user_id = request.state.user_id
+        role = request.state.role
+        token = request.state.token
+        expire = request.state.expire
+
+        return server_instance.auth_controller.logout(user_id, role, token, expire, server_instance)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
 @auth_router.put("/change_password", status_code=status.HTTP_200_OK)
 def change_password(
     data: ChangePasswordRequest,

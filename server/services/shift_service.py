@@ -71,7 +71,7 @@ class ShiftService(BaseService):
     def edit_shift_by_manager(self, shift_id, new_start_time, new_note): # edit staff's shift by manager
         query = "SELECT * FROM Shift WHERE id=?"
         shift = self.db.execute(query, (shift_id, ), fetchone=True)
-        o_shift = Shift(shift[1], shift[2], shift[3], id=shift[0], user_id=shift[4])
+        o_shift = Shift(shift[1], shift[2], shift[3], shift_id=shift[0], user_id=shift[4])
         if not o_shift:
             return False
         if o_shift.end_time < new_start_time:
@@ -86,7 +86,7 @@ class ShiftService(BaseService):
         now = datetime.now()
         query = "SELECT * FROM Shift WHERE strftime('%Y-%m', start_time) = strftime('%Y-%m', 'now') AND user_id=?"
         shifts = self.db.execute(query, (user_id,), fetchall=True)
-        return [Shift(shift[1], shift[2], shift[3], id=shift[0], is_working=(now < datetime.strptime(shift[2], "%Y-%m-%d %H:%M:%S"))).to_dict() for shift in shifts]
+        return [Shift(shift[1], shift[2], shift[3], shift_id=shift[0], is_working=(now < datetime.strptime(shift[2], "%Y-%m-%d %H:%M:%S"))).to_dict() for shift in shifts]
     
     def get_all_shifts_today(self, user_id, server): #get all shifts of to day of all staff
         shifts_data = server.get_shift_today()
@@ -95,7 +95,7 @@ class ShiftService(BaseService):
     def get_shift_today_of(self, user_id): #get shift of user_id on today and only for server
         query = "SELECT * FROM Shift WHERE user_id=? AND strftime('%Y-%m-%d', start_time) = strftime('%Y-%m-%d', 'now')"
         shifts = self.db.execute(query, (user_id,), fetchall=True)
-        return [Shift(shift[1], shift[2], shift[3], id=shift[0], user_id=shift[4]).to_dict() for shift in shifts]
+        return [Shift(shift[1], shift[2], shift[3], shift_id=shift[0], user_id=shift[4]).to_dict() for shift in shifts]
     
 
     
