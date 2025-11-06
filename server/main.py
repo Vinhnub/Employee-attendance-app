@@ -42,5 +42,5 @@ app.add_middleware(
 )
 
 # ---------------------- Run Server ----------------------
-if __name__ == "__main__":
-    uvicorn.run(app, host=SERVER_IP, port=int(PORT_TCP))
+# if __name__ == "__main__":
+#     uvicorn.run(app, host=SERVER_IP, port=int(PORT_TCP))
