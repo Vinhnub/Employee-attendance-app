@@ -1,12 +1,11 @@
 from server.models.shift import Shift
-from server.database.access_database import DatabaseFetcher
 from datetime import datetime
 from server.services.base_service import BaseService
 
 #### Time format: Y-M-D H:M:S
 class ShiftService(BaseService):
-    def __init__(self):
-        self.db = DatabaseFetcher()
+    def __init__(self, db):
+        self.db = db
 
     def start_shift(self, user_id, end_time, note, staff_on_working):
         user = self._get_user_data_by_id(user_id)
@@ -98,7 +97,7 @@ class ShiftService(BaseService):
         return [Shift(shift[1], shift[2], shift[3], shift_id=shift[0], user_id=shift[4]).to_dict() for shift in shifts]
 
     def get_all_shifts_current_month(self):
-        query = """SELECT * FROM Shift WHERE strftime('%Y-%m', start_time) = strftime('%Y-%m', 'now') ORDER BY user_id"""
+        query = """SELECT S.id, S.start_time, S.end_time, S.note, S.user_id FROM Shift S INNER JOIN User U ON S.user_id = U.id WHERE strftime('%Y-%m', start_time) = strftime('%Y-%m', 'now') ORDER BY user_id"""
         shifts = self.db.execute(query, fetchall=True)
         return [Shift(shift[1], shift[2], shift[3], shift_id=shift[0], user_id=shift[4]).to_dict() for shift in shifts]
 

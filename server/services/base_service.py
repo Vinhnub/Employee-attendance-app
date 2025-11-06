@@ -1,9 +1,8 @@
-from server.database.access_database import DatabaseFetcher
 from server.models.user import User
 
 class BaseService:
-    def __init__(self):
-        self.db = DatabaseFetcher()
+    def __init__(self, db):
+        self.db = db
 
     def _get_user_data_by_id(self, user_id):
         query = "SELECT * FROM User WHERE id=?"

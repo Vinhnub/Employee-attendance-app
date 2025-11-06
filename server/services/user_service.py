@@ -1,11 +1,10 @@
 from server.models.user import User
-from server.database.access_database import DatabaseFetcher
 from server.utils.hashing import *
 from server.services.base_service import BaseService
 
 class UserService(BaseService):
-    def __init__(self):
-        self.db = DatabaseFetcher()
+    def __init__(self, db):
+        self.db = db
         
     def me(self, user_id):
         result = self._get_user_data_by_id(user_id)
@@ -56,7 +55,6 @@ class UserService(BaseService):
     def delete_user(self, user_id, target_id):
         if not self._check_username_exist_by_id(target_id):
             return False
-        
         query = "DELETE FROM User WHERE id=?"
         self.db.execute(query, (target_id,))
         return True

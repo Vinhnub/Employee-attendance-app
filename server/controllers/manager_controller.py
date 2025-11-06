@@ -3,10 +3,10 @@ from server.services.user_service import UserService
 from server.services.log_service import LogService
 
 class ManagerController:
-    def __init__(self):
-        self.shift_service = ShiftService()
-        self.user_service = UserService()
-        self.log_service = LogService()
+    def __init__(self, db):
+        self.shift_service = ShiftService(db)
+        self.user_service = UserService(db)
+        self.log_service = LogService(db)
 
     def create_account(self, user_id, user_role, username, password, fullname, role, server):
         if user_role != "manager":

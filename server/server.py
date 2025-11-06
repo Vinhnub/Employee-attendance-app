@@ -11,12 +11,12 @@ import time
 from datetime import datetime, date
 
 class Server:
-    def __init__(self):
+    def __init__(self, db):
         self.sheet = GGSheet()
-        self.auth_controller = AuthController()
-        self.emp_controller = EmployeeController()
-        self.manager_controller = ManagerController()
-        self.__db = DatabaseFetcher()
+        self.auth_controller = AuthController(db)
+        self.emp_controller = EmployeeController(db)
+        self.manager_controller = ManagerController(db)
+        self.__db = db
         self.__cache = {"staff_on_working" : {}, "last_update" : 0, "token_banned" : {}}
         self.__shift_today = []
         self.__last_index = 0
