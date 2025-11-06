@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react";
 import * as employeeService from "../Service/Employee";
+import { ShiftsTable } from "../Component/ShiftsTable";
 
 export default function WorkPage() {
   const [shifts, setShifts] = useState([]);
@@ -10,7 +11,7 @@ export default function WorkPage() {
     const fetchShifts = async () => {
       try {
         const response = await employeeService.shifts();
-        if (response.data.data && Array.isArray(response.data.data)) {
+        if (response.data.message == "success") {
           setShifts(response.data.data);
         } else {
           setShifts([]);
@@ -35,47 +36,7 @@ export default function WorkPage() {
   return (
     <div style={{ padding: 20 }}>
       <h2>Work Shifts</h2>
-      <ShiftsTable shifts={shifts} extra={(shift) => (
-        <tr>
-          <td colSpan={3}>expaned</td>
-        </tr>
-      )} />
+      <ShiftsTable shifts={shifts} />
     </div>
-  );
-}
-
-export function ShiftsTable({ shifts, func, extra }) {
-
-  return (
-    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-      <thead>
-        <tr>
-          <th>Start Time</th>
-          <th>End Time</th>
-          <th>Note</th>
-        </tr>
-      </thead>
-      <tbody>
-        {shifts.length > 0 ? (
-          shifts.map((shift) => (
-            <React.Fragment key={shift.id}>
-              <tr
-                style={{ color: `${shift.is_working ? '#ff0000' : '#00ff00'}` }}
-                onClick={() => { func && func({ ...shift }) }}
-              >
-                <td style={{ border: '5px solid pink', padding: '1rem' }}>{shift.start_time || 'N/A'}</td>
-                <td style={{ border: '5px solid pink', padding: '1rem' }}>{shift.end_time || 'N/A'}</td>
-                <td style={{ border: '5px solid pink', padding: '1rem' }}>{shift.note || ''}</td>
-              </tr>
-              {extra && extra(shift)}
-            </React.Fragment>
-          ))
-        ) : (
-          <tr>
-            <td colSpan="3">No shifts found</td>
-          </tr>
-        )}
-      </tbody>
-    </table>
   );
 }
