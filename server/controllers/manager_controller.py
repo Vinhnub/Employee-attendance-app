@@ -136,7 +136,7 @@ class ManagerController:
         }
     
     def get_all_shifts_today(self, user_id, role, server): # get list of shifts today
-        result = self.shift_service.get_all_shifts_today(user_id, server)
+        result = self.shift_service.get_all_shifts_today(user_id)
 
         if result:
             return {
@@ -190,7 +190,7 @@ class ManagerController:
             return {
                 "status": "success",
                 "message": "Chỉnh sửa thành công",
-                "time_delta" : result
+                "time_delta" : result["time_delta"]
             }
         return {
             "status": "fail",

@@ -35,6 +35,13 @@ async def auth_middleware(request: Request, call_next, server_instance=get_serve
         expire_time = datetime.fromtimestamp(payload.get("exp"), tz=timezone.utc)
         request.state.expire = expire_time.strftime("%Y-%m-%d %H:%M:%S")
 
+        now = datetime.now(timezone.utc)
+        if expire_time < now:
+            return JSONResponse(
+                status_code=401,
+                content={"detail": "Token has expired"}
+            )
+
     except Exception as e:
         return JSONResponse(
             status_code=401,

@@ -2,7 +2,6 @@ from server.services.gsheet_service import *
 from server.controllers.auth_controller import AuthController
 from server.controllers.employee_controller import EmployeeController
 from server.controllers.manager_controller import ManagerController
-from server.database.access_database import DatabaseFetcher
 from server.models.shift import Shift
 from server.utils.config import *
 
@@ -141,14 +140,17 @@ class Server:
     def automatic_end_working(self):
         while True:
             if time.time() - self.__cache["last_update"] > TIME_REFRESH:
-                self.fetch_staff_on_working()
-                self.__cache["last_update"] = time.time()
-                self.sheet.update_shift_today(self.__shift_today)
-                self._check_token_expired()
-                if self._is_new_month():
-                    list_staff = self.manager_controller.get_staffs()
-                    self.sheet.save_data_per_month()
-                    self.sheet.draw_new_month(list_staff)
+                try:
+                    self.fetch_staff_on_working()
+                    self.__cache["last_update"] = time.time()
+                    self.sheet.update_shift_today(self.__shift_today)
+                    self._check_token_expired()
+                    if self._is_new_month():
+                        list_staff = self.manager_controller.get_staffs()
+                        self.sheet.save_data_per_month()
+                        self.sheet.draw_new_month(list_staff)
+                except Exception as e:
+                    print(e)
 
 
 

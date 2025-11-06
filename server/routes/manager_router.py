@@ -127,9 +127,9 @@ def edit_shift_by_manager(
         role = request.state.role
         target_id = int(target_id)
         shift_id = int(shift_id)
-        result = server_instance.manager_controller.edit_shift(user_id, role, target_id, shift_id, data.new_start_time, data.new_note, server_instance.get_staff_on_working())
+        result = server_instance.manager_controller.edit_shift(user_id, role, int(target_id), shift_id, data.new_start_time, data.new_note, server_instance.get_staff_on_working())
         if result["status"] == "success":
-            background_tasks.add_task(server_instance.emp_controller.update_data, target_id, server_instance, result["time_delta"])
+            background_tasks.add_task(server_instance.manager_controller.refresh_sheet, user_id, role, server_instance)
         return result
 
     except Exception as e:
@@ -201,9 +201,9 @@ def refresh_sheet(
     request: Request,
     server_instance=Depends(get_server)
 ):
-    # try:
-    user_id = request.state.user_id
-    role = request.state.role
-    return server_instance.manager_controller.refresh_sheet(user_id, role, server_instance)
-    # except Exception as e:
-    #     raise HTTPException(status_code=400, detail=str(e))
+    try:
+        user_id = request.state.user_id
+        role = request.state.role
+        return server_instance.manager_controller.refresh_sheet(user_id, role, server_instance)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
