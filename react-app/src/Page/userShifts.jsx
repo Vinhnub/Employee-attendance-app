@@ -4,13 +4,13 @@ import { ShiftsTable } from "./WorkPage";
 import * as managementService from "../Service/Management";
 
 export default function UserShifts() {
-
   const { id } = useParams();
   const navigate = useNavigate();
   const [user, setUser] = useState();
   const [shifts, setShifts] = useState([]);
   const [popup, setPopup] = useState("");
   const [showShifts, setShowShifts] = useState(false);
+  const [expanedShift, setExpanedShift] = useState(null);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -40,12 +40,19 @@ export default function UserShifts() {
 
   return (
     <div>
-      <ShiftsTable shifts={shifts} extra={(shift) => (
-        <tr>
-          <td colSpan={3}>expaned</td>
-        </tr>
-      )} />
-      <button onClick={() => handleDelete()}>delete</button>
+      <ShiftsTable
+        shifts={shifts}
+        extra={(shift) =>
+          (expanedShift === shift.id) && (
+            <tr>
+              <td colSpan={3}>expaned</td>
+            </tr>
+          )
+        }
+        onRowClick={(shift) =>
+          setExpanedShift(shift.id == expanedShift ? null : shift.id)
+        }
+      />
     </div>
   );
 }

@@ -11,6 +11,7 @@ import OverTime from './Page/OverTime'
 import Register from './Page/Register'
 import UserList from './Page/UserList'
 import User from './Page/User'
+import UserShifts from './Page/userShifts'
 
 export default function App() {
 
@@ -27,6 +28,7 @@ export default function App() {
         <Route path="/register" element={<Register/>} />
         <Route path="/userlist" element={<UserList/>} />
         <Route path="/user/:id" element={<User/>} />
+      <Route path="/usershifts/:id" element={<UserShifts/>} />
       </Routes>
     </BrowserRouter>
   )
