@@ -44,7 +44,7 @@ class DatabaseFetcher:
 
     def _convert_query(self, query):
         if query == "SELECT * FROM Shift WHERE user_id=? AND strftime('%Y-%m-%d', start_time) = strftime('%Y-%m-%d', 'now')":
-            return """SELECT * FROM "Shift" WHERE TO_CHAR(start_time::timestamp, 'YYYY-MM') = TO_CHAR(NOW(), 'YYYY-MM') AND user_id = %s"""
+            return """SELECT * FROM "Shift" WHERE TO_CHAR(start_time::timestamp, 'YYYY-MM-DD') = TO_CHAR(NOW(), 'YYYY-MM-DD') AND user_id = %s"""
 
         if query == "SELECT * FROM Shift WHERE strftime('%Y-%m', start_time) = strftime('%Y-%m', 'now') AND user_id=?":
             return """SELECT * FROM "Shift" WHERE TO_CHAR(start_time::timestamp, 'YYYY-MM') = TO_CHAR(NOW(), 'YYYY-MM') AND user_id = %s;"""
