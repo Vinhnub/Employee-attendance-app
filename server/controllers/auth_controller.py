@@ -34,7 +34,7 @@ class AuthController:
         if not result:
             return {
                 "status": "fail",
-                "message": "Wrong username or password"
+                "message": "Sai tài khoản hoặc mật khẩu"
             }
 
         user_data = result.to_dict()
@@ -51,10 +51,18 @@ class AuthController:
         self.log_service.write_log("Login", user_data["id"])
         return {
             "status": "success",
-            "message": "Login Successful",
+            "message": "Đăng nhập thành công",
             "data": user_data,
             "current_shift": current_shift,
             "access_token": access_token
+        }
+
+    def logout(self, user_id, role, token, expire, server_instance):
+        token_banned = server_instance.get_token_banned()
+        token_banned[token] = expire
+        return {
+            "status": "success",
+            "message": "Đăng xuất thành công"
         }
 
     def change_password(self, user_id, old_password, new_password):
@@ -64,10 +72,10 @@ class AuthController:
             self.log_service.write_log("Change password", user_id)
             return {
                 "status": "success",
-                "message": "Change password successful"
+                "message": "Đổi mật khẩu thành công"
             }
         else:
             return {
                 "status": "fail",
-                "message": "Wrong password"
+                "message": "Sai mật khẩu cũ"
             }

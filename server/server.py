@@ -17,12 +17,12 @@ class Server:
         self.emp_controller = EmployeeController()
         self.manager_controller = ManagerController()
         self.__db = DatabaseFetcher()
-        self.__cache = {"staff_on_working" : {}, "last_update" : 0}
+        self.__cache = {"staff_on_working" : {}, "last_update" : 0, "token_banned" : {}}
         self.__shift_today = []
         self.__last_index = 0
         self.__staff_index = {}
         self._load_current_month()
-        self.set_staff_index(self.manager_controller.get_staffs())
+        self._set_staff_index(self.manager_controller.get_staffs())
         threading.Thread(target=self.automatic_end_working, daemon=True).start()
 
     def get_shift_today(self):
@@ -30,6 +30,9 @@ class Server:
     
     def get_staff_on_working(self):
         return self.__cache["staff_on_working"]
+
+    def get_token_banned(self):
+        return self.__cache["token_banned"]
 
     def _load_current_month(self):
         path = "server/database/current_month.txt"
@@ -51,6 +54,19 @@ class Server:
         else:
             self.__cur_month = today.month
             return False
+
+    def _check_token_expired(self):
+        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        for token, expire in self.__cache["token_banned"].items():
+            if expire < now:
+                del self.__cache["token_banned"][token]
+
+    def _set_staff_index(self, list_staffs):
+        index = 2
+        for staff in list_staffs:
+            self.__staff_index[staff["id"]] = index
+            index += 1
+        self.__last_index = index
 
     def fetch_staff_on_working(self): # to get staff is working and get shift on today
         self.__shift_today = []
@@ -84,11 +100,33 @@ class Server:
         self.__cache["staff_on_working"][shift["user_id"]] = {"start_time" : start_time.strftime("%H:%M:%S"), "end_time" : end_time.strftime("%H:%M:%S")}
         self.sheet.append_shift_today(shift)
 
-    def update_shift_of(self, user_id, list_shifts):
+    def update_shift_today_of(self, user_id, list_shifts):
         row = self.__staff_index[user_id]
         now =  date.today()
         column = now.day + 1
         self.sheet.append_shift_current_month(list_shifts, row, column)
+
+    def refresh_sheet(self, all_shifts_current_month):
+        self.sheet.draw_new_month(self.manager_controller.get_staffs())
+        prev_day = 0
+        prev_user_id = 0
+        list_shifts = [] # list shift to combine shift per user by day and update each day to current month
+        for shift in all_shifts_current_month:
+            shift_day = datetime.strptime(shift["start_time"], "%Y-%m-%d %H:%M:%S").day
+            if shift_day != prev_day or prev_user_id != shift["user_id"]:
+                if prev_day != 0 or prev_user_id != 0:
+                    row = self.__staff_index[list_shifts[-1]["user_id"]]
+                    column = prev_day + 1
+                    self.sheet.append_shift_current_month(list_shifts, row, column)
+                prev_day = shift_day
+                prev_user_id = shift["user_id"]
+                list_shifts = [shift]
+            else:
+                list_shifts.append(shift)
+        if len(list_shifts) > 0:
+            row = self.__staff_index[list_shifts[-1]["user_id"]]
+            column = prev_day + 1
+            self.sheet.append_shift_current_month(list_shifts, row, column)
 
     def update_total_hour_of(self, user_id, time_delta):
         row = self.__staff_index[user_id]
@@ -99,12 +137,6 @@ class Server:
         self.__last_index += 1
         self.sheet.append_staff(staff)
 
-    def set_staff_index(self, list_staffs):
-        index = 2
-        for staff in list_staffs:
-            self.__staff_index[staff["id"]] = index
-            index += 1
-        self.__last_index = index
 
     def automatic_end_working(self):
         while True:
@@ -112,6 +144,7 @@ class Server:
                 self.fetch_staff_on_working()
                 self.__cache["last_update"] = time.time()
                 self.sheet.update_shift_today(self.__shift_today)
+                self._check_token_expired()
                 if self._is_new_month():
                     list_staff = self.manager_controller.get_staffs()
                     self.sheet.save_data_per_month()

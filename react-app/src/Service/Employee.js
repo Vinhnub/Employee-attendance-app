@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: `http://${IP_NETWORK}:${PORT}/employee`,
+  baseURL: `${IP_NETWORK}/employee`,
   withCredentials: true
 });
 

@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import * as employeeService from "../Service/Employee";
+import * as authService from "../Service/Auth";
 
 export default function CheckIn() {
+  const [popup,setPopup] = useState();
+  const [note, setNote] = useState("");
   const [endtime, setEndtime] = useState(() => {
     const now = (new Date());
     now.setTime(now.getTime() + 7 * 60 * 60 * 1000);
-    return now.toISOString().slice(0, 19);
+    return now.toISOString().slice(11, 19);
   });
-  const [note, setNote] = useState("");
   function convert(date) {
-    const nDate = date.replace(`T`, ` `);
+    const nDate = (new Date()).toISOString().slice(0,10)+" "+date;
+    console.log(nDate);
     return nDate;
   }
   const shiftInfo = {
@@ -21,16 +24,18 @@ export default function CheckIn() {
     try {
       const response = await employeeService.start_shift(shiftInfo);
       if (response.data.status == "success") {
-        alert("Check in successfully");
+        setPopup(<h4 style={{color:"green"}}>{response.data.message}</h4>)
       } else {
-        alert(JSON.stringify(response.data));
+        console.log(JSON.stringify(response.data));
+        setPopup(<h4 style={{color:"red"}}>{response.data.message}</h4>)
       }
     } catch (error) {
-      alert("Error: " + error.message);
+      console.error("Error: " + error.message);
     }
   }
   return (
     < div style={{ padding: 20 }}>
+      {popup}
       <h2>Check In</h2>
       <form onSubmit={handleCheckIn}>
         <input
@@ -39,7 +44,7 @@ export default function CheckIn() {
           onChange={(e) => setNote(e.target.value)}
         /><br /><br />
         <input
-          type="datetime-local"
+          type="time"
           value={endtime}
           onChange={(e) => setEndtime(e.target.value)}
         /><br /><br />
