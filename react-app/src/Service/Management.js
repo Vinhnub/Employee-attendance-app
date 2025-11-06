@@ -54,8 +54,8 @@ export function endShifts(id) {
   return API.put(`/shifts/${id}/end_shift`);
 }
 
-export function getLogs(year, month, day) {
-  return API.get(`/logs/${year}/${month}/${day}`);
+export function getLogs(date) {
+  return API.get(`/logs/${date}`);
 }
 
 export function refreshSheet() {

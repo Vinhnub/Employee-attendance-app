@@ -5,7 +5,7 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
-  const [error, setError] = useState("");
+  const [noti, setNoti] = useState(null);
 
   const loginInfo = {
     username: username,
@@ -15,6 +15,7 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
+      setNoti(<p style={{color:"black"}}>Loading...</p>)
       const response = await authService.login(loginInfo);
       if (response.data.status == "success") {
         sessionStorage.setItem("token",response.data.access_token);
@@ -22,11 +23,11 @@ export default function Login() {
       }
       else {
         console.error(JSON.stringify(response));
-        setError("Invalid username or password");
+        setNoti(<p style={{color:"red"}}>{response.data.message}</p>);
       }
     } catch (err) {
       console.error("Login failed:", err);
-      setError("Invalid username or password");
+      setNoti(<p style={{color:"red"}}>{response.data.message}</p>);
     }
   };
 
@@ -52,7 +53,7 @@ export default function Login() {
         /><br /><br />
         <button type="submit">Login</button>
       </form>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {noti}
     </div>
   );
 }
