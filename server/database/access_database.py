@@ -45,7 +45,7 @@ class DatabaseFetcher:
     def _convert_query(self, query):
         table = ["UserLog", "User", "Shift"]
         query = query.replace('"', "'")
-        query = query.replace("?", "%s")
+        query = query.replace('?', "%s")
         for table_name in table:
             if table_name == "User":
                 start = 0
@@ -68,6 +68,7 @@ class DatabaseFetcher:
         cursor = conn.cursor()
         # convert query to use postgred cloud db
         query = self._convert_query(query)
+        print(query)
         try:
             if params:
                 cursor.execute(query, params)

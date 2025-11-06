@@ -87,7 +87,8 @@ class EmployeeController:
             return {
                 "status": "success",
                 "message": "Successfully",
-                "data" : result}
+                "data" : result
+            }
         return {
             "status": "fail",
             "message": "Do not have any shift"
