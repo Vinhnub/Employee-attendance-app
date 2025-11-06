@@ -50,10 +50,10 @@ class DatabaseFetcher:
             return """SELECT * FROM "Shift" WHERE TO_CHAR(start_time::timestamp, 'YYYY-MM') = TO_CHAR(NOW(), 'YYYY-MM') AND user_id = %s;"""
 
         if query == """SELECT UL.id, content, date_time, U.id, U.fullname  FROM UserLog UL INNER JOIN User U ON UL.user_id = U.id
-                    WHERE strftime('%Y', datetime(date_time)) = ?
-                    AND strftime('%m', datetime(date_time)) = ?
-                    AND strftime('%d', datetime(date_time)) = ?
-                    """:
+        WHERE strftime('%Y', datetime(date_time)) = ?
+        AND strftime('%m', datetime(date_time)) = ?
+        AND strftime('%d', datetime(date_time)) = ?
+        """:
             return """SELECT UL.id, content, date_time, U.id, U.fullname
             FROM "UserLog" UL
             INNER JOIN "User" U ON UL.user_id = U.id
@@ -62,11 +62,7 @@ class DatabaseFetcher:
             AND EXTRACT(DAY FROM date_time) = %s;
             """
 
-        if query == """SELECT *
-        FROM Shift
-        WHERE strftime('%Y-%m', start_time) = strftime('%Y-%m', 'now')
-        ORDER BY user_id
-        """:
+        if query == """SELECT * FROM Shift WHERE strftime('%Y-%m', start_time) = strftime('%Y-%m', 'now') ORDER BY user_id""":
             return """SELECT *
             FROM "Shift"
             WHERE TO_CHAR(start_time::timestamp, 'YYYY-MM') = TO_CHAR(NOW(), 'YYYY-MM')

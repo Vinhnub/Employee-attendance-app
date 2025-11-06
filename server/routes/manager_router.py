@@ -201,9 +201,9 @@ def refresh_sheet(
     request: Request,
     server_instance=Depends(get_server)
 ):
-    try:
-        user_id = request.state.user_id
-        role = request.state.role
-        return server_instance.manager_controller.refresh_sheet(user_id, role, server_instance)
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    # try:
+    user_id = request.state.user_id
+    role = request.state.role
+    return server_instance.manager_controller.refresh_sheet(user_id, role, server_instance)
+    # except Exception as e:
+    #     raise HTTPException(status_code=400, detail=str(e))
