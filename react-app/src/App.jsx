@@ -12,6 +12,7 @@ import Register from './Page/Register'
 import UserList from './Page/UserList'
 import User from './Page/User'
 import UserShifts from './Page/userShifts'
+import TodayShifts from './Page/TodayShifts'
 
 export default function App() {
 
@@ -23,12 +24,13 @@ export default function App() {
         <Route path="/checkin" element={<CheckIn />} />
         <Route path="/change_password" element={<ChangePassword />} />
         <Route path="/workpage" element={<WorkPage />} />
-        <Route path="/checkout" element={<CheckOut/>} />
-        <Route path="/overtime" element={<OverTime/>} />
-        <Route path="/register" element={<Register/>} />
-        <Route path="/userlist" element={<UserList/>} />
-        <Route path="/user/:id" element={<User/>} />
-      <Route path="/usershifts/:id" element={<UserShifts/>} />
+        <Route path="/checkout" element={<CheckOut />} />
+        <Route path="/overtime" element={<OverTime />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/userlist" element={<UserList />} />
+        <Route path="/user/:id" element={<User />} />
+        <Route path="/usershifts/:id" element={<UserShifts />} />
+        <Route path="/today" element={<TodayShifts />} />
       </Routes>
     </BrowserRouter>
   )

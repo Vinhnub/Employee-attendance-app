@@ -1,4 +1,5 @@
-import React from "react";
+import React ,{useState} from "react";
+import * as managementService from "../Service/Management";
 
 export function ShiftsTable({ shifts, func, extra }) {
 
@@ -25,13 +26,62 @@ export function ShiftsTable({ shifts, func, extra }) {
               </tr>
               {extra && extra(shift)}
             </React.Fragment>
-          ))
-        ) : (
+          ))) : (
           <tr>
             <td colSpan="3">No shifts found</td>
           </tr>
         )}
       </tbody>
     </table>
+  );
+}
+
+export function UpdateShift({shift,id,expandShift,setPopup = () => {}}) {
+  const [startTime, setStartTime] = useState(shift.start_time ? String(shift.start_time).slice(11, 19) : "");
+  const [endTime, setEndTime] = useState(shift.end_time ? String(shift.end_time).slice(11, 19) : "");
+  const [note, setNote] = useState(shift.note || "");
+  const handleChange = async (shift) => {
+    const editShift = {
+      new_start_time: String(shift.start_time).slice(0, 10) + " " + startTime,
+      new_note: note
+    };
+    try {
+      const response = await managementService.editShifts(id, shift.id, editShift);
+      if (response.data.status == "success") {
+        setPopup(<h4 style={{ color: "green" }}>{response.data.message}</h4>);
+        expandShift(shift);
+        shift.start_time = editShift.new_start_time;
+        shift.note = editShift.new_note;
+      } else {
+        setPopup(<h4 style={{ color: "red" }}>{response.data.message}</h4>);
+      }
+    } catch (err) {
+      console.error(err);
+      setPopup(<h4 style={{ color: "red" }}>{err.message}</h4>);
+    }
+    setTimeout(() => setPopup(null), 5000);
+  }
+  return (
+    <div>
+      <form onSubmit={(e) => { e.preventDefault(); handleChange(shift) }}>
+        <input
+          type="time"
+          value={startTime}
+          onChange={(e) => setStartTime(e.target.value)}
+        />
+        <input
+          disabled
+          type="time"
+          value={endTime}
+          onChange={(e) => setEndTime(e.target.value)}
+        />
+        <input
+          type="text"
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+        />
+        <button type="submit">update</button>
+      </form>
+    </div>
   );
 }
