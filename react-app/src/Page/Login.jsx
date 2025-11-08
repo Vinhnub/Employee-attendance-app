@@ -16,19 +16,20 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      popup(<p style={{color:"black"}}>Loading...</p>)
+      const loading = popup(`Loading...`, 'center-box');
       const response = await authService.login(loginInfo);
+      loading();
       if (response.data.status == "success") {
-        sessionStorage.setItem("token",response.data.access_token);
+        sessionStorage.setItem("token", response.data.access_token);
         setLoggedIn(true);
       }
       else {
         console.error(JSON.stringify(response));
-        popup(<p style={{color:"red"}}>{response.data.message}</p>);
+        popup(<p style={{ color: "red" }}>{response.data.message}</p>);
       }
     } catch (err) {
       console.error("Login failed:", err);
-      popup(<p style={{color:"red"}}>{response.data.message}</p>);
+      popup(<p style={{ color: "red" }}>{response.data.message}</p>);
     }
   };
 

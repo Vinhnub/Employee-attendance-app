@@ -1,15 +1,61 @@
-.popup-page {
-  position: fixed;
-  top: 20px; /* distance from top */
-  right: 20px; /* distance from right */
-  left: 20px; /* distance from left */
-  display: flex;
-  flex-direction: column; /* stack popups vertically */
-  gap: 10px; /* space between popups */
-  z-index: 9999; /* always on top */
+/* Light mode (default) */
+:root {
+  --popup-bg: white;
+  --popup-text: black;
+  --popup-border: black;
+  --overlay-bg: rgba(0,0,0,0.4);
 }
 
-.popup-box {
-  border: 1px solid black;
+/* Dark mode (follows system / Chrome dark mode) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --popup-bg: #1e1e1e;
+    --popup-text: #f0f0f0;
+    --popup-border: #888;
+    --overlay-bg: rgba(0,0,0,0.7);
+  }
+}
+
+/* Top Box Popups */
+.top-box-page {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 9999;
+}
+
+.top-box {
+  background-color: var(--popup-bg);
+  color: var(--popup-text);
+  border: 1px solid var(--popup-border);
   border-radius: 10px;
+  padding: 1rem;
+}
+
+/* Center Box Popups */
+.center-box-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--overlay-bg);
+  z-index: 9999;
+}
+
+.center-box {
+  background-color: var(--popup-bg);
+  color: var(--popup-text);
+  padding: 2rem;
+  border-radius: 10px;
+  min-width: 300px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  border: 1px solid var(--popup-border);
 }
