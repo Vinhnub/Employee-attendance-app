@@ -1,11 +1,10 @@
 from server.models.log import Log
-from server.database.access_database import DatabaseFetcher
 from datetime import datetime
 from server.services.base_service import BaseService
 
 class LogService(BaseService):
-    def __init__(self):
-        self.db = DatabaseFetcher()
+    def __init__(self, db):
+        self.db = db
 
     def write_log(self, content, user_id):
         now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
