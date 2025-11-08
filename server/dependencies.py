@@ -1,7 +1,13 @@
-from server.server import Server 
+from server.database.access_database import DatabaseFetcher
+from server.server import Server
 
-server_instance = Server()
+server = None
 
-# Dependency để inject vào route
 def get_server():
-    return server_instance
+    global server
+
+    if server is None:
+        DatabaseFetcher.init()
+        server = Server(DatabaseFetcher())
+
+    return server

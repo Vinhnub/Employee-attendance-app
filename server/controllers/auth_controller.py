@@ -3,9 +3,9 @@ from server.services.log_service import LogService
 from server.utils.jwt_handler import create_access_token
 
 class AuthController:
-    def __init__(self):
-        self.user_service = UserService()
-        self.log_service = LogService()
+    def __init__(self, db):
+        self.user_service = UserService(db)
+        self.log_service = LogService(db)
 
     def me(self, user_id, server):
         user = self.user_service.me(user_id)

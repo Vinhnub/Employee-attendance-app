@@ -2,7 +2,6 @@ from server.services.gsheet_service import *
 from server.controllers.auth_controller import AuthController
 from server.controllers.employee_controller import EmployeeController
 from server.controllers.manager_controller import ManagerController
-from server.database.access_database import DatabaseFetcher
 from server.models.shift import Shift
 from server.utils.config import *
 
@@ -11,12 +10,12 @@ import time
 from datetime import datetime, date
 
 class Server:
-    def __init__(self):
+    def __init__(self, db):
         self.sheet = GGSheet()
-        self.auth_controller = AuthController()
-        self.emp_controller = EmployeeController()
-        self.manager_controller = ManagerController()
-        self.__db = DatabaseFetcher()
+        self.auth_controller = AuthController(db)
+        self.emp_controller = EmployeeController(db)
+        self.manager_controller = ManagerController(db)
+        self.__db = db
         self.__cache = {"staff_on_working" : {}, "last_update" : 0, "token_banned" : {}}
         self.__shift_today = []
         self.__last_index = 0
@@ -141,14 +140,17 @@ class Server:
     def automatic_end_working(self):
         while True:
             if time.time() - self.__cache["last_update"] > TIME_REFRESH:
-                self.fetch_staff_on_working()
-                self.__cache["last_update"] = time.time()
-                self.sheet.update_shift_today(self.__shift_today)
-                self._check_token_expired()
-                if self._is_new_month():
-                    list_staff = self.manager_controller.get_staffs()
-                    self.sheet.save_data_per_month()
-                    self.sheet.draw_new_month(list_staff)
+                try:
+                    self.fetch_staff_on_working()
+                    self.__cache["last_update"] = time.time()
+                    self.sheet.update_shift_today(self.__shift_today)
+                    self._check_token_expired()
+                    if self._is_new_month():
+                        list_staff = self.manager_controller.get_staffs()
+                        self.sheet.save_data_per_month()
+                        self.sheet.draw_new_month(list_staff)
+                except Exception as e:
+                    print(e)
 
 
 

@@ -1,12 +1,11 @@
 from server.models.shift import Shift
-from server.database.access_database import DatabaseFetcher
 from datetime import datetime
 from server.services.base_service import BaseService
 
 #### Time format: Y-M-D H:M:S
 class ShiftService(BaseService):
-    def __init__(self):
-        self.db = DatabaseFetcher()
+    def __init__(self, db):
+        self.db = db
 
     def start_shift(self, user_id, end_time, note, staff_on_working):
         user = self._get_user_data_by_id(user_id)
@@ -80,7 +79,7 @@ class ShiftService(BaseService):
         time_delta = (datetime.strptime(o_shift.start_time, "%Y-%m-%d %H:%M:%S") - datetime.strptime(new_start_time,"%Y-%m-%d %H:%M:%S")).total_seconds() / 3600
         query = "UPDATE Shift SET start_time=?, note=? WHERE id=?"
         self.db.execute(query, (new_start_time, new_note, shift_id))
-        return time_delta
+        return {"time_delta" : time_delta}
 
     def get_shifts_of(self, user_id): # get all shifts of month of user_id
         now = datetime.now()
@@ -88,8 +87,18 @@ class ShiftService(BaseService):
         shifts = self.db.execute(query, (user_id,), fetchall=True)
         return [Shift(shift[1], shift[2], shift[3], shift_id=shift[0], is_working=(now < datetime.strptime(shift[2], "%Y-%m-%d %H:%M:%S"))).to_dict() for shift in shifts]
     
-    def get_all_shifts_today(self, user_id, server): #get all shifts of to day of all staff
-        shifts_data = server.get_shift_today()
+    def get_all_shifts_today(self, user_id): #get all shifts of to day of all staff
+        today = datetime.now().strftime("%Y-%m-%d")
+        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        query = """
+        SELECT U.id, U.fullname, S.start_time, S.end_time, S.note, S.id
+        FROM Shift S
+        JOIN User U ON S.user_id = U.id
+        WHERE DATE(S.start_time) = ?
+        ORDER BY S.start_time
+        """
+        shifts = self.db.execute(query, (today, ), fetchall=True)
+        shifts_data = [Shift(shift[2], shift[3], shift[4], shift_id=shift[5], user_id=shift[0], fullname=shift[1], is_working=(now < shift[3])).to_dict() for shift in shifts]
         return shifts_data
     
     def get_shift_today_of(self, user_id): #get shift of user_id on today and only for server
@@ -98,7 +107,7 @@ class ShiftService(BaseService):
         return [Shift(shift[1], shift[2], shift[3], shift_id=shift[0], user_id=shift[4]).to_dict() for shift in shifts]
 
     def get_all_shifts_current_month(self):
-        query = """SELECT * FROM Shift WHERE strftime('%Y-%m', start_time) = strftime('%Y-%m', 'now') ORDER BY user_id"""
+        query = """SELECT S.id, S.start_time, S.end_time, S.note, S.user_id FROM Shift S INNER JOIN User U ON S.user_id = U.id WHERE strftime('%Y-%m', start_time) = strftime('%Y-%m', 'now') ORDER BY user_id"""
         shifts = self.db.execute(query, fetchall=True)
         return [Shift(shift[1], shift[2], shift[3], shift_id=shift[0], user_id=shift[4]).to_dict() for shift in shifts]
 

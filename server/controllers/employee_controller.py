@@ -3,9 +3,9 @@ from server.services.log_service import LogService
 from datetime import datetime
 
 class EmployeeController:
-    def __init__(self):
-        self.shift_service = ShiftService()
-        self.log_service = LogService() 
+    def __init__(self, db):
+        self.shift_service = ShiftService(db)
+        self.log_service = LogService(db)
 
     def update_data(self, user_id, server, time_delta):
         data = self.shift_service.get_shift_today_of(user_id)

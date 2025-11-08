@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
-
+from contextlib import asynccontextmanager
+from server.database.access_database import DatabaseFetcher
 from server.routes.auth_router import auth_router 
 from server.routes.manager_router import manager_router
 from server.routes.employee_router import employee_router
@@ -17,7 +18,15 @@ PORT_TCP = os.getenv("PORT_TCP")
 
 
 # ---------------------- Config FastAPI ----------------------
-app = FastAPI(title="Attendance API Server", version="1.0")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+
+    yield
+
+    # Shutdown
+    DatabaseFetcher.close()
+
+app = FastAPI(lifespan=lifespan)
 app.include_router(auth_router)
 app.include_router(manager_router)
 app.include_router(employee_router)
