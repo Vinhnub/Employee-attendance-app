@@ -10,6 +10,7 @@ import OverTime from './Page/OverTime'
 import Register from './Page/Register'
 import UserList from './Page/UserList'
 import LogsPage from './Page/LogsPage'
+import UserLogs from './Page/UserLogs'
 import UserShifts from './Page/userShifts'
 import TodayShifts from './Page/TodayShifts'
 import ChangePassword from './Page/ChangePassword'
@@ -30,7 +31,8 @@ export default function App() {
         <Route path="/userlist" element={<UserList />} />
         <Route path="/today" element={<TodayShifts />} />
         <Route path="/logs/:date" element={<LogsPage />} />
-        <Route path="/usershifts/:id" element={<UserShifts />} />
+        <Route path="/user/:id/Logs" element={<UserLogs />} />
+        <Route path="/user/:id/shifts" element={<UserShifts />} />
         <Route path="/change_password" element={<ChangePassword />} />
       </Routes>
     </BrowserRouter>
