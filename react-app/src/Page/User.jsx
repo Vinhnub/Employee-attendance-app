@@ -121,8 +121,11 @@ export default function User() {
             </form>
           )} <br />
 
-          <button onClick={() => navigate(`/userShifts/${id}`)}>
+          <button onClick={() => navigate(`shifts`)}>
             Show shifts
+          </button> <br/>
+          <button onClick={() => navigate(`logs`)}>
+            Show Logs
           </button> <br/>
           <button onClick={() => handleDelete()}>
             Delete user

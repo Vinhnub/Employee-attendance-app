@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import * as managementService from "../Service/Management";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function LogsPage() {
   const { date } = useParams();
   const [popup, setPopup] = useState();
   const [logs, setLogs] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchLogs = async () => {
       try {
@@ -26,30 +27,37 @@ export default function LogsPage() {
     fetchLogs();
   }, [date])
   return (
-    <table>
+    <div>
       {popup}
-      <thead>
-        <tr>
-          <th>Actor</th>
-          <th>Time</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {logs.length > 0 ? (logs.map((log) => (
-          <React.Fragment key={log.id}>
-            <tr>
-              <td style={{ border: '5px solid pink', padding: '1rem' }}>{log.fullname}</td>
-              <td style={{ border: '5px solid pink', padding: '1rem' }}>{String(log.date_time).slice(11,19)}</td>
-              <td style={{ border: '5px solid pink', padding: '1rem' }}>{log.content}</td>
-            </tr>
-          </React.Fragment>
-        ))) : (
+      <input
+        type="date"
+        value={date}
+        onChange={(e) => navigate(`/Logs/${e.target.value}`)}
+      />
+      <table>
+        <thead>
           <tr>
-            <td colSpan={3}>No log found</td>
+            <th>Actor</th>
+            <th>Time</th>
+            <th>Action</th>
           </tr>
-        )}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {logs.length > 0 ? (logs.map((log) => (
+            <React.Fragment key={log.id}>
+              <tr>
+                <td style={{ border: '5px solid pink', padding: '1rem' }}>{log.fullname}</td>
+                <td style={{ border: '5px solid pink', padding: '1rem' }}>{String(log.date_time).slice(11, 19)}</td>
+                <td style={{ border: '5px solid pink', padding: '1rem' }}>{log.content}</td>
+              </tr>
+            </React.Fragment>
+          ))) : (
+            <tr>
+              <td colSpan={3}>No log found</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
   );
 }
