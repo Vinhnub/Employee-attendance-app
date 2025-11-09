@@ -234,7 +234,7 @@ class ManagerController:
             }
         return {
             "status" : "fail",
-            "message" : "Không có quyền"
+            "message" : "Người dùng không tồn tại"
         }
 
     def refresh_sheet(self, user_id, role, server_instance):
