@@ -1,38 +1,30 @@
 import React, { useState, useEffect, Fragment } from "react";
 import * as employeeService from "../Service/Employee";
 import { ShiftsTable } from "../Component/ShiftsTable";
+import { usePopup } from "../Component/PopUp";
 
 export default function WorkPage() {
   const [shifts, setShifts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
+  const popup = usePopup();
   useEffect(() => {
     const fetchShifts = async () => {
       try {
+        const loading = popup(`Loading...`, "center-box");
         const response = await employeeService.shifts();
-        if (response.data.message == "success") {
+        loading();
+        if (response.data.status == "success") {
           setShifts(response.data.data);
+          popup(<h4 style={{color:"green"}}>{response.data.message}</h4>);
         } else {
           setShifts([]);
+          popup(<h4 style={{color:"red"}}>{response.data.message}</h4>);
         }
       } catch (err) {
-        setError("Failed to load shifts: " + err.message);
-      } finally {
-        setLoading(false);
+        console.error(err);
       }
     };
     fetchShifts();
   }, []);
-
-  if (loading) {
-    return <div>Loading shifts...</div>;
-  }
-
-  if (error) {
-    return <div style={{ color: 'red' }}>{error}</div>;
-  }
-
   return (
     <div style={{ padding: 20 }}>
       <h2>Work Shifts</h2>

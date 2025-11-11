@@ -12,7 +12,6 @@ export default function CheckIn() {
   });
   function convert(date) {
     const nDate = (new Date()).toISOString().slice(0,10)+" "+date;
-    console.log(nDate);
     return nDate;
   }
   const shiftInfo = {

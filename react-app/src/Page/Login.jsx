@@ -5,7 +5,6 @@ import { usePopup } from "../Component/PopUp";
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [loggedIn, setLoggedIn] = useState(false);
   const popup = usePopup();
 
   const loginInfo = {
@@ -21,7 +20,6 @@ export default function Login() {
       loading();
       if (response.data.status == "success") {
         sessionStorage.setItem("token", response.data.access_token);
-        setLoggedIn(true);
       } else {
         console.error(JSON.stringify(response));
         popup(<p style={{ color: "red" }}>{response.data.message}</p>);
@@ -32,9 +30,6 @@ export default function Login() {
     }
   };
 
-  if (loggedIn) {
-    return <h2>Welcome, {username}!</h2>;
-  }
 
   return (
     <div style={{ padding: 20 }}>
