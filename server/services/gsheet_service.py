@@ -109,3 +109,14 @@ class GGSheet:
         else: cell_value = float(cell_value)
         new_value = float(time_delta) + cell_value
         self.ws_cur_month.update_cell(row, last_col, str(round(new_value, 2)))
+
+    def update_current_month(self, sheet_data, num_staff):
+        num_days = len(sheet_data[0])
+
+        start_col = "B"
+        end_col = self.col_num_to_letter(num_days + 1)
+
+        range_str = f"{start_col}2:{end_col}{num_staff + 1}"
+
+        self.ws_cur_month.update(range_str, sheet_data)
+

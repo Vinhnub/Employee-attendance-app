@@ -106,26 +106,34 @@ class Server:
         self.sheet.append_shift_current_month(list_shifts, row, column)
 
     def refresh_sheet(self, all_shifts_current_month):
-        self.sheet.draw_new_month(self.manager_controller.get_staffs())
-        prev_day = 0
-        prev_user_id = 0
-        list_shifts = [] # list shift to combine shift per user by day and update each day to current month
+        staffs = self.manager_controller.get_staffs()
+        self.sheet.draw_new_month(staffs)
+        days = self.sheet.get_days_of_current_month()
+        num_days = len(days)
+
+        sheet_data = [["" for _ in range(num_days)] for _ in staffs]
+        total_hours = [0 for _ in staffs]
+        staff_index = self.__staff_index
+
         for shift in all_shifts_current_month:
-            shift_day = datetime.strptime(shift["start_time"], "%Y-%m-%d %H:%M:%S").day
-            if shift_day != prev_day or prev_user_id != shift["user_id"]:
-                if prev_day != 0 or prev_user_id != 0:
-                    row = self.__staff_index[list_shifts[-1]["user_id"]]
-                    column = prev_day + 1
-                    self.sheet.append_shift_current_month(list_shifts, row, column)
-                prev_day = shift_day
-                prev_user_id = shift["user_id"]
-                list_shifts = [shift]
+            start_dt = datetime.strptime(shift["start_time"], "%Y-%m-%d %H:%M:%S")
+            end_dt = datetime.strptime(shift["end_time"], "%Y-%m-%d %H:%M:%S")
+            row = staff_index[shift["user_id"]] - 2
+            col = start_dt.day - 1
+
+            start = shift["start_time"][11:16]
+            end = shift["end_time"][11:16]
+            note = shift["note"]
+
+            if sheet_data[row][col]:
+                sheet_data[row][col] += "\n" + f"{start}-{end} ({note})"
             else:
-                list_shifts.append(shift)
-        if len(list_shifts) > 0:
-            row = self.__staff_index[list_shifts[-1]["user_id"]]
-            column = prev_day + 1
-            self.sheet.append_shift_current_month(list_shifts, row, column)
+                sheet_data[row][col] = f"{start}-{end} ({note})"
+            total_hours[row] += (end_dt - start_dt).total_seconds() / 3600
+
+        for i in range(len(sheet_data)):
+            sheet_data[i].append(round(total_hours[i], 2))
+        self.sheet.update_current_month(sheet_data, len(staffs))
 
     def update_total_hour_of(self, user_id, time_delta):
         row = self.__staff_index[user_id]
