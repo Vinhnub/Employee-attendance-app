@@ -10,20 +10,19 @@ export default function Login() {
 
   const loginInfo = {
     username: username,
-    password: password
-  }
+    password: password,
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const loading = popup(`Loading...`, 'center-box');
+      const loading = popup(`Loading...`, "center-box");
       const response = await authService.login(loginInfo);
       loading();
       if (response.data.status == "success") {
         sessionStorage.setItem("token", response.data.access_token);
         setLoggedIn(true);
-      }
-      else {
+      } else {
         console.error(JSON.stringify(response));
         popup(<p style={{ color: "red" }}>{response.data.message}</p>);
       }
@@ -46,13 +45,17 @@ export default function Login() {
           value={username}
           placeholder="Username"
           onChange={(e) => setUsername(e.target.value)}
-        /><br /><br />
+        />
+        <br />
+        <br />
         <input
           type="password"
           value={password}
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
-        /><br /><br />
+        />
+        <br />
+        <br />
         <button type="submit">Login</button>
       </form>
     </div>

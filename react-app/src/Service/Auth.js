@@ -24,5 +24,5 @@ export function changePassword(data) {
 }
 
 export function me() {
-  return API.put("/me");
+  return API.get("/me");
 }
