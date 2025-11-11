@@ -7,9 +7,9 @@ class EmployeeController:
         self.shift_service = ShiftService(db)
         self.log_service = LogService(db)
 
-    def update_data(self, user_id, server, time_delta):
-        data = self.shift_service.get_shift_today_of(user_id)
-        server.update_shift_today_of(user_id, data)
+    def update_data(self, user_id, server, time_delta, day=None):
+        data = self.shift_service.get_shift_day_of(user_id, day=day)
+        server.update_shift_day_of(user_id, data, day=day)
         server.update_total_hour_of(user_id, time_delta)
 
     def start_shift(self, user_id, role, end_time, note, server):

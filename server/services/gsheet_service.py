@@ -51,6 +51,7 @@ class GGSheet:
             start_time = datetime.strptime(shift["start_time"], "%Y-%m-%d %H:%M:%S")
             end_time = datetime.strptime(shift["end_time"], "%Y-%m-%d %H:%M:%S")
             values += f"{start_time.strftime("%H:%M")}-{end_time.strftime("%H:%M")}({shift["note"]})\n"
+        values = values.rstrip()
         self.ws_cur_month.update_cell(row, column, values)
 
     def append_staff(self, staff):

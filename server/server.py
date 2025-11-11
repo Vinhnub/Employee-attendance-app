@@ -99,10 +99,14 @@ class Server:
         self.__cache["staff_on_working"][shift["user_id"]] = {"start_time" : start_time.strftime("%H:%M:%S"), "end_time" : end_time.strftime("%H:%M:%S")}
         self.sheet.append_shift_today(shift)
 
-    def update_shift_today_of(self, user_id, list_shifts):
+    def update_shift_day_of(self, user_id, list_shifts, day=None):
         row = self.__staff_index[user_id]
-        now =  date.today()
-        column = now.day + 1
+        if day is None:
+            now =  date.today()
+            column = now.day + 1
+        else:
+            day = datetime.strptime(day, "%Y-%m-%d %H:%M:%S")
+            column = day.day + 1
         self.sheet.append_shift_current_month(list_shifts, row, column)
 
     def refresh_sheet(self, all_shifts_current_month):
@@ -132,7 +136,7 @@ class Server:
             total_hours[row] += (end_dt - start_dt).total_seconds() / 3600
 
         for i in range(len(sheet_data)):
-            sheet_data[i].append(round(total_hours[i], 2))
+            sheet_data[i].append(str(round(total_hours[i], 2)))
         self.sheet.update_current_month(sheet_data, len(staffs))
 
     def update_total_hour_of(self, user_id, time_delta):

@@ -79,7 +79,7 @@ class ShiftService(BaseService):
         time_delta = (datetime.strptime(o_shift.start_time, "%Y-%m-%d %H:%M:%S") - datetime.strptime(new_start_time,"%Y-%m-%d %H:%M:%S")).total_seconds() / 3600
         query = "UPDATE Shift SET start_time=?, note=? WHERE id=?"
         self.db.execute(query, (new_start_time, new_note, shift_id))
-        return {"time_delta" : time_delta}
+        return {"time_delta" : time_delta, "staff_id" : o_shift.user_id}
 
     def get_shifts_of(self, user_id): # get all shifts of month of user_id
         now = datetime.now()
@@ -101,13 +101,21 @@ class ShiftService(BaseService):
         shifts_data = [Shift(shift[2], shift[3], shift[4], shift_id=shift[5], user_id=shift[0], fullname=shift[1], is_working=(now < shift[3])).to_dict() for shift in shifts]
         return shifts_data
     
-    def get_shift_today_of(self, user_id): #get shift of user_id on today and only for server
-        query = "SELECT * FROM Shift WHERE user_id=? AND strftime('%Y-%m-%d', start_time) = strftime('%Y-%m-%d', 'now')"
-        shifts = self.db.execute(query, (user_id,), fetchall=True)
+    def get_shift_day_of(self, user_id, day=None): #get shift of user_id on day = ?day and only for server
+        if day is None:
+            query = "SELECT * FROM Shift WHERE user_id=? AND strftime('%Y-%m-%d', start_time) = strftime('%Y-%m-%d', 'now')"
+            shifts = self.db.execute(query, (user_id,), fetchall=True)
+        else:
+            # day = datetime.strptime(day, "%Y-%m-%d %H:%M:%S")
+            # day = day.strftime("%Y-%m-%d")
+            day = day[:10]
+            query = "SELECT * FROM Shift WHERE user_id=? AND strftime('%Y-%m-%d', start_time)=?"
+            shifts = self.db.execute(query, (user_id, day), fetchall=True)
+
         return [Shift(shift[1], shift[2], shift[3], shift_id=shift[0], user_id=shift[4]).to_dict() for shift in shifts]
 
     def get_all_shifts_current_month(self):
-        query = """SELECT S.id, S.start_time, S.end_time, S.note, S.user_id FROM Shift S INNER JOIN User U ON S.user_id = U.id WHERE strftime('%Y-%m', start_time) = strftime('%Y-%m', 'now') ORDER BY user_id"""
+        query = """SELECT S.id, S.start_time, S.end_time, S.note, S.user_id FROM Shift S INNER JOIN User U ON S.user_id = U.id WHERE strftime('%Y-%m', start_time) = strftime('%Y-%m', 'now') AND U.role != 'manager' ORDER BY user_id"""
         shifts = self.db.execute(query, fetchall=True)
         return [Shift(shift[1], shift[2], shift[3], shift_id=shift[0], user_id=shift[4]).to_dict() for shift in shifts]
 

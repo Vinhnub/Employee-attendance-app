@@ -129,7 +129,7 @@ def edit_shift_by_manager(
         shift_id = int(shift_id)
         result = server_instance.manager_controller.edit_shift(user_id, role, int(target_id), shift_id, data.new_start_time, data.new_note, server_instance.get_staff_on_working())
         if result["status"] == "success":
-            background_tasks.add_task(server_instance.manager_controller.refresh_sheet, user_id, role, server_instance)
+            background_tasks.add_task(server_instance.emp_controller.update_data, result["staff_id"], server_instance, result["time_delta"], day=data.new_start_time)
         return result
 
     except Exception as e:

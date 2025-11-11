@@ -190,7 +190,8 @@ class ManagerController:
             return {
                 "status": "success",
                 "message": "Chỉnh sửa thành công",
-                "time_delta" : result["time_delta"]
+                "time_delta" : result["time_delta"],
+                "staff_id" : result["staff_id"]
             }
         return {
             "status": "fail",
