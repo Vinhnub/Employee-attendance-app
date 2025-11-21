@@ -14,7 +14,7 @@ export function ShiftsTable({ shifts, func, extra }) {
       </thead>
       <tbody>
         {shifts.length > 0 ? (
-          shifts.map((shift) => (
+          [...shifts].sort().reverse().map((shift) => (
             <React.Fragment key={shift.id}>
               <tr
                 style={{ color: `${shift.is_working ? '#ff0000' : '#00ff00'}` }}
@@ -37,12 +37,12 @@ export function ShiftsTable({ shifts, func, extra }) {
 }
 
 export function UpdateShift({shift,id,expandShift,setPopup = () => {}}) {
-  const [startTime, setStartTime] = useState(shift.start_time ? String(shift.start_time).slice(11, 19) : "");
-  const [endTime, setEndTime] = useState(shift.end_time ? String(shift.end_time).slice(11, 19) : "");
+  const [startTime, setStartTime] = useState(shift.start_time ? String(shift.start_time).slice(11, 16) : "");
+  const [endTime, setEndTime] = useState(shift.end_time ? String(shift.end_time).slice(11, 16) : "");
   const [note, setNote] = useState(shift.note || "");
   const handleChange = async (shift) => {
     const editShift = {
-      new_start_time: String(shift.start_time).slice(0, 10) + " " + startTime,
+      new_start_time: String(shift.start_time).slice(0, 10) + " " + startTime+":00",
       new_note: note
     };
     try {

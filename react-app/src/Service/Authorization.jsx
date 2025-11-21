@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import * as authService from "./Auth"; // adjust import
+import * as authService from "./Auth"; 
 
 export default function Authorization({ allow, redirect = "/unauthorized" }) {
   const [user, setUser] = useState(null);
@@ -13,7 +13,7 @@ export default function Authorization({ allow, redirect = "/unauthorized" }) {
         if (response.data.status === "success") {
           setUser(response.data.data);
         } else {
-          setUser(false); // not authorized
+          setUser(false);
         }
       } catch (err) {
         console.error(err);
