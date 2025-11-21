@@ -1,0 +1,11 @@
+remove all container: docker-compose down --rmi all
+build container: docker-compose build --no-cache (docker-compose build backend, docker-compose build frontend if build one)
+run container: docker-compose up -d
+list container: docker ps -a
+list repo: docker images
+remove docker stop run: docker container prune
+remve docker have id: docker rm <container_name_or_id>
+stop docker have id: docker stop <container_name_or_id>
+remove general: docker system prune -a --volumes
+check log: docker logs -f <container_name_or_id>
+stop and remove all old container: docker-compose down

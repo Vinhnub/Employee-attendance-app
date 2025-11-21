@@ -1,5 +1,5 @@
 from server.database.access_database import DatabaseFetcher
-from server.server import Server
+from server.server_instance import Server
 
 server = None
 

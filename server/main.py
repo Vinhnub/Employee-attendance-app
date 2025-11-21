@@ -7,7 +7,7 @@ from server.routes.auth_router import auth_router
 from server.routes.manager_router import manager_router
 from server.routes.employee_router import employee_router
 from server.middleware.auth_middleware import auth_middleware
-#from server.middleware.logging_middleware import *
+# from server.middleware.logging_middleware import *
 
 from dotenv import load_dotenv
 import os
@@ -32,7 +32,7 @@ app.include_router(manager_router)
 app.include_router(employee_router)
 
 app.middleware("http")(auth_middleware)
-#app.middleware("http")(log_request_time)
+# app.middleware("http")(log_exceptions)
 
 
 origins = [
@@ -53,4 +53,10 @@ app.add_middleware(
 
 # ---------------------- Run Server ----------------------
 if __name__ == "__main__":
-    uvicorn.run(app, host=SERVER_IP, port=int(PORT_TCP))
+    uvicorn.run(
+        app,
+        host=SERVER_IP,
+        port=int(PORT_TCP),
+        log_config="server/logging.yaml",
+        log_level="debug"
+    )

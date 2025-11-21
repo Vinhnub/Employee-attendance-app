@@ -1,0 +1,15 @@
+
+services:
+  backend:
+    build: ./server
+    container_name: server
+    ports:
+      - "5555:5555"
+    restart: always
+
+  frontend:
+    build: ./react-app
+    container_name: react-app
+    ports:
+      - "5173:80"
+    restart: always
