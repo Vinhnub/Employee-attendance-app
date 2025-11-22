@@ -1,3 +1,4 @@
+=== DOCKER ===
 remove all container: docker-compose down --rmi all
 build container: docker-compose build --no-cache (docker-compose build backend, docker-compose build frontend if build one)
 run container: docker-compose up -d
@@ -9,3 +10,17 @@ stop docker have id: docker stop <container_name_or_id>
 remove general: docker system prune -a --volumes
 check log: docker logs -f <container_name_or_id>
 stop and remove all old container: docker-compose down
+
+=== NSSM ===
+install: nssm install <name>
+start service: nssm start <name>
+stop: nssm stop <name>
+delete: nssm remove <name> confirm
+set auto run: nssm set <name> Start SERVICE_AUTO_START
+restart: nssm restart <name>
+<name> : emp-attendance-backend
+
+=== SETTING BACKEND AUTO RUN WITH NSSM ===
+1. Download NSSM
+2. Copy file NSSM 64 bit to System32
+3. Install service with path (path to python), startup directory (main folder), argument(-m server.main)
