@@ -1,4 +1,4 @@
-=== DOCKER ===
+=== DOCKER COMMAND ===
 remove all container: docker-compose down --rmi all
 build container: docker-compose build --no-cache (docker-compose build backend, docker-compose build frontend if build one)
 run container: docker-compose up -d
@@ -11,7 +11,7 @@ remove general: docker system prune -a --volumes
 check log: docker logs -f <container_name_or_id>
 stop and remove all old container: docker-compose down
 
-=== NSSM ===
+=== NSSM COMMAND ===
 install: nssm install <name>
 start service: nssm start <name>
 stop: nssm stop <name>

@@ -1,4 +1,4 @@
 1. Access to console.cloud.google.com
 2. Create new project
 3. Turn on gg sheet API and create new Serivice account and get bot 
-4. Click to bot to get key from this (json and rename credentials.json)
+4. Click to bot to get key from this (json and rename credentials.json and save in server/database)
