@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import * as authService from "../Service/Auth";
 import { usePopup } from "../Component/PopUp";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const popup = usePopup();
+  const navigate = useNavigate();
 
   const loginInfo = {
     username: username,
@@ -20,6 +22,12 @@ export default function Login() {
       loading();
       if (response.data.status == "success") {
         sessionStorage.setItem("token", response.data.access_token);
+        popup(<p style={{ color: "green" }}>{response.data.message}</p>);
+        if (authService.me().role=="manager") {
+          navigate("../userlist");
+        } else {
+          navigate("../workpage");
+        }
       } else {
         console.error(JSON.stringify(response));
         popup(<p style={{ color: "red" }}>{response.data.message}</p>);

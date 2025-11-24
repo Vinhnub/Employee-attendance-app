@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import * as managementService from "../Service/Management";
-import userShifts from "./userShifts";
+import { usePopup } from "../Component/PopUp";
 
 export default function User() {
   const { id } = useParams();
@@ -10,7 +10,7 @@ export default function User() {
   const [shifts, setShifts] = useState([]);
   const [password, setPassword] = useState("");
   const [cPassword, setCPassword] = useState("");
-  const [popup, setPopup] = useState("");
+  const popup = usePopup();
   const [showPasswordBox, setShowPasswordBox] = useState(false);
 
   useEffect(() => {
@@ -94,7 +94,6 @@ export default function User() {
         <div><h1>No user found</h1></div>
       ) : (
         <div>
-          {popup}
           <h4>User ID: {user.id}</h4> <br />
           <h4>UserName: {user.username}</h4> <br />
           <h4>Full Name: {user.fullname}</h4> <br />
