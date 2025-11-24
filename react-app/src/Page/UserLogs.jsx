@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import * as managementService from "../Service/Management";
 import { useParams } from "react-router-dom";
+import ManagerNav from "../Component/ManagerNav";
+import Layout from "../Component/Layout";
 
 export default function UserLogs() {
   const { id } = useParams();
@@ -15,11 +17,11 @@ export default function UserLogs() {
       } catch (err) {
         console.error(err);
       }
-    }
+    };
     fetchUserLogs();
-  }, [id])
+  }, [id]);
   return (
-    <div>
+    <Layout Navbar={ManagerNav}>
       <table>
         <thead>
           <tr>
@@ -28,20 +30,22 @@ export default function UserLogs() {
           </tr>
         </thead>
         <tbody>
-          {logs.length > 0 ? (logs.map((log) => (
-            <React.Fragment key={log.id}>
-              <tr>
-                <td>{String(log.date_time).slice(11, 19)}</td>
-                <td>{log.content}</td>
-              </tr>
-            </React.Fragment>
-          ))) : (
+          {logs.length > 0 ? (
+            logs.map((log) => (
+              <React.Fragment key={log.id}>
+                <tr>
+                  <td>{String(log.date_time).slice(11, 19)}</td>
+                  <td>{log.content}</td>
+                </tr>
+              </React.Fragment>
+            ))
+          ) : (
             <tr>
               <td colSpan={2}>Use have no log</td>
             </tr>
           )}
         </tbody>
       </table>
-    </div>
+    </Layout>
   );
 }

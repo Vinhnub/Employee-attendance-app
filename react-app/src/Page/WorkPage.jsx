@@ -2,6 +2,8 @@ import React, { useState, useEffect, Fragment } from "react";
 import * as employeeService from "../Service/Employee";
 import { ShiftsTable } from "../Component/ShiftsTable";
 import { usePopup } from "../Component/PopUp";
+import UserNav from "../Component/UserNav";
+import Layout from "../Component/Layout";
 
 export default function WorkPage() {
   const [shifts, setShifts] = useState([]);
@@ -14,10 +16,10 @@ export default function WorkPage() {
         loading();
         if (response.data.status == "success") {
           setShifts(response.data.data);
-          popup(<h4 style={{color:"green"}}>{response.data.message}</h4>);
+          popup(<h4 style={{ color: "green" }}>{response.data.message}</h4>);
         } else {
           setShifts([]);
-          popup(<h4 style={{color:"red"}}>{response.data.message}</h4>);
+          popup(<h4 style={{ color: "red" }}>{response.data.message}</h4>);
         }
       } catch (err) {
         console.error(err);
@@ -26,9 +28,9 @@ export default function WorkPage() {
     fetchShifts();
   }, []);
   return (
-    <div style={{ padding: 20 }}>
+    <Layout Navbar={UserNav}>
       <h2>Work Shifts</h2>
       <ShiftsTable shifts={shifts} />
-    </div>
+    </Layout>
   );
 }
