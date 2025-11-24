@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { ShiftsTable } from "../Component/ShiftsTable";
 import * as managementService from "../Service/Management";
 import { UpdateShift } from "../Component/ShiftsTable";
+import ManagerNav from "../Component/ManagerNav";
+import Layout from "../Component/Layout";
 
 export default function UserShifts() {
   const { id } = useParams();
@@ -10,7 +12,7 @@ export default function UserShifts() {
   const [user, setUser] = useState();
   const [shifts, setShifts] = useState([]);
   const [popup, setPopup] = useState();
-  
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -41,7 +43,7 @@ export default function UserShifts() {
     setExpanedShift(shift.id == expanedShift ? null : shift.id);
   }
   return (
-    <div>
+    <Layout Navbar={ManagerNav}>
       {popup}
       <ShiftsTable
         shifts={shifts}
@@ -49,16 +51,18 @@ export default function UserShifts() {
           expanedShift == shift.id && (
             <tr>
               <td colSpan={3}>
-                <UpdateShift 
-                id={id} 
-                shift={shift} 
-                expandShift={expandShift} 
-                setPopup={setPopup}/>
+                <UpdateShift
+                  id={id}
+                  shift={shift}
+                  expandShift={expandShift}
+                  setPopup={setPopup}
+                />
               </td>
             </tr>
-          )}
+          )
+        }
         func={(shift) => expandShift(shift)}
       />
-    </div>
+    </Layout>
   );
 }

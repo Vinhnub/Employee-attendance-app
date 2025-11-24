@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import * as managementService from "../Service/Management";
 import { useNavigate, useParams } from "react-router-dom";
+import ManagerNav from "../Component/ManagerNav";
+import Layout from "../Component/Layout";
 
 export default function LogsPage() {
   const { date } = useParams();
@@ -10,7 +12,9 @@ export default function LogsPage() {
   useEffect(() => {
     const fetchLogs = async () => {
       try {
-        const response = await managementService.getLogs((date.replace(/-/g, '/')));
+        const response = await managementService.getLogs(
+          date.replace(/-/g, "/")
+        );
         if (response.data.status == "success") {
           setLogs(response.data.data);
           setPopup(<h4 style={{ color: "green" }}>{response.data.message}</h4>);
@@ -22,12 +26,12 @@ export default function LogsPage() {
         console.error(err);
         setPopup(<h4 style={{ color: "red" }}>{error.message}</h4>);
       }
-    }
+    };
     setTimeout(() => setPopup(null), 5000);
     fetchLogs();
-  }, [date])
+  }, [date]);
   return (
-    <div>
+    <Layout Navbar={ManagerNav}>
       {popup}
       <input
         type="date"
@@ -43,21 +47,29 @@ export default function LogsPage() {
           </tr>
         </thead>
         <tbody>
-          {logs.length > 0 ? (logs.map((log) => (
-            <React.Fragment key={log.id}>
-              <tr>
-                <td style={{ border: '5px solid pink', padding: '1rem' }}>{log.fullname}</td>
-                <td style={{ border: '5px solid pink', padding: '1rem' }}>{String(log.date_time).slice(11, 19)}</td>
-                <td style={{ border: '5px solid pink', padding: '1rem' }}>{log.content}</td>
-              </tr>
-            </React.Fragment>
-          ))) : (
+          {logs.length > 0 ? (
+            logs.map((log) => (
+              <React.Fragment key={log.id}>
+                <tr>
+                  <td style={{ border: "5px solid pink", padding: "1rem" }}>
+                    {log.fullname}
+                  </td>
+                  <td style={{ border: "5px solid pink", padding: "1rem" }}>
+                    {String(log.date_time).slice(11, 19)}
+                  </td>
+                  <td style={{ border: "5px solid pink", padding: "1rem" }}>
+                    {log.content}
+                  </td>
+                </tr>
+              </React.Fragment>
+            ))
+          ) : (
             <tr>
               <td colSpan={3}>No log found</td>
             </tr>
           )}
         </tbody>
       </table>
-    </div>
+    </Layout>
   );
 }

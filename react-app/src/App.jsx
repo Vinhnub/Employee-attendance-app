@@ -12,11 +12,10 @@ import Register from "./Page/Register";
 import UserList from "./Page/UserList";
 import LogsPage from "./Page/LogsPage";
 import UserLogs from "./Page/UserLogs";
-import UserShifts from "./Page/userShifts";
+import UserShifts from "./Page/UserShifts";
 import TodayShifts from "./Page/TodayShifts";
 import ChangePassword from "./Page/ChangePassword";
 import Unauthorized from "./Page/Unauthorized";
-import ManagerMenu from "./Page/ManagerMenu";
 
 export default function App() {
   return (
@@ -32,7 +31,6 @@ export default function App() {
           <Route path="/today" element={<TodayShifts />} />
           <Route path="/logs/:date" element={<LogsPage />} />
           <Route path="/user/:id/Logs" element={<UserLogs />} />
-          <Route path="/managermenu" element={<ManagerMenu />} />
           <Route path="/user/:id/shifts" element={<UserShifts />} />
         </Route>
         <Route element={<Authorization allow={["staff"]} />}>
