@@ -3,73 +3,124 @@ import * as managementService from "../Service/Management";
 import { useNavigate, useParams } from "react-router-dom";
 import ManagerNav from "../Component/ManagerNav";
 import Layout from "../Component/Layout";
+import { usePopup } from "../Component/PopUp";
+import styles from "./LogsPage.module.css";
 
 export default function LogsPage() {
   const { date } = useParams();
-  const [popup, setPopup] = useState();
+  const { popup } = usePopup();
   const [logs, setLogs] = useState([]);
   const navigate = useNavigate();
+
   useEffect(() => {
     const fetchLogs = async () => {
       try {
         const response = await managementService.getLogs(
           date.replace(/-/g, "/")
         );
-        if (response.data.status == "success") {
+        if (response.data.status === "success") {
           setLogs(response.data.data);
-          setPopup(<h4 style={{ color: "green" }}>{response.data.message}</h4>);
+          popup(
+            <div style={{ color: "#28a745", fontWeight: "500" }}>
+              {response.data.message}
+            </div>
+          );
         } else {
           setLogs([]);
-          setPopup(<h4 style={{ color: "red" }}>{response.data.message}</h4>);
+          popup(
+            <div style={{ color: "#dc3545", fontWeight: "500" }}>
+              {response.data.message}
+            </div>
+          );
         }
       } catch (err) {
         console.error(err);
-        setPopup(<h4 style={{ color: "red" }}>{error.message}</h4>);
+        popup(
+          <div style={{ color: "#dc3545", fontWeight: "500" }}>
+            {err.message}
+          </div>
+        );
       }
     };
-    setTimeout(() => setPopup(null), 5000);
+
     fetchLogs();
-  }, [date]);
+  }, [date, popup]);
+
+  const formatDateForDisplay = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
   return (
     <Layout Navbar={ManagerNav}>
-      {popup}
-      <input
-        type="date"
-        value={date}
-        onChange={(e) => navigate(`/Logs/${e.target.value}`)}
-      />
-      <table>
-        <thead>
-          <tr>
-            <th>Actor</th>
-            <th>Time</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {logs.length > 0 ? (
-            logs.map((log) => (
-              <React.Fragment key={log.id}>
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>Activity Logs</h2>
+        </div>
+
+        <div className={styles.dateSelector}>
+          <label htmlFor="dateInput" className={styles.dateLabel}>
+            Select Date:
+          </label>
+          <input
+            id="dateInput"
+            type="date"
+            value={date}
+            onChange={(e) => navigate(`/Logs/${e.target.value}`)}
+            className={styles.dateInput}
+          />
+          {date && (
+            <div className={styles.selectedDate}>
+              {formatDateForDisplay(date)}
+            </div>
+          )}
+        </div>
+
+        <div className={styles.tableWrapper}>
+          <table className={styles.logsTable}>
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Time</th>
+                <th>Activity</th>
+              </tr>
+            </thead>
+            <tbody>
+              {logs.length > 0 ? (
+                logs.map((log) => (
+                  <tr key={log.id} className={styles.logRow}>
+                    <td className={styles.actorCell}>
+                      <div className={styles.actorName}>{log.fullname}</div>
+                    </td>
+                    <td className={styles.timeCell}>
+                      <div className={styles.timeText}>
+                        {String(log.date_time).slice(11, 19)}
+                      </div>
+                      <div className={styles.dateText}>
+                        {String(log.date_time).slice(0, 10)}
+                      </div>
+                    </td>
+                    <td className={styles.actionCell}>
+                      <div className={styles.actionContent}>{log.content}</div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
                 <tr>
-                  <td style={{ border: "5px solid pink", padding: "1rem" }}>
-                    {log.fullname}
-                  </td>
-                  <td style={{ border: "5px solid pink", padding: "1rem" }}>
-                    {String(log.date_time).slice(11, 19)}
-                  </td>
-                  <td style={{ border: "5px solid pink", padding: "1rem" }}>
-                    {log.content}
+                  <td colSpan={3} className={styles.noLogs}>
+                    No activity logs found for this date
                   </td>
                 </tr>
-              </React.Fragment>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={3}>No log found</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </Layout>
   );
 }

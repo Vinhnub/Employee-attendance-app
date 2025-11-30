@@ -1,0 +1,248 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+}
+
+.header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.title {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.successMessage {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 1px solid #c3e6cb;
+  margin-bottom: 20px;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.errorMessage {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 1px solid #f5c6cb;
+  margin-bottom: 20px;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.dateSelector {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.dateLabel {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.dateInput {
+  padding: 8px 12px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  background-color: white;
+}
+
+.dateInput:hover {
+  border-color: #4a90e2;
+}
+
+.dateInput:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.selectedDate {
+  color: #666;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-left: auto;
+}
+
+.tableWrapper {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+
+.logsTable th,
+.logsTable td {
+  padding: 16px 20px;
+  text-align: left;
+  border-bottom: 1px solid #e1e5e9;
+}
+
+.logsTable th {
+  background-color: #4a90e2;
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
+}
+
+.logRow {
+  transition: background-color 0.2s ease;
+}
+
+.logRow:hover {
+  background-color: #f8f9fa;
+}
+
+.actorCell {
+  min-width: 150px;
+}
+
+.actorName {
+  font-weight: 600;
+  color: #333;
+}
+
+.timeCell {
+  min-width: 120px;
+}
+
+.timeText {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.95rem;
+  margin-bottom: 2px;
+}
+
+.dateText {
+  color: #666;
+  font-size: 0.8rem;
+}
+
+.actionCell {
+  min-width: 200px;
+}
+
+.actionContent {
+  color: #555;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.noLogs {
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+  padding: 40px;
+  font-size: 0.95rem;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+  }
+
+  .dateSelector {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .selectedDate {
+    margin-left: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .logsTable th,
+  .logsTable td {
+    padding: 12px 8px;
+    font-size: 0.9rem;
+  }
+
+  .logsTable th {
+    font-size: 0.8rem;
+  }
+
+  .actorCell,
+  .actionCell {
+    min-width: auto;
+  }
+
+  .timeCell {
+    min-width: 100px;
+  }
+
+  .timeText {
+    font-size: 0.85rem;
+  }
+
+  .dateText {
+    font-size: 0.75rem;
+  }
+
+  .noLogs {
+    padding: 30px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 12px;
+  }
+
+  .title {
+    font-size: 1.3rem;
+  }
+
+  .dateSelector {
+    padding: 12px;
+  }
+
+  .logsTable th,
+  .logsTable td {
+    padding: 8px 6px;
+    font-size: 0.85rem;
+  }
+
+  .logsTable th {
+    font-size: 0.75rem;
+    padding: 8px 4px;
+  }
+}
