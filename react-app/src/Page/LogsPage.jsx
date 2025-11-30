@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import ManagerNav from "../Component/ManagerNav";
 import Layout from "../Component/Layout";
 import { usePopup } from "../Component/PopUp";
+import Calendar from "../Component/Calendar";
 import styles from "./LogsPage.module.css";
 
 export default function LogsPage() {
@@ -46,16 +47,6 @@ export default function LogsPage() {
     fetchLogs();
   }, [date, popup]);
 
-  const formatDateForDisplay = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
-
   return (
     <Layout Navbar={ManagerNav}>
       <div className={styles.container}>
@@ -64,21 +55,10 @@ export default function LogsPage() {
         </div>
 
         <div className={styles.dateSelector}>
-          <label htmlFor="dateInput" className={styles.dateLabel}>
-            Select Date:
-          </label>
-          <input
-            id="dateInput"
-            type="date"
+          <Calendar
             value={date}
-            onChange={(e) => navigate(`/Logs/${e.target.value}`)}
-            className={styles.dateInput}
+            onChange={(dateStr) => navigate(`/Logs/${dateStr}`)}
           />
-          {date && (
-            <div className={styles.selectedDate}>
-              {formatDateForDisplay(date)}
-            </div>
-          )}
         </div>
 
         <div className={styles.tableWrapper}>

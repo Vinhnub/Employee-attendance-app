@@ -77,11 +77,13 @@
   box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
 }
 
-.selectedDate {
-  color: #666;
-  font-size: 0.9rem;
-  font-weight: 500;
+.calendarWrapper {
+  flex: 1;
   margin-left: auto;
+}
+
+.calendarWrapper > * {
+  width: 100%;
 }
 
 .tableWrapper {
