@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import * as employeeService from "../Service/Employee";
 import UserNav from "../Component/UserNav";
 import { usePopup } from "../Component/PopUp";
+import ConfirmDialog from "../Component/ConfirmDialog";
 import Layout from "../Component/Layout";
 import styles from "./CheckIn.module.css";
 
 export default function CheckIn() {
   const [note, setNote] = useState("");
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const popup = usePopup();
 
   const [endtime, setEndtime] = useState(() => {
@@ -22,8 +24,13 @@ export default function CheckIn() {
     end_time: convert(endtime),
     note: note,
   };
-  const handleCheckIn = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    setShowConfirmDialog(true);
+  };
+
+  const handleConfirmCheckIn = async () => {
+    setShowConfirmDialog(false);
     try {
       const response = await employeeService.start_shift(shiftInfo);
       if (response.data.status == "success") {
@@ -34,13 +41,18 @@ export default function CheckIn() {
       }
     } catch (error) {
       console.error("Error: " + error.message);
+      popup(<p style={{ color: "red" }}>Failed to check in</p>);
     }
+  };
+
+  const handleCancelCheckIn = () => {
+    setShowConfirmDialog(false);
   };
   return (
     <Layout Navbar={UserNav}>
       <div className={styles.container}>
         <h2 className={styles.title}>Check In</h2>
-        <form className={styles.form} onSubmit={handleCheckIn}>
+        <form className={styles.form} onSubmit={handleSubmit}>
           <input
             className={styles.input}
             type="text"
@@ -57,6 +69,15 @@ export default function CheckIn() {
           <button className={styles.button} type="submit">Check In</button>
         </form>
       </div>
+      {showConfirmDialog && (
+        <ConfirmDialog
+          message="Are you sure you want to check in for your shift?"
+          onConfirm={handleConfirmCheckIn}
+          onCancel={handleCancelCheckIn}
+          confirmText="Check In"
+          cancelText="Cancel"
+        />
+      )}
     </Layout>
   );
 }

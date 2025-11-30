@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { me, logout } from "../Service/Auth";
+import { useTheme } from "./ThemeContext";
+import ConfirmDialog from "./ConfirmDialog";
 import styles from "./Header.module.css";
 
 export default function Header() {
   const [user, setUser] = useState(null);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const navigate = useNavigate();
+  const { isDarkMode, toggleTheme } = useTheme();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -21,7 +25,12 @@ export default function Header() {
     fetchUser();
   }, []);
 
-  const handleLogout = async () => {
+  const handleLogoutClick = () => {
+    setShowConfirmDialog(true);
+  };
+
+  const handleConfirmLogout = async () => {
+    setShowConfirmDialog(false);
     try {
       await logout();
       sessionStorage.removeItem("token");
@@ -32,6 +41,10 @@ export default function Header() {
       sessionStorage.removeItem("token");
       navigate("/login");
     }
+  };
+
+  const handleCancelLogout = () => {
+    setShowConfirmDialog(false);
   };
 
   if (!user) {
@@ -47,28 +60,42 @@ export default function Header() {
   }
 
   return (
-    <div className={styles.header}>
-      <div className={styles.userInfoBox}>
-        <div className={styles.userCard}>
-          <div className={styles.userInfo}>
-            <div className={styles.topRow}>
-              <span className={styles.username}>{user.fullname}</span>
-              <div className={styles.topRowRight}>
-                <span className={styles.statusLabel}>● Online</span>
-                <button className={styles.logoutButton} onClick={handleLogout}>
-                  Logout
-                </button>
+    <>
+      <div className={styles.header}>
+        <div className={styles.userInfoBox}>
+          <div className={styles.userCard}>
+            <div className={styles.userInfo}>
+              <div className={styles.topRow}>
+                <span className={styles.username}>{user.fullname}</span>
+                <div className={styles.topRowRight}>
+                  <span className={styles.statusLabel}>● Online</span>
+                  <button className={styles.themeToggle} onClick={toggleTheme} title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}>
+                    {isDarkMode ? '☀️' : '🌙'}
+                  </button>
+                  <button className={styles.logoutButton} onClick={handleLogoutClick}>
+                    Logout
+                  </button>
+                </div>
               </div>
-            </div>
-            <div className={styles.bottomRow}>
-              <span className={styles.fullName}>{user.username}</span>
-              <span className={`${styles.roleLabel} ${styles[user.role]}`}>
-                {user.role?.charAt(0).toUpperCase() + user.role?.slice(1)}
-              </span>
+              <div className={styles.bottomRow}>
+                <span className={styles.fullName}>{user.username}</span>
+                <span className={`${styles.roleLabel} ${styles[user.role]}`}>
+                  {user.role?.charAt(0).toUpperCase() + user.role?.slice(1)}
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      {showConfirmDialog && (
+        <ConfirmDialog
+          message="Are you sure you want to logout?"
+          onConfirm={handleConfirmLogout}
+          onCancel={handleCancelLogout}
+          confirmText="Logout"
+          cancelText="Cancel"
+        />
+      )}
+    </>
   );
 }
