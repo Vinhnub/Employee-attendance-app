@@ -1,7 +1,223 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+}
+
+.title {
+  color: #333;
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.tableWrapper {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.userTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+
+.userTable th,
+.userTable td {
+  padding: 15px 20px;
+  text-align: left;
+  border-bottom: 1px solid #e1e5e9;
+}
+
+.userTable th {
+  background-color: #4a90e2;
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
+}
+
 .user {
-  transition: transform 0.1s ease-in-out;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border-left: 4px solid transparent;
 }
 
 .user:hover {
-  transform: scale(1.1);
+  background-color: #f8f9fa;
+  border-left-color: #4a90e2;
+}
+
+.roleCell {
+  position: relative;
+}
+
+.roleCell::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #28a745;
+}
+
+.roleCell {
+  text-transform: capitalize;
+}
+
+.roleCell:contains('admin')::before {
+  background-color: #dc3545;
+}
+
+.roleCell:contains('manager')::before {
+  background-color: #ffc107;
+}
+
+.roleCell:contains('user')::before {
+  background-color: #28a745;
+}
+
+.noUsers {
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+  padding: 40px !important;
+}
+
+.statusCell {
+  text-align: center;
+}
+
+.online {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid #c3e6cb;
+  position: relative;
+}
+
+.online::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #28a745;
+}
+
+.offline {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid #f5c6cb;
+  position: relative;
+}
+
+.offline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #dc3545;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .container {
+    max-width: 100%;
+    padding: 0;
+    background-color: transparent;
+    min-height: auto;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    padding: 0 16px;
+  }
+
+  .tableWrapper {
+    border-radius: 0;
+    margin: 0;
+    box-shadow: none;
+  }
+
+  .userTable {
+    font-size: 0.9rem;
+  }
+
+  .userTable th,
+  .userTable td {
+    padding: 12px 8px;
+  }
+
+  .userTable th {
+    font-size: 0.8rem;
+    padding: 12px 4px;
+  }
+
+  .user {
+    padding: 12px 8px;
+  }
+
+  .roleCell {
+    padding-left: 24px;
+  }
+
+  .statusCell {
+    padding: 8px 8px;
+  }
+
+  .online,
+  .offline {
+    padding: 3px 8px;
+    font-size: 0.7rem;
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.3rem;
+    margin-bottom: 16px;
+  }
+
+  .userTable {
+    font-size: 0.8rem;
+  }
+
+  .userTable th,
+  .userTable td {
+    padding: 8px 6px;
+  }
+
+  .userTable th {
+    font-size: 0.75rem;
+  }
+
+  .noUsers {
+    padding: 20px !important;
+  }
 }
