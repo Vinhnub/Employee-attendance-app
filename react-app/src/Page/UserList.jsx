@@ -28,7 +28,9 @@ export default function UserList() {
     <Layout Navbar={ManagerNav}>
       <div className={styles.container}>
         <h2 className={styles.title}>User List</h2>
-        <div className={styles.tableWrapper}>
+
+        {/* Desktop Table View */}
+        <div className={styles.desktopTable}>
           <table className={styles.userTable}>
             <thead>
               <tr>
@@ -48,10 +50,10 @@ export default function UserList() {
                   >
                     <td>{user.username}</td>
                     <td>{user.fullname}</td>
-                    <td>{user.role}</td>
+                    <td className={styles.roleCell}>{user.role}</td>
                     <td className={styles.statusCell}>
                       {user.isOnline || user.is_working ?
-                        <span className={styles.online}>Đang làm</span> :
+                        <span className={styles.online}>Online</span> :
                         <span className={styles.offline}>Offline</span>
                       }
                     </td>
@@ -64,6 +66,36 @@ export default function UserList() {
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile List View */}
+        <div className={styles.mobileList}>
+          {userList.length > 0 ? (
+            userList.map((user, index) => (
+              <div
+                className={styles.userRow}
+                key={index}
+                onClick={() => navigate(`/user/${user.id}`)}
+              >
+                <div className={styles.userInfo}>
+                  <div className={styles.topRow}>
+                    <span className={styles.username}>{user.username}</span>
+                    <span className={`${styles.statusLabel} ${user.isOnline || user.is_working ? styles.onlineLabel : styles.offlineLabel}`}>
+                      {user.isOnline || user.is_working ? '● Online' : '● Offline'}
+                    </span>
+                  </div>
+                  <div className={styles.bottomRow}>
+                    <span className={styles.fullName}>{user.fullname || 'No name'}</span>
+                    <span className={`${styles.roleLabel} ${styles[user.role]}`}>
+                      {user.role?.charAt(0).toUpperCase() + user.role?.slice(1)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className={styles.noUsers}>No users found</div>
+          )}
         </div>
       </div>
     </Layout>
