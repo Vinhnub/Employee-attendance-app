@@ -1,0 +1,133 @@
+.shiftsTable {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.shiftsTable th,
+.shiftsTable td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e1e5e9;
+}
+
+.shiftsTable th {
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
+}
+
+.shiftRow {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.shiftRow:hover {
+  background-color: #f8f9fa;
+}
+
+.shiftRow.working {
+  color: #dc3545;
+  font-weight: 600;
+}
+
+.shiftRow.completed {
+  color: #28a745;
+  font-weight: 600;
+}
+
+.shiftCell {
+  border-right: 1px solid #e1e5e9;
+}
+
+.shiftCell:last-child {
+  border-right: none;
+}
+
+.timeCell {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-weight: 500;
+}
+
+.noteCell {
+  max-width: 200px;
+  word-wrap: break-word;
+}
+
+.noShifts {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  padding: 40px 16px;
+}
+
+.updateForm {
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+.updateInput {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 8px;
+  font-size: 0.9rem;
+}
+
+.updateInput:disabled {
+  background: #e9ecef;
+  cursor: not-allowed;
+}
+
+.updateButton {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.updateButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .shiftsTable th,
+  .shiftsTable td {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+
+  .noteCell {
+    max-width: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .shiftsTable {
+    font-size: 0.85rem;
+  }
+
+  .shiftsTable th,
+  .shiftsTable td {
+    padding: 6px 8px;
+  }
+
+  .noteCell {
+    max-width: 120px;
+  }
+}

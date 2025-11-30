@@ -3,6 +3,7 @@ import * as authService from "../Service/Auth";
 import UserNav from "../Component/UserNav";
 import { usePopup } from "../Component/PopUp";
 import Layout from "../Component/Layout";
+import styles from "./ChangePassword.module.css";
 
 export default function ChangePassword() {
   const [old_password, setOldpassword] = useState("");
@@ -30,21 +31,26 @@ export default function ChangePassword() {
   };
   return (
     <Layout Navbar={UserNav}>
-      <h2>change password</h2>
-      <form onSubmit={handleChange}>
-        <input
-          type="password"
-          placeholder="old password"
-          onChange={(e) => setOldpassword(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="new password"
-          onChange={(e) => setNewpassword(e.target.value)}
-        />
-        <button type="submit">Login</button>
-      </form>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      <div className={styles.container}>
+        <h2 className={styles.title}>Change Password</h2>
+        <form className={styles.form} onSubmit={handleChange}>
+          <input
+            className={styles.input}
+            type="password"
+            placeholder="Old Password"
+            value={old_password}
+            onChange={(e) => setOldpassword(e.target.value)}
+          />
+          <input
+            className={styles.input}
+            type="password"
+            placeholder="New Password"
+            value={new_password}
+            onChange={(e) => setNewpassword(e.target.value)}
+          />
+          <button className={styles.button} type="submit">Change Password</button>
+        </form>
+      </div>
     </Layout>
   );
 }

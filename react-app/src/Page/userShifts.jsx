@@ -5,6 +5,7 @@ import * as managementService from "../Service/Management";
 import { UpdateShift } from "../Component/ShiftsTable";
 import ManagerNav from "../Component/ManagerNav";
 import Layout from "../Component/Layout";
+import styles from "./UserShifts.module.css";
 
 export default function UserShifts() {
   const { id } = useParams();
@@ -44,25 +45,28 @@ export default function UserShifts() {
   }
   return (
     <Layout Navbar={ManagerNav}>
-      {popup}
-      <ShiftsTable
-        shifts={shifts}
-        extra={(shift) =>
-          expanedShift == shift.id && (
-            <tr>
-              <td colSpan={3}>
-                <UpdateShift
-                  id={id}
-                  shift={shift}
-                  expandShift={expandShift}
-                  setPopup={setPopup}
-                />
-              </td>
-            </tr>
-          )
-        }
-        func={(shift) => expandShift(shift)}
-      />
+      <div className={styles.container}>
+        {popup}
+        <h2 className={styles.title}>User Shifts</h2>
+        <ShiftsTable
+          shifts={shifts}
+          extra={(shift) =>
+            expanedShift == shift.id && (
+              <tr>
+                <td colSpan={3}>
+                  <UpdateShift
+                    id={id}
+                    shift={shift}
+                    expandShift={expandShift}
+                    setPopup={setPopup}
+                  />
+                </td>
+              </tr>
+            )
+          }
+          func={(shift) => expandShift(shift)}
+        />
+      </div>
     </Layout>
   );
 }

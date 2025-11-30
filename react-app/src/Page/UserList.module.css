@@ -1,7 +1,284 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+}
+
+.title {
+  color: #333;
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+/* Desktop Table Styles */
+.tableWrapper {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.userTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+
+.userTable th,
+.userTable td {
+  padding: 15px 20px;
+  text-align: left;
+  border-bottom: 1px solid #e1e5e9;
+}
+
+.userTable th {
+  background-color: #4a90e2;
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
+}
+
 .user {
-  transition: transform 0.1s ease-in-out;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border-left: 4px solid transparent;
 }
 
 .user:hover {
-  transform: scale(1.1);
+  background-color: #f8f9fa;
+  border-left-color: #4a90e2;
+}
+
+.roleCell {
+  position: relative;
+}
+
+.roleCell::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #28a745;
+}
+
+.roleCell {
+  text-transform: capitalize;
+}
+
+.roleCell:contains('admin')::before {
+  background-color: #dc3545;
+}
+
+.roleCell:contains('manager')::before {
+  background-color: #ffc107;
+}
+
+.roleCell:contains('user')::before {
+  background-color: #28a745;
+}
+
+.noUsers {
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+  padding: 40px !important;
+}
+
+.statusCell {
+  text-align: center;
+}
+
+.online {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid #c3e6cb;
+  position: relative;
+}
+
+.online::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #28a745;
+}
+
+.offline {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid #f5c6cb;
+  position: relative;
+}
+
+.offline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #dc3545;
+}
+
+/* Mobile List Layout */
+.mobileList {
+  display: none;
+}
+
+.desktopTable {
+  display: block;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .desktopTable {
+    display: none;
+  }
+
+  .mobileList {
+    display: block;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .userRow {
+    cursor: pointer;
+    padding: 16px 20px;
+    border-bottom: 1px solid #f1f3f4;
+    transition: background-color 0.2s ease;
+  }
+
+  .userRow:hover {
+    background-color: #f8f9fa;
+  }
+
+  .userRow:last-child {
+    border-bottom: none;
+  }
+
+  .userInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .topRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .bottomRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .username {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #202124;
+  }
+
+  .fullName {
+    font-size: 0.85rem;
+    color: #5f6368;
+  }
+
+  .statusLabel {
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .onlineLabel {
+    color: #137333;
+  }
+
+  .offlineLabel {
+    color: #c5221f;
+  }
+
+  .roleLabel {
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+  }
+
+  .roleLabel.admin {
+    background-color: #fce8e6;
+    color: #c5221f;
+  }
+
+  .roleLabel.manager {
+    background-color: #fef7e0;
+    color: #ea8600;
+  }
+
+  .roleLabel.user {
+    background-color: #e6f4ea;
+    color: #137333;
+  }
+
+  .noUsers {
+    text-align: center;
+    color: #6c757d;
+    font-style: italic;
+    padding: 40px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mobileList {
+    margin: 0 12px;
+  }
+
+  .userRow {
+    padding: 14px 16px;
+  }
+
+  .username {
+    font-size: 0.95rem;
+  }
+
+  .fullName {
+    font-size: 0.8rem;
+  }
+
+  .statusLabel {
+    font-size: 0.75rem;
+  }
+
+  .roleLabel {
+    padding: 2px 6px;
+    font-size: 0.65rem;
+  }
 }

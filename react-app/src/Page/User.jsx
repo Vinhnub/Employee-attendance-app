@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import * as managementService from "../Service/Management";
 import { usePopup } from "../Component/PopUp";
+import styles from "./User.module.css";
 
 export default function User() {
   const { id } = useParams();
@@ -89,46 +90,53 @@ export default function User() {
   }
 
   return (
-    <div>
+    <div className={styles.container}>
       {!user ? (
-        <div><h1>No user found</h1></div>
+        <div className={styles.notFound}><h1 className={styles.notFoundTitle}>No user found</h1></div>
       ) : (
-        <div>
-          <h4>User ID: {user.id}</h4> <br />
-          <h4>UserName: {user.username}</h4> <br />
-          <h4>Full Name: {user.fullname}</h4> <br />
-          <h4>Role: {user.role}</h4> <br />
+        <div className={styles.userCard}>
+          <h2 className={styles.title}>User Details</h2>
+          <div className={styles.userInfo}>
+            <p className={styles.userDetail}><strong>User ID:</strong> {user.id}</p>
+            <p className={styles.userDetail}><strong>Username:</strong> {user.username}</p>
+            <p className={styles.userDetail}><strong>Full Name:</strong> {user.fullname}</p>
+            <p className={styles.userDetail}><strong>Role:</strong> {user.role}</p>
+          </div>
 
-          <button onClick={() => setShowPasswordBox(!showPasswordBox)}>
+          <button className={styles.button} onClick={() => setShowPasswordBox(!showPasswordBox)}>
             Change Password
           </button>
           {showPasswordBox && (
-            <form onSubmit={handlePasswordSubmit}>
+            <form className={styles.passwordForm} onSubmit={handlePasswordSubmit}>
               <input
+                className={styles.input}
                 type="password"
                 placeholder="New password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-              /><br />
+              />
               <input
+                className={styles.input}
                 type="password"
                 placeholder="Confirm password"
                 value={cPassword}
                 onChange={(e) => setCPassword(e.target.value)}
-              /><br />
-              <button type="submit">Confirm Change</button>
+              />
+              <button className={styles.button} type="submit">Confirm Change</button>
             </form>
-          )} <br />
+          )}
 
-          <button onClick={() => navigate(`shifts`)}>
-            Show shifts
-          </button> <br/>
-          <button onClick={() => navigate(`logs`)}>
-            Show Logs
-          </button> <br/>
-          <button onClick={() => handleDelete()}>
-            Delete user
-          </button>
+          <div className={styles.buttonGroup}>
+            <button className={styles.buttonSecondary} onClick={() => navigate(`shifts`)}>
+              Show shifts
+            </button>
+            <button className={styles.buttonSecondary} onClick={() => navigate(`logs`)}>
+              Show Logs
+            </button>
+            <button className={styles.buttonDanger} onClick={() => handleDelete()}>
+              Delete user
+            </button>
+          </div>
         </div>
       )}
     </div >

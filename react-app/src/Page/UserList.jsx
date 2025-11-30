@@ -26,54 +26,78 @@ export default function UserList() {
 
   return (
     <Layout Navbar={ManagerNav}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          flexDirection: "column",
-        }}
-      >
-        {userList.length > 0 ? (
-          userList.map((user, key) => (
-            <div key={key} style={{ width: "100%" }}>
-              {user.username}
-              {user.fullname}
-              {user.role}
-            </div>
-          ))
-        ) : (
-          <p>No user found</p>
-        )}
+      <div className={styles.container}>
+        <h2 className={styles.title}>User List</h2>
+
+        {/* Desktop Table View */}
+        <div className={styles.desktopTable}>
+          <table className={styles.userTable}>
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Full Name</th>
+                <th>Role</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {userList.length > 0 ? (
+                userList.map((user, index) => (
+                  <tr
+                    className={styles.user}
+                    key={index}
+                    onClick={() => navigate(`/user/${user.id}`)}
+                  >
+                    <td>{user.username}</td>
+                    <td>{user.fullname}</td>
+                    <td className={styles.roleCell}>{user.role}</td>
+                    <td className={styles.statusCell}>
+                      {user.isOnline || user.is_working ?
+                        <span className={styles.online}>Online</span> :
+                        <span className={styles.offline}>Offline</span>
+                      }
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={4} className={styles.noUsers}>No users found</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Mobile List View */}
+        <div className={styles.mobileList}>
+          {userList.length > 0 ? (
+            userList.map((user, index) => (
+              <div
+                className={styles.userRow}
+                key={index}
+                onClick={() => navigate(`/user/${user.id}`)}
+              >
+                <div className={styles.userInfo}>
+                  <div className={styles.topRow}>
+                    <span className={styles.username}>{user.username}</span>
+                    <span className={`${styles.statusLabel} ${user.isOnline || user.is_working ? styles.onlineLabel : styles.offlineLabel}`}>
+                      {user.isOnline || user.is_working ? '● Online' : '● Offline'}
+                    </span>
+                  </div>
+                  <div className={styles.bottomRow}>
+                    <span className={styles.fullName}>{user.fullname || 'No name'}</span>
+                    <span className={`${styles.roleLabel} ${styles[user.role]}`}>
+                      {user.role?.charAt(0).toUpperCase() + user.role?.slice(1)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className={styles.noUsers}>No users found</div>
+          )}
+        </div>
       </div>
     </Layout>
   );
 }
-
-// <table>
-//           <thead>
-//             <tr>
-//               <th>UserName</th>
-//               <th>Full Name</th>
-//               <th>Role</th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {userList.length > 0 ? (
-//               userList.map((user, index) => (
-//                 <tr
-//                   className={styles.user}
-//                   key={index}
-//                   onClick={() => navigate(`/user/${user.id}`)}
-//                 >
-//                   <td>{user.username}</td>
-//                   <td>{user.fullname}</td>
-//                   <td>{user.role}</td>
-//                 </tr>
-//               ))
-//             ) : (
-//               <tr>
-//                 <th colSpan={3}>No users</th>
-//               </tr>
-//             )}
-//           </tbody>
-//         </table>

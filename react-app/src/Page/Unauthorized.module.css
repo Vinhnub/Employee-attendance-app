@@ -1,0 +1,61 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #dc3545 0%, #e85d75 100%);
+  color: white;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.content {
+  text-align: center;
+  padding: 2rem;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.message {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 2.5rem;
+  }
+
+  .message {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0.5rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .message {
+    font-size: 1rem;
+  }
+}

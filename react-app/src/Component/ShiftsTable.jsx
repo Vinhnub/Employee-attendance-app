@@ -1,10 +1,11 @@
 import React ,{useState} from "react";
 import * as managementService from "../Service/Management";
+import styles from "./ShiftsTable.module.css";
 
 export function ShiftsTable({ shifts, func, extra }) {
 
   return (
-    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+    <table className={styles.shiftsTable}>
       <thead>
         <tr>
           <th>Start Time</th>
@@ -17,18 +18,18 @@ export function ShiftsTable({ shifts, func, extra }) {
           [...shifts].sort().reverse().map((shift) => (
             <React.Fragment key={shift.id}>
               <tr
-                style={{ color: `${shift.is_working ? '#ff0000' : '#00ff00'}` }}
+                className={`${styles.shiftRow} ${shift.is_working ? styles.working : styles.completed}`}
                 onClick={() => { func && func({ ...shift }) }}
               >
-                <td style={{ border: '5px solid pink', padding: '1rem' }}>{shift.start_time || 'N/A'}</td>
-                <td style={{ border: '5px solid pink', padding: '1rem' }}>{shift.end_time || 'N/A'}</td>
-                <td style={{ border: '5px solid pink', padding: '1rem' }}>{shift.note || ''}</td>
+                <td className={`${styles.shiftCell} ${styles.timeCell}`}>{shift.start_time || 'N/A'}</td>
+                <td className={`${styles.shiftCell} ${styles.timeCell}`}>{shift.end_time || 'N/A'}</td>
+                <td className={`${styles.shiftCell} ${styles.noteCell}`}>{shift.note || ''}</td>
               </tr>
               {extra && extra(shift)}
             </React.Fragment>
           ))) : (
           <tr>
-            <td colSpan="3">No shifts found</td>
+            <td className={styles.noShifts} colSpan="3">No shifts found</td>
           </tr>
         )}
       </tbody>
@@ -62,25 +63,28 @@ export function UpdateShift({shift,id,expandShift,setPopup = () => {}}) {
     setTimeout(() => setPopup(null), 5000);
   }
   return (
-    <div>
+    <div className={styles.updateForm}>
       <form onSubmit={(e) => { e.preventDefault(); handleChange(shift) }}>
         <input
+          className={styles.updateInput}
           type="time"
           value={startTime}
           onChange={(e) => setStartTime(e.target.value)}
         />
         <input
+          className={styles.updateInput}
           disabled
           type="time"
           value={endTime}
           onChange={(e) => setEndTime(e.target.value)}
         />
         <input
+          className={styles.updateInput}
           type="text"
           value={note}
           onChange={(e) => setNote(e.target.value)}
         />
-        <button type="submit">update</button>
+        <button className={styles.updateButton} type="submit">Update</button>
       </form>
     </div>
   );

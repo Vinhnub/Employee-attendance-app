@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as authService from "../Service/Auth";
 import { usePopup } from "../Component/PopUp";
 import { useNavigate } from "react-router-dom";
+import styles from "./Login.module.css";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -23,7 +24,7 @@ export default function Login() {
       if (response.data.status == "success") {
         sessionStorage.setItem("token", response.data.access_token);
         popup(<p style={{ color: "green" }}>{response.data.message}</p>);
-        if (authService.me().role=="manager") {
+        if (response.data.data.role=="manager") {
           navigate("../userlist");
         } else {
           navigate("../workpage");

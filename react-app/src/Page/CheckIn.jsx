@@ -3,6 +3,7 @@ import * as employeeService from "../Service/Employee";
 import UserNav from "../Component/UserNav";
 import { usePopup } from "../Component/PopUp";
 import Layout from "../Component/Layout";
+import styles from "./CheckIn.module.css";
 
 export default function CheckIn() {
   const [note, setNote] = useState("");
@@ -37,24 +38,25 @@ export default function CheckIn() {
   };
   return (
     <Layout Navbar={UserNav}>
-      <h2>Check In</h2>
-      <form onSubmit={handleCheckIn}>
-        <input
-          type="text"
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
-        />
-        <br />
-        <br />
-        <input
-          type="time"
-          value={endtime}
-          onChange={(e) => setEndtime(e.target.value)}
-        />
-        <br />
-        <br />
-        <button type="submit">CheckIn</button>
-      </form>
+      <div className={styles.container}>
+        <h2 className={styles.title}>Check In</h2>
+        <form className={styles.form} onSubmit={handleCheckIn}>
+          <input
+            className={styles.input}
+            type="text"
+            placeholder="Note (optional)"
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+          />
+          <input
+            className={styles.input}
+            type="time"
+            value={endtime}
+            onChange={(e) => setEndtime(e.target.value)}
+          />
+          <button className={styles.button} type="submit">Check In</button>
+        </form>
+      </div>
     </Layout>
   );
 }
