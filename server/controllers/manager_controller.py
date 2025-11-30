@@ -24,7 +24,7 @@ class ManagerController:
         result = self.user_service.create_user(user_id, username, password, fullname, role)
 
         if result:
-            self.log_service.write_log(f"Create new account {username} {fullname} {role}", user_id)
+            self.log_service.write_log(f"Tạo tài khoản mới, username: {username}, fullname: {fullname}, role: {role}", user_id)
             server.append_staff(result)
             return {
                 "status" : "success",
@@ -46,7 +46,7 @@ class ManagerController:
         result = self.user_service.reset_password(user_id, target_id, new_password)
 
         if result:
-            self.log_service.write_log(f"Reset password {target_id}", user_id)
+            self.log_service.write_log(f"Đặt lại mật khẩu cho {target_id}", user_id)
             return {
                 "status" : "success",
                 "message" : "Thành công"
@@ -66,7 +66,7 @@ class ManagerController:
         result = self.user_service.delete_user(user_id, target_id)
 
         if result:
-            self.log_service.write_log(f"Delete account {target_id}", user_id)
+            self.log_service.write_log(f"Xóa tài khoản {target_id}", user_id)
             return {
                 "status" : "success",
                 "message" : "Thành công"

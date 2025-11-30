@@ -26,7 +26,7 @@ class EmployeeController:
             start_time = result_dict["start_time"]
             time_delta =  (datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") - datetime.strptime(start_time, "%Y-%m-%d %H:%M:%S")).total_seconds() / 3600
             server.append_shift_today(result_dict)
-            self.log_service.write_log(f"Start shift to {end_time}", user_id)
+            self.log_service.write_log(f"Bắt đầu ca làm đến {end_time}", user_id)
             return {
                 "status": "success",
                 "message": "Vào ca thành công",
@@ -48,7 +48,7 @@ class EmployeeController:
         result = self.shift_service.end_shift(user_id, server.get_staff_on_working())
 
         if result:
-            self.log_service.write_log("End shift", user_id)
+            self.log_service.write_log(f"Kết thúc ca", user_id)
             return {
                 "status": "success",
                 "message": "Đã kết thúc ca",
@@ -69,7 +69,7 @@ class EmployeeController:
         result = self.shift_service.edit_shift(user_id, new_end_time, new_note, server.get_staff_on_working())
 
         if result:
-            self.log_service.write_log(f"Edit shift new end time {new_end_time}, new note {new_note}", user_id)
+            self.log_service.write_log(f"Chỉnh sửa thời gian kết thúc của ca thành {new_end_time}, note mới {new_note} bởi nhân viên", user_id)
             return {
                 "status": "success",
                 "message": "Chỉnh sửa ca thành công",
