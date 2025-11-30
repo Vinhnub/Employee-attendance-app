@@ -41,26 +41,24 @@ export default function Login() {
 
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
+    <div className={styles.container}>
+      <h2 className={styles.title}>Login</h2>
+      <form className={styles.form} onSubmit={handleLogin}>
         <input
+          className={styles.input}
           type="text"
           value={username}
           placeholder="Username"
           onChange={(e) => setUsername(e.target.value)}
         />
-        <br />
-        <br />
         <input
+          className={styles.input}
           type="password"
           value={password}
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <br />
-        <br />
-        <button type="submit">Login</button>
+        <button className={styles.button} type="submit">Login</button>
       </form>
     </div>
   );
