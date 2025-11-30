@@ -3,6 +3,7 @@ import * as employeeService from "../Service/Employee";
 import { usePopup } from "../Component/PopUp";
 import UserNav from "../Component/UserNav";
 import Layout from "../Component/Layout";
+import styles from "./CheckOut.module.css";
 
 export default function CheckOut() {
   const [status, setStatus] = useState(null);
@@ -27,10 +28,12 @@ export default function CheckOut() {
   };
   return (
     <Layout Navbar={UserNav}>
-      <h2>Check Out</h2>
-      <button onClick={handleCheckOut} disabled={loading}>
-        Check Out
-      </button>
+      <div className={styles.container}>
+        <h2 className={styles.title}>Check Out</h2>
+        <button className={styles.button} onClick={handleCheckOut} disabled={loading}>
+          {loading ? "Checking Out..." : "Check Out"}
+        </button>
+      </div>
     </Layout>
   );
 }

@@ -3,7 +3,7 @@ import * as employeeService from "../Service/Employee";
 import { usePopup } from "../Component/PopUp";
 import Layout from "../Component/Layout";
 import UserNav from "../Component/UserNav";
-
+import styles from "./OverTime.module.css";
 
 export default function OverTime() {
   const [note, setNote] = useState("");
@@ -38,24 +38,25 @@ export default function OverTime() {
   };
   return (
     <Layout Navbar={UserNav}>
-      <h1>Over Time</h1>
-      <form onSubmit={handleOverTime}>
-        <input
-          type="text"
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
-        />
-        <br />
-        <br />
-        <input
-          type="datetime-local"
-          value={endtime}
-          onChange={(e) => setEndtime(e.target.value)}
-        />
-        <br />
-        <br />
-        <button type="submit">Save</button>
-      </form>
+      <div className={styles.container}>
+        <h2 className={styles.title}>Over Time</h2>
+        <form className={styles.form} onSubmit={handleOverTime}>
+          <input
+            className={styles.input}
+            type="text"
+            placeholder="Note (optional)"
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+          />
+          <input
+            className={styles.input}
+            type="datetime-local"
+            value={endtime}
+            onChange={(e) => setEndtime(e.target.value)}
+          />
+          <button className={styles.button} type="submit">Save</button>
+        </form>
+      </div>
     </Layout>
   );
 }
