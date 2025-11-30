@@ -26,3 +26,7 @@ export function changePassword(data) {
 export function me() {
   return API.get("/me");
 }
+
+export function logout() {
+  return API.put("/logout");
+}
