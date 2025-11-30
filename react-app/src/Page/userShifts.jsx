@@ -5,6 +5,7 @@ import * as managementService from "../Service/Management";
 import { UpdateShift } from "../Component/ShiftsTable";
 import ManagerNav from "../Component/ManagerNav";
 import Layout from "../Component/Layout";
+import styles from "./UserShifts.module.css";
 
 export default function UserShifts() {
   const { id } = useParams();
