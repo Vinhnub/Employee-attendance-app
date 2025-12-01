@@ -7,13 +7,11 @@ import Layout from "../Component/Layout";
 
 export default function WorkPage() {
   const [shifts, setShifts] = useState([]);
-  const popup = usePopup();
+  const { popup } = usePopup();
   useEffect(() => {
     const fetchShifts = async () => {
       try {
-        const loading = popup(`Loading...`, "center-box");
         const response = await employeeService.shifts();
-        loading();
         if (response.data.status == "success") {
           setShifts(response.data.data);
           popup(<h4 style={{ color: "green" }}>{response.data.message}</h4>);

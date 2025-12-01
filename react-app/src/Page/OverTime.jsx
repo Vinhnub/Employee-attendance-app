@@ -12,7 +12,7 @@ export default function OverTime() {
     now.setTime(now.getTime() + 7 * 60 * 60 * 1000);
     return now.toISOString().slice(0, 19);
   });
-  const popup = usePopup();
+  const { popup } = usePopup();
 
   function convert(date) {
     const nDate = date.replace(`T`, ` `);

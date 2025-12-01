@@ -84,3 +84,25 @@
     transform: scale(1);
   }
 }
+
+.confirm-page {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 9999;
+  backdrop-filter: blur(4px);
+}
+
+.confirm {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  padding: 32px;
+  border-radius: 16px;
+  min-width: 300px;
+  max-width: 500px;
+  box-shadow: 0 20px 40px var(--shadow-heavy);
+  animation: fadeIn 0.25s ease-out;
+}

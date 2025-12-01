@@ -7,7 +7,7 @@ import styles from "./Login.module.css";
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const popup = usePopup();
+  const { popup } = usePopup();
   const navigate = useNavigate();
 
   const loginInfo = {

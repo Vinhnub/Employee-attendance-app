@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useCallback, useState, useMemo } from "react";
 import styles from "./Component.module.css";
 
 const PopupContext = createContext();
@@ -8,7 +8,7 @@ export const usePopup = () => useContext(PopupContext);
 export const PopupProvider = ({ children }) => {
   const [popups, setPopups] = useState([]);
 
-  const popup = (content, type = "top-box", duration = 3000) => {
+  const popup = useCallback((content, type = "top-box", duration = 3000) => {
     const id = Date.now();
     const close = () => setPopups((p) => p.filter((p) => p.id != id));
     setPopups((p) => [...p, { content, id, type, close }]);
@@ -16,9 +16,9 @@ export const PopupProvider = ({ children }) => {
       setTimeout(close, duration);
     }
     return close;
-  };
+  }, []);
 
-  const confirm = (message, onConfirm, onCancel, confirmText = "Confirm", cancelText = "Cancel") => {
+  const confirm = useCallback((message, onConfirm, onCancel, confirmText = "Confirm", cancelText = "Cancel") => {
     const id = Date.now();
     const close = () => setPopups((p) => p.filter((p) => p.id != id));
 
@@ -69,10 +69,12 @@ export const PopupProvider = ({ children }) => {
 
     setPopups((p) => [...p, { content, id, type: "confirm", close }]);
     return close;
-  };
+  }, []);
+
+  const contextValue = useMemo(() => ({ popup, confirm }), [popup, confirm]);
 
   return (
-    <PopupContext.Provider value={{ popup, confirm }}>
+    <PopupContext.Provider value={contextValue}>
       {children}
       <PopupRenderer popups={popups} />
     </PopupContext.Provider>

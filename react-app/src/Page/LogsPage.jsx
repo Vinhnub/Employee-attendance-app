@@ -45,7 +45,7 @@ export default function LogsPage() {
     };
 
     fetchLogs();
-  }, [date, popup]);
+  }, [date]);
 
   return (
     <Layout Navbar={ManagerNav}>
