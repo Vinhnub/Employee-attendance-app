@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import * as employeeService from "../Service/Employee";
 import { usePopup } from "../Component/PopUp";
-import ConfirmDialog from "../Component/ConfirmDialog";
 import UserNav from "../Component/UserNav";
 import Layout from "../Component/Layout";
 import styles from "./CheckOut.module.css";
@@ -9,20 +8,22 @@ import styles from "./CheckOut.module.css";
 export default function CheckOut() {
   const [status, setStatus] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
-  const popup = usePopup();
+  const { popup, confirm } = usePopup();
 
   const handleCheckOutClick = () => {
-    setShowConfirmDialog(true);
+    confirm(
+      "Are you sure you want to check out from your shift?",
+      handleConfirmCheckOut,
+      null,
+      "Check Out",
+      "Cancel"
+    );
   };
 
   const handleConfirmCheckOut = async () => {
-    setShowConfirmDialog(false);
     setLoading(true);
     try {
-      const loading = popup(<p style={{ color: "green" }}>loading...</p>,"center-box");
       const response = await employeeService.CheckOut();
-      loading();
       if (response.data.status === "success") {
         popup(<p style={{ color: "green" }}>{response.data.message}</p>);
       } else {
@@ -35,10 +36,6 @@ export default function CheckOut() {
       setLoading(false);
     }
   };
-
-  const handleCancelCheckOut = () => {
-    setShowConfirmDialog(false);
-  };
   return (
     <Layout Navbar={UserNav}>
       <div className={styles.container}>
@@ -47,15 +44,6 @@ export default function CheckOut() {
           {loading ? "Checking Out..." : "Check Out"}
         </button>
       </div>
-      {showConfirmDialog && (
-        <ConfirmDialog
-          message="Are you sure you want to check out from your shift?"
-          onConfirm={handleConfirmCheckOut}
-          onCancel={handleCancelCheckOut}
-          confirmText="Check Out"
-          cancelText="Cancel"
-        />
-      )}
     </Layout>
   );
 }

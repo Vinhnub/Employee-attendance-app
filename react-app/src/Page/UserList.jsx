@@ -79,13 +79,13 @@ export default function UserList() {
               >
                 <div className={styles.userInfo}>
                   <div className={styles.topRow}>
-                    <span className={styles.username}>{user.username}</span>
+                    <span className={styles.username}>{user.fullname}</span>
                     <span className={`${styles.statusLabel} ${user.isOnline || user.is_working ? styles.onlineLabel : styles.offlineLabel}`}>
                       {user.isOnline || user.is_working ? '● Online' : '● Offline'}
                     </span>
                   </div>
                   <div className={styles.bottomRow}>
-                    <span className={styles.fullName}>{user.fullname || 'No name'}</span>
+                    <span className={styles.fullName}>{user.username || 'No name'}</span>
                     <span className={`${styles.roleLabel} ${styles[user.role]}`}>
                       {user.role?.charAt(0).toUpperCase() + user.role?.slice(1)}
                     </span>

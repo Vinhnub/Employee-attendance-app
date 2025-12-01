@@ -2,15 +2,13 @@ import React, { useState } from "react";
 import * as authService from "../Service/Auth";
 import UserNav from "../Component/UserNav";
 import { usePopup } from "../Component/PopUp";
-import ConfirmDialog from "../Component/ConfirmDialog";
 import Layout from "../Component/Layout";
 import styles from "./ChangePassword.module.css";
 
 export default function ChangePassword() {
   const [old_password, setOldpassword] = useState("");
   const [new_password, setNewpassword] = useState("");
-  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
-  const popup = usePopup();
+  const { popup, confirm } = usePopup();
 
   const passwordInfo = {
     old_password: old_password,
@@ -19,11 +17,16 @@ export default function ChangePassword() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setShowConfirmDialog(true);
+    confirm(
+      "Are you sure you want to change your password?",
+      handleConfirmChangePassword,
+      null,
+      "Change Password",
+      "Cancel"
+    );
   };
 
   const handleConfirmChangePassword = async () => {
-    setShowConfirmDialog(false);
     try {
       const response = await authService.changePassword(passwordInfo);
       if (response.data.status == "success") {
@@ -38,10 +41,6 @@ export default function ChangePassword() {
       console.error("Failed:", err);
       popup(<p style={{ color: "red" }}>Failed to change password</p>);
     }
-  };
-
-  const handleCancelChangePassword = () => {
-    setShowConfirmDialog(false);
   };
   return (
     <Layout Navbar={UserNav}>
@@ -65,15 +64,6 @@ export default function ChangePassword() {
           <button className={styles.button} type="submit">Change Password</button>
         </form>
       </div>
-      {showConfirmDialog && (
-        <ConfirmDialog
-          message="Are you sure you want to change your password?"
-          onConfirm={handleConfirmChangePassword}
-          onCancel={handleCancelChangePassword}
-          confirmText="Change Password"
-          cancelText="Cancel"
-        />
-      )}
     </Layout>
   );
 }

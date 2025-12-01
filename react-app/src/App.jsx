@@ -3,6 +3,7 @@ import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Authorization from "./Service/Authorization";
 import { ThemeProvider } from "./Component/ThemeContext";
+import { PopupProvider } from "./Component/PopUp";
 import User from "./Page/User";
 import Login from "./Page/Login";
 import CheckIn from "./Page/CheckIn";
@@ -17,7 +18,6 @@ import UserShifts from "./Page/UserShifts";
 import TodayShifts from "./Page/TodayShifts";
 import ChangePassword from "./Page/ChangePassword";
 import Unauthorized from "./Page/Unauthorized";
-import { PopupProvider } from "./Component/PopUp";
 
 export default function App() {
   return (

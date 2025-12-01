@@ -18,9 +18,7 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const loading = popup(`Loading...`, "center-box");
       const response = await authService.login(loginInfo);
-      loading();
       if (response.data.status == "success") {
         sessionStorage.setItem("token", response.data.access_token);
         popup(<p style={{ color: "green" }}>{response.data.message}</p>);
@@ -35,7 +33,7 @@ export default function Login() {
       }
     } catch (err) {
       console.error("Login failed:", err);
-      popup(<p style={{ color: "red" }}>{response.data.message}</p>);
+      popup(<p style={{ color: "red" }}>Login failed</p>);
     }
   };
 

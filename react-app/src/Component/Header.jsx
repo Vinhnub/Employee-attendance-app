@@ -68,7 +68,7 @@ export default function Header() {
               <div className={styles.topRow}>
                 <span className={styles.username}>{user.fullname}</span>
                 <div className={styles.topRowRight}>
-                  <span className={styles.statusLabel}>● Online</span>
+                  <span className={styles.statusLabel}>Online</span>
                   <button className={styles.themeToggle} onClick={toggleTheme} title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}>
                     {isDarkMode ? '☀️' : '🌙'}
                   </button>

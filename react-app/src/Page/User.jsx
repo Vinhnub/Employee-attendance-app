@@ -11,7 +11,7 @@ export default function User() {
   const [shifts, setShifts] = useState([]);
   const [password, setPassword] = useState("");
   const [cPassword, setCPassword] = useState("");
-  const popup = usePopup();
+  const { popup, confirm } = usePopup();
   const [showPasswordBox, setShowPasswordBox] = useState(false);
 
   useEffect(() => {
@@ -44,12 +44,12 @@ export default function User() {
     e.preventDefault();
 
     if (password !== cPassword) {
-      alert(`Passwords don't match!`);
+      popup(<p style={{ color: "red" }}>Passwords don't match!</p>);
       return;
     }
 
     if (!password.trim()) {
-      alert(`Passwords can't be empty`);
+      popup(<p style={{ color: "red" }}>Passwords can't be empty</p>);
       return;
     }
 
@@ -57,37 +57,43 @@ export default function User() {
     try {
       const response = await managementService.resetPassword(id, newPassword);
       if (response.data.status === "success") {
-        alert("Password changed successfully");
+        popup(<p style={{ color: "green" }}>Password changed successfully</p>);
         setShowPasswordBox(false);
         setPassword("");
         setCPassword("");
       } else {
-        alert("Failed to change password");
+        popup(<p style={{ color: "red" }}>Failed to change password</p>);
       }
     } catch (err) {
-      console.error(err);
-      alert("Error changing password");
+      console.error("Error changing password:", err);
+      popup(<p style={{ color: "red" }}>Error changing password</p>);
     }
   };
 
-  const handleDelete = async () => {
+  const handleDeleteClick = () => {
+    confirm(
+      "Are you sure you want to delete this user?",
+      handleConfirmDelete,
+      null,
+      "Delete User",
+      "Cancel"
+    );
+  };
+
+  const handleConfirmDelete = async () => {
     try {
-      if (confirm("Are you sure?")) {
-        const response = await managementService.deleteUser(id);
-        if (response.data.status == "success") {
-          setPopup(<h4 style={{ color: "green" }}>{response.data.message}</h4>)
-          setTimeout(() => setPopup(null), 5000);
-          navigate(-1);
-        }
-        else {
-          setPopup(<h4 style={{ color: "red" }}>{response.data.message}</h4>)
-          setTimeout(() => setPopup(null), 5000);
-        }
+      const response = await managementService.deleteUser(id);
+      if (response.data.status == "success") {
+        popup(<p style={{ color: "green" }}>{response.data.message}</p>);
+        navigate(-1);
+      } else {
+        popup(<p style={{ color: "red" }}>{response.data.message}</p>);
       }
     } catch (err) {
-      console.error(err);
+      console.error("Error deleting user:", err);
+      popup(<p style={{ color: "red" }}>Error deleting user</p>);
     }
-  }
+  };
 
   return (
     <div className={styles.container}>
@@ -133,7 +139,7 @@ export default function User() {
             <button className={styles.buttonSecondary} onClick={() => navigate(`logs`)}>
               Show Logs
             </button>
-            <button className={styles.buttonDanger} onClick={() => handleDelete()}>
+            <button className={styles.buttonDanger} onClick={handleDeleteClick}>
               Delete user
             </button>
           </div>
