@@ -32,10 +32,12 @@ export default function App() {
               <Route path="/user/:id" element={<User />} />
               <Route path="/register" element={<Register />} />
               <Route path="/userlist" element={<UserList />} />
-              <Route path="/today" element={<TodayShifts />} />
               <Route path="/logs/:date" element={<LogsPage />} />
               <Route path="/user/:id/Logs" element={<UserLogs />} />
               <Route path="/user/:id/shifts" element={<UserShifts />} />
+            </Route>
+            <Route element={<Authorization allow={["manager", "staff"]} />}>
+              <Route path="/today" element={<TodayShifts />} />
             </Route>
             <Route element={<Authorization allow={["staff"]} />}>
               <Route path="/workpage" element={<WorkPage />} />

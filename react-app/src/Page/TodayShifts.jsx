@@ -1,15 +1,32 @@
 import React, { useEffect, useState } from "react";
 import * as managementService from "../Service/Management";
+import * as authService from "../Service/Auth";
 import { UpdateShift } from "../Component/ShiftsTable";
 import ManagerNav from "../Component/ManagerNav";
+import UserNav from "../Component/UserNav";
 import Layout from "../Component/Layout";
 import { usePopup } from "../Component/PopUp";
 import styles from "./TodayShifts.module.css";
 
 export default function TodayShifts() {
   const [shifts, setShifts] = useState([]);
+  const [user, setUser] = useState(null);
   const { popup } = usePopup();
   const [expandedShift, setExpandedShift] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await authService.me();
+        if (response.data.status === "success") {
+          setUser(response.data.data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch user:", err);
+      }
+    };
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     const fetchShifts = async () => {
@@ -83,12 +100,28 @@ export default function TodayShifts() {
     return styles.statusScheduled;
   };
 
+  if (!user) {
+    return (
+      <Layout Navbar={ManagerNav}>
+        <div className={styles.container}>
+          <div className={styles.header}>
+            <h2 className={styles.title}>Loading...</h2>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
+
+  const isManager = user.role === 'manager';
+
   return (
-    <Layout Navbar={ManagerNav}>
+    <Layout Navbar={isManager ? ManagerNav : UserNav}>
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Today's Shifts</h2>
-          <p className={styles.subtitle}>Monitor and manage current shift activities</p>
+          <p className={styles.subtitle}>
+            {isManager ? 'Monitor and manage current shift activities' : 'View today\'s shift schedule'}
+          </p>
         </div>
 
         <div className={styles.legend}>
@@ -169,32 +202,34 @@ export default function TodayShifts() {
                               </div>
                             </div>
 
-                            <div className={styles.detailActions}>
-                              {shift.is_working ? (
-                                <button
-                                  className={`${styles.actionBtn} ${styles.checkOutBtn}`}
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleCheckOut(shift);
-                                  }}
-                                >
-                                  🕐 Check Out
-                                </button>
-                              ) : (
-                                <div className={styles.updateActions}>
-                                  <UpdateShift
-                                    shift={shift}
-                                    id={shift.user_id}
-                                    expandShift={expandShift}
-                                    setPopup={(msg) => popup(
-                                      <div style={{ color: msg.includes('success') ? "#28a745" : "#dc3545", fontWeight: "500" }}>
-                                        {msg}
-                                      </div>
-                                    )}
-                                  />
-                                </div>
-                              )}
-                            </div>
+                            {isManager && (
+                              <div className={styles.detailActions}>
+                                {shift.is_working ? (
+                                  <button
+                                    className={`${styles.actionBtn} ${styles.checkOutBtn}`}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleCheckOut(shift);
+                                    }}
+                                  >
+                                    🕐 Check Out
+                                  </button>
+                                ) : (
+                                  <div className={styles.updateActions}>
+                                    <UpdateShift
+                                      shift={shift}
+                                      id={shift.user_id}
+                                      expandShift={expandShift}
+                                      setPopup={(msg) => popup(
+                                        <div style={{ color: msg.includes('success') ? "#28a745" : "#dc3545", fontWeight: "500" }}>
+                                          {msg}
+                                        </div>
+                                      )}
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                            )}
                           </div>
                         </td>
                       </tr>
