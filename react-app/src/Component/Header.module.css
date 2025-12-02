@@ -126,24 +126,3 @@
   transform: translateY(-1px);
   box-shadow: 0 2px 8px var(--color-danger-bg);
 }
-
-.themeToggle {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  background-color: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  padding: 4px 8px;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-left: 8px;
-}
-
-.themeToggle:hover {
-  background-color: var(--bg-tertiary);
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px var(--shadow-light);
-}

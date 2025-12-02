@@ -8,7 +8,7 @@ import styles from "./Header.module.css";
 export default function Header() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
-  const { isDarkMode, toggleTheme } = useTheme();
+  const { isDarkMode } = useTheme();
   const { confirm } = usePopup();
 
   useEffect(() => {
@@ -71,9 +71,6 @@ export default function Header() {
               <span className={styles.username}>{user.fullname}</span>
               <div className={styles.topRowRight}>
                 <span className={styles.statusLabel}>Online</span>
-                <button className={styles.themeToggle} onClick={toggleTheme} title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}>
-                  {isDarkMode ? '☀️' : '🌙'}
-                </button>
                 <button className={styles.logoutButton} onClick={handleLogoutClick}>
                   Logout
                 </button>
