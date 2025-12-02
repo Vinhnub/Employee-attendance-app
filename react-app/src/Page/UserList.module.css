@@ -2,12 +2,12 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: var(--bg-primary);
   min-height: 100vh;
 }
 
 .title {
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 30px;
   text-align: center;
   font-size: 2rem;
@@ -16,10 +16,10 @@
 
 /* Desktop Table Styles */
 .tableWrapper {
-  background: white;
+  background: var(--bg-card);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px var(--shadow-medium);
 }
 
 .userTable {
@@ -32,11 +32,11 @@
 .userTable td {
   padding: 15px 20px;
   text-align: left;
-  border-bottom: 1px solid #e1e5e9;
+  border-bottom: 1px solid var(--border-light);
 }
 
 .userTable th {
-  background-color: #4a90e2;
+  background: var(--gradient-primary);
   color: white;
   font-weight: 600;
   text-transform: uppercase;
@@ -51,8 +51,8 @@
 }
 
 .user:hover {
-  background-color: #f8f9fa;
-  border-left-color: #4a90e2;
+  background-color: var(--bg-secondary);
+  border-left-color: #667eea;
 }
 
 .roleCell {
@@ -89,7 +89,7 @@
 
 .noUsers {
   text-align: center;
-  color: #6c757d;
+  color: var(--text-muted);
   font-style: italic;
   padding: 40px !important;
 }
@@ -99,13 +99,13 @@
 }
 
 .online {
-  background-color: #d4edda;
-  color: #155724;
+  background-color: var(--color-success-bg);
+  color: var(--color-employee);
   padding: 4px 12px;
   border-radius: 16px;
   font-size: 0.8rem;
   font-weight: 600;
-  border: 1px solid #c3e6cb;
+  border: 1px solid var(--color-success);
   position: relative;
 }
 
@@ -118,17 +118,17 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #28a745;
+  background-color: var(--color-success);
 }
 
 .offline {
-  background-color: #f8d7da;
-  color: #721c24;
+  background-color: var(--color-danger-bg);
+  color: var(--color-danger);
   padding: 4px 12px;
   border-radius: 16px;
   font-size: 0.8rem;
   font-weight: 600;
-  border: 1px solid #f5c6cb;
+  border: 1px solid var(--color-danger);
   position: relative;
 }
 
@@ -141,7 +141,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #dc3545;
+  background-color: var(--color-danger);
 }
 
 /* Mobile List Layout */
@@ -161,21 +161,21 @@
 
   .mobileList {
     display: block;
-    background: white;
+    background: var(--bg-card);
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px var(--shadow-light);
   }
 
   .userRow {
     cursor: pointer;
     padding: 16px 20px;
-    border-bottom: 1px solid #f1f3f4;
+    border-bottom: 1px solid var(--border-light);
     transition: background-color 0.2s ease;
   }
 
   .userRow:hover {
-    background-color: #f8f9fa;
+    background-color: var(--bg-secondary);
   }
 
   .userRow:last-child {
@@ -203,12 +203,12 @@
   .username {
     font-size: 1rem;
     font-weight: 600;
-    color: #202124;
+    color: var(--text-primary);
   }
 
   .fullName {
     font-size: 0.85rem;
-    color: #5f6368;
+    color: var(--text-secondary);
   }
 
   .statusLabel {
@@ -217,11 +217,11 @@
   }
 
   .onlineLabel {
-    color: #137333;
+    color: var(--color-success);
   }
 
   .offlineLabel {
-    color: #c5221f;
+    color: var(--color-danger);
   }
 
   .roleLabel {
@@ -233,23 +233,23 @@
   }
 
   .roleLabel.admin {
-    background-color: #fce8e6;
-    color: #c5221f;
+    background-color: var(--color-danger-bg);
+    color: var(--color-danger);
   }
 
   .roleLabel.manager {
-    background-color: #fef7e0;
-    color: #ea8600;
+    background-color: var(--color-warning-bg);
+    color: var(--color-manager);
   }
 
   .roleLabel.user {
-    background-color: #e6f4ea;
-    color: #137333;
+    background-color: var(--color-success-bg);
+    color: var(--color-employee);
   }
 
   .noUsers {
     text-align: center;
-    color: #6c757d;
+    color: var(--text-muted);
     font-style: italic;
     padding: 40px 20px;
     font-size: 0.9rem;

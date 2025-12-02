@@ -2,7 +2,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: var(--bg-primary);
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -10,9 +10,9 @@
 }
 
 .registerCard {
-  background: white;
+  background: var(--bg-card);
   border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 24px var(--shadow-medium);
   padding: 40px;
   width: 100%;
   max-width: 480px;
@@ -36,18 +36,18 @@
 }
 
 .title {
-  color: #333;
+  color: var(--text-primary);
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 8px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--gradient-primary);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .subtitle {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.95rem;
   margin: 0;
   line-height: 1.5;
@@ -67,7 +67,7 @@
 
 .formLabel {
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
   font-size: 0.9rem;
   margin-bottom: 2px;
 }
@@ -75,13 +75,13 @@
 .formInput,
 .formSelect {
   padding: 14px 16px;
-  border: 2px solid #e9ecef;
+  border: 2px solid var(--border-light);
   border-radius: 10px;
   font-size: 1rem;
   font-family: inherit;
   transition: all 0.2s ease;
-  background-color: white;
-  color: #333;
+  background-color: var(--bg-input);
+  color: var(--text-primary);
 }
 
 .formInput:focus,
@@ -93,7 +93,7 @@
 }
 
 .formInput::placeholder {
-  color: #adb5bd;
+  color: var(--text-muted);
   opacity: 1;
 }
 
@@ -109,7 +109,7 @@
 
 .submitButton {
   padding: 16px 24px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--gradient-primary);
   color: white;
   border: none;
   border-radius: 12px;
@@ -130,7 +130,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  background: var(--gradient-primary);
   transition: left 0.5s;
   z-index: -1;
 }
@@ -224,7 +224,7 @@
   .registerCard {
     padding: 24px 20px;
     border-radius: 10px;
-    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 16px var(--shadow-light);
   }
 
   .title {
