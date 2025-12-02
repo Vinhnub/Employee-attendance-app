@@ -39,13 +39,13 @@ export default function Header() {
     try {
       await logout();
       sessionStorage.removeItem("token");
-      localStorage.removeItem("user");
+      sessionStorage.removeItem("user");
       navigate("/login");
     } catch (err) {
       console.error("Failed to logout:", err);
       // Still clear token and redirect even if logout API fails
       sessionStorage.removeItem("token");
-      localStorage.removeItem("user");
+      sessionStorage.removeItem("user");
       navigate("/login");
     }
   };

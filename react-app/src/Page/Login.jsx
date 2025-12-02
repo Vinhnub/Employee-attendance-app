@@ -21,6 +21,7 @@ export default function Login() {
       const response = await authService.login(loginInfo);
       if (response.data.status == "success") {
         sessionStorage.setItem("token", response.data.access_token);
+        sessionStorage.removeItem("user"); // Clear cached user data for new login
         popup(<p style={{ color: "green" }}>{response.data.message}</p>);
         if (response.data.data.role=="manager") {
           navigate("../userlist");
