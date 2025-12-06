@@ -20,7 +20,6 @@ PORT_TCP = os.getenv("PORT_TCP")
 # ---------------------- Config FastAPI ----------------------
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-
     yield
 
     # Shutdown

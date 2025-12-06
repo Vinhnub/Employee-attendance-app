@@ -170,7 +170,7 @@ class ManagerController:
             "message" : "Ca làm đã kết thúc"
         }
 
-    def edit_shift(self, user_id, role, target_id, shift_id, new_start_time, new_note, staff_on_working):
+    def edit_shift(self, user_id, role, target_id, shift_id, new_start_time, new_end_time, new_note, staff_on_working):
         if role != "manager":
             return {
                 "status": "fail",
@@ -183,10 +183,10 @@ class ManagerController:
                 "message" : "Nhân viên đang làm việc"
             }
 
-        result = self.shift_service.edit_shift_by_manager(shift_id, new_start_time, new_note)
+        result = self.shift_service.edit_shift_by_manager(shift_id, new_start_time, new_end_time, new_note)
 
         if result:
-            self.log_service.write_log(f"Edit shift new start time {new_start_time}, new note {new_note} by manager", user_id)
+            self.log_service.write_log(f"Chỉnh sửa thời gian bắt đầu và kết thúc của ca {shift_id} thành {new_start_time} đến {new_end_time}, note mới {new_note} bởi manager", user_id)
             return {
                 "status": "success",
                 "message": "Chỉnh sửa thành công",

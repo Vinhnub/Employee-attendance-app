@@ -1,15 +1,41 @@
 
+# services:
+#   backend:
+#     build: ./server
+#     container_name: server
+#     ports:
+#       - "5555:5555"
+#     restart: always
+
+#   frontend:
+#     build: ./react-app
+#     container_name: react-app
+#     ports:
+#       - "5173:80"
+#     restart: always
+
+
 services:
   backend:
-    build: ./server
-    container_name: server
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: eventctrler-backend
+    restart: unless-stopped
+    env_file:
+      - ./.env
     ports:
       - "5555:5555"
-    restart: always
 
-  frontend:
-    build: ./react-app
-    container_name: react-app
-    ports:
-      - "5173:80"
-    restart: always
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   container_name: eventctrler-frontend
+  #   restart: unless-stopped
+  #   environment:
+  #     NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - backend

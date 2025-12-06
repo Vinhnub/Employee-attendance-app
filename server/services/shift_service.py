@@ -67,7 +67,7 @@ class ShiftService(BaseService):
         self.db.execute(query, (new_end_time, new_note, user_id, now_str))
         return time_delta
 
-    def edit_shift_by_manager(self, shift_id, new_start_time, new_note): # edit staff's shift by manager
+    def edit_shift_by_manager(self, shift_id, new_start_time, new_end_time, new_note): # edit staff's shift by manager
         query = "SELECT * FROM Shift WHERE id=?"
         shift = self.db.execute(query, (shift_id, ), fetchone=True)
         o_shift = Shift(shift[1], shift[2], shift[3], shift_id=shift[0], user_id=shift[4])
@@ -76,9 +76,10 @@ class ShiftService(BaseService):
         if o_shift.end_time < new_start_time:
             return False
 
-        time_delta = (datetime.strptime(o_shift.start_time, "%Y-%m-%d %H:%M:%S") - datetime.strptime(new_start_time,"%Y-%m-%d %H:%M:%S")).total_seconds() / 3600
-        query = "UPDATE Shift SET start_time=?, note=? WHERE id=?"
-        self.db.execute(query, (new_start_time, new_note, shift_id))
+        time_delta = (datetime.strptime(o_shift.start_time, "%Y-%m-%d %H:%M:%S") - datetime.strptime(new_start_time,"%Y-%m-%d %H:%M:%S") 
+                      + (datetime.strptime(new_end_time,"%Y-%m-%d %H:%M:%S") - datetime.strptime(o_shift.end_time,"%Y-%m-%d %H:%M:%S"))).total_seconds() / 3600
+        query = "UPDATE Shift SET start_time=?, end_time=?, note=? WHERE id=?"
+        self.db.execute(query, (new_start_time, new_end_time, new_note, shift_id))
         return {"time_delta" : time_delta, "staff_id" : o_shift.user_id}
 
     def get_shifts_of(self, user_id): # get all shifts of month of user_id
