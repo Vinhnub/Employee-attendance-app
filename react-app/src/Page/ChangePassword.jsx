@@ -30,7 +30,6 @@ export default function ChangePassword() {
     try {
       const response = await authService.changePassword(passwordInfo);
       if (response.data.status == "success") {
-        popup(<p style={{ color: "green" }}>{response.data.message}</p>);
         // Clear the form on success
         setOldpassword("");
         setNewpassword("");

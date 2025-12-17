@@ -25,7 +25,6 @@ export default function CheckOut() {
     try {
       const response = await employeeService.CheckOut();
       if (response.data.status === "success") {
-        popup(<p style={{ color: "green" }}>{response.data.message}</p>);
       } else {
         popup(<p style={{ color: "red" }}>{response.data.message}</p>);
       }

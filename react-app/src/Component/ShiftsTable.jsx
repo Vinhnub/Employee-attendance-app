@@ -49,7 +49,6 @@ export function UpdateShift({shift,id,expandShift,setPopup = () => {}}) {
     try {
       const response = await managementService.editShifts(id, shift.id, editShift);
       if (response.data.status == "success") {
-        setPopup(<h4 style={{ color: "green" }}>{response.data.message}</h4>);
         expandShift(shift);
         shift.start_time = editShift.new_start_time;
         shift.note = editShift.new_note;

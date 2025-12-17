@@ -34,11 +34,6 @@ export default function TodayShifts() {
         const response = await managementService.getAllShifts();
         if (response.data.status === "success") {
           setShifts(response.data.data);
-          popup(
-            <div style={{ color: "#28a745", fontWeight: "500" }}>
-              {response.data.message}
-            </div>
-          );
         } else {
           popup(
             <div style={{ color: "#dc3545", fontWeight: "500" }}>
@@ -66,11 +61,6 @@ export default function TodayShifts() {
     try {
       const response = await managementService.endShifts(shift.id);
       if (response.data.status === "success") {
-        popup(
-          <div style={{ color: "#28a745", fontWeight: "500" }}>
-            {response.data.message}
-          </div>
-        );
         expandShift(shift);
       } else {
         popup(

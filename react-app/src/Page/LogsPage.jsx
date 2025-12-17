@@ -21,11 +21,6 @@ export default function LogsPage() {
         );
         if (response.data.status === "success") {
           setLogs(response.data.data);
-          popup(
-            <div style={{ color: "#28a745", fontWeight: "500" }}>
-              {response.data.message}
-            </div>
-          );
         } else {
           setLogs([]);
           popup(

@@ -50,11 +50,6 @@ export default function Register() {
     try {
       const response = await management.register(registerInfo);
       if (response.data.status === "success") {
-        popup(
-          <div style={{ color: "#28a745", fontWeight: "500" }}>
-            Registration successful!
-          </div>
-        );
         // Reset form
         setUsername("");
         setPassword("");

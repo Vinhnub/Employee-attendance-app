@@ -14,7 +14,6 @@ export default function WorkPage() {
         const response = await employeeService.shifts();
         if (response.data.status == "success") {
           setShifts(response.data.data);
-          popup(<h4 style={{ color: "green" }}>{response.data.message}</h4>);
         } else {
           setShifts([]);
           popup(<h4 style={{ color: "red" }}>{response.data.message}</h4>);

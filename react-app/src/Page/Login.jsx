@@ -22,7 +22,6 @@ export default function Login() {
       if (response.data.status == "success") {
         sessionStorage.setItem("token", response.data.access_token);
         sessionStorage.removeItem("user"); // Clear cached user data for new login
-        popup(<p style={{ color: "green" }}>{response.data.message}</p>);
         if (response.data.data.role=="manager") {
           navigate("../userlist");
         } else {
