@@ -12,11 +12,11 @@ export default function CheckOut() {
 
   const handleCheckOutClick = () => {
     confirm(
-      "Are you sure you want to check out from your shift?",
+      "Bạn có chắc chắn muốn điểm danh ra khỏi ca làm việc?",
       handleConfirmCheckOut,
       null,
-      "Check Out",
-      "Cancel"
+      "Điểm danh ra",
+      "Hủy"
     );
   };
 
@@ -30,7 +30,7 @@ export default function CheckOut() {
       }
     } catch (err) {
       console.error("Check out error:", err);
-      popup(<p style={{ color: "red" }}>Failed to check out</p>);
+      popup(<p style={{ color: "red" }}>Điểm danh ra thất bại</p>);
     } finally {
       setLoading(false);
     }
@@ -38,9 +38,9 @@ export default function CheckOut() {
   return (
     <Layout Navbar={UserNav}>
       <div className={styles.container}>
-        <h2 className={styles.title}>Check Out</h2>
+        <h2 className={styles.title}>Điểm danh ra</h2>
         <button className={styles.button} onClick={handleCheckOutClick} disabled={loading}>
-          {loading ? "Checking Out..." : "Check Out"}
+          {loading ? "Đang điểm danh ra..." : "Điểm danh ra"}
         </button>
       </div>
     </Layout>

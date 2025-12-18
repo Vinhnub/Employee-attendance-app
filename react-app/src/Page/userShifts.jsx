@@ -47,7 +47,7 @@ export default function UserShifts() {
     <Layout Navbar={ManagerNav}>
       <div className={styles.container}>
         {popup}
-        <h2 className={styles.title}>User Shifts</h2>
+        <h2 className={styles.title}>Ca làm việc của người dùng</h2>
         <ShiftsTable
           shifts={shifts}
           extra={(shift) =>

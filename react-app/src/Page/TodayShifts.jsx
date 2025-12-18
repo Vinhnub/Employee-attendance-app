@@ -95,7 +95,7 @@ export default function TodayShifts() {
       <Layout Navbar={ManagerNav}>
         <div className={styles.container}>
           <div className={styles.header}>
-            <h2 className={styles.title}>Loading...</h2>
+            <h2 className={styles.title}>Đang tải...</h2>
           </div>
         </div>
       </Layout>
@@ -108,24 +108,24 @@ export default function TodayShifts() {
     <Layout Navbar={isManager ? ManagerNav : UserNav}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2 className={styles.title}>Today's Shifts</h2>
+          <h2 className={styles.title}>Ca làm việc hôm nay</h2>
           <p className={styles.subtitle}>
-            {isManager ? 'Monitor and manage current shift activities' : 'View today\'s shift schedule'}
+            {isManager ? 'Giám sát và quản lý hoạt động ca làm việc hiện tại' : 'Xem lịch ca làm việc hôm nay'}
           </p>
         </div>
 
         <div className={styles.legend}>
           <div className={styles.legendItem}>
             <div className={`${styles.statusIndicator} ${styles.statusWorking}`}></div>
-            <span>Currently Working</span>
+            <span>Đang làm việc</span>
           </div>
           <div className={styles.legendItem}>
             <div className={`${styles.statusIndicator} ${styles.statusCompleted}`}></div>
-            <span>Completed</span>
+            <span>Hoàn thành</span>
           </div>
           <div className={styles.legendItem}>
             <div className={`${styles.statusIndicator} ${styles.statusScheduled}`}></div>
-            <span>Scheduled</span>
+            <span>Đã lên lịch</span>
           </div>
         </div>
 
@@ -133,11 +133,11 @@ export default function TodayShifts() {
           <table className={styles.shiftsTable}>
             <thead>
               <tr>
-                <th>Staff Name</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th>Note</th>
-                <th>Actions</th>
+                <th>Tên nhân viên</th>
+                <th>Thời gian bắt đầu</th>
+                <th>Thời gian kết thúc</th>
+                <th>Ghi chú</th>
+                <th>Hành động</th>
               </tr>
             </thead>
             <tbody>
@@ -164,7 +164,7 @@ export default function TodayShifts() {
                       </td>
                       <td className={styles.noteCell}>
                         <div className={styles.noteText} title={shift.note}>
-                          {shift.note || "No note"}
+                          {shift.note || "Không có ghi chú"}
                         </div>
                       </td>
                       <td className={styles.actionCell}>
@@ -179,15 +179,15 @@ export default function TodayShifts() {
                           <div className={styles.detailContent}>
                             <div className={styles.detailInfo}>
                               <div className={styles.detailItem}>
-                                <strong>Staff ID:</strong> {shift.user_id}
+                                <strong>ID nhân viên:</strong> {shift.user_id}
                               </div>
                               <div className={styles.detailItem}>
-                                <strong>Shift ID:</strong> {shift.id}
+                                <strong>ID ca làm việc:</strong> {shift.id}
                               </div>
                               <div className={styles.detailItem}>
-                                <strong>Status:</strong>
+                                <strong>Trạng thái:</strong>
                                 <span className={`${styles.statusBadge} ${getStatusColor(shift)}`}>
-                                  {shift.is_working ? 'Active' : shift.end_time && shift.end_time !== shift.start_time ? 'Completed' : 'Scheduled'}
+                                  {shift.is_working ? 'Đang hoạt động' : shift.end_time && shift.end_time !== shift.start_time ? 'Hoàn thành' : 'Đã lên lịch'}
                                 </span>
                               </div>
                             </div>
@@ -202,7 +202,7 @@ export default function TodayShifts() {
                                       handleCheckOut(shift);
                                     }}
                                   >
-                                    🕐 Check Out
+                                    🕐 Điểm danh ra
                                   </button>
                                 ) : (
                                   <div className={styles.updateActions}>
@@ -231,7 +231,7 @@ export default function TodayShifts() {
                   <td colSpan={5} className={styles.noShifts}>
                     <div className={styles.emptyState}>
                       <div className={styles.emptyIcon}>📅</div>
-                      <div className={styles.emptyMessage}>No shifts scheduled for today</div>
+                      <div className={styles.emptyMessage}>Không có ca làm việc nào được lên lịch hôm nay</div>
                     </div>
                   </td>
                 </tr>

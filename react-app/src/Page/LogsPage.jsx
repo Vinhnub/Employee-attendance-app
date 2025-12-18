@@ -46,7 +46,7 @@ export default function LogsPage() {
     <Layout Navbar={ManagerNav}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2 className={styles.title}>Activity Logs</h2>
+          <h2 className={styles.title}>Nhật ký hoạt động</h2>
         </div>
 
         <div className={styles.dateSelector}>
@@ -60,9 +60,9 @@ export default function LogsPage() {
           <table className={styles.logsTable}>
             <thead>
               <tr>
-                <th>User</th>
-                <th>Time</th>
-                <th>Activity</th>
+                <th>Người dùng</th>
+                <th>Thời gian</th>
+                <th>Hoạt động</th>
               </tr>
             </thead>
             <tbody>
@@ -88,7 +88,7 @@ export default function LogsPage() {
               ) : (
                 <tr>
                   <td colSpan={3} className={styles.noLogs}>
-                    No activity logs found for this date
+                    Không tìm thấy nhật ký hoạt động nào cho ngày này
                   </td>
                 </tr>
               )}

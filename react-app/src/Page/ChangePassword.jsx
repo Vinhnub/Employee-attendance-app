@@ -18,11 +18,11 @@ export default function ChangePassword() {
   const handleSubmit = (e) => {
     e.preventDefault();
     confirm(
-      "Are you sure you want to change your password?",
+      "Bạn có chắc chắn muốn thay đổi mật khẩu?",
       handleConfirmChangePassword,
       null,
-      "Change Password",
-      "Cancel"
+      "Thay đổi mật khẩu",
+      "Hủy"
     );
   };
 
@@ -38,29 +38,29 @@ export default function ChangePassword() {
       }
     } catch (err) {
       console.error("Failed:", err);
-      popup(<p style={{ color: "red" }}>Failed to change password</p>);
+      popup(<p style={{ color: "red" }}>Thay đổi mật khẩu thất bại</p>);
     }
   };
   return (
     <Layout Navbar={UserNav}>
       <div className={styles.container}>
-        <h2 className={styles.title}>Change Password</h2>
+        <h2 className={styles.title}>Thay đổi mật khẩu</h2>
         <form className={styles.form} onSubmit={handleSubmit}>
           <input
             className={styles.input}
             type="password"
-            placeholder="Old Password"
+            placeholder="Mật khẩu cũ"
             value={old_password}
             onChange={(e) => setOldpassword(e.target.value)}
           />
           <input
             className={styles.input}
             type="password"
-            placeholder="New Password"
+            placeholder="Mật khẩu mới"
             value={new_password}
             onChange={(e) => setNewpassword(e.target.value)}
           />
-          <button className={styles.button} type="submit">Change Password</button>
+          <button className={styles.button} type="submit">Thay đổi mật khẩu</button>
         </form>
       </div>
     </Layout>

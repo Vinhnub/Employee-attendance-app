@@ -38,22 +38,23 @@ export default function OverTime() {
   return (
     <Layout Navbar={UserNav}>
       <div className={styles.container}>
-        <h2 className={styles.title}>Over Time</h2>
+        <h2 className={styles.title}>Gia hạn thời gian</h2>
         <form className={styles.form} onSubmit={handleOverTime}>
           <input
             className={styles.input}
             type="text"
-            placeholder="Note (optional)"
+            placeholder="Ghi chú (tùy chọn)"
             value={note}
             onChange={(e) => setNote(e.target.value)}
           />
+          <label className={styles.label}>Thời gian kết thúc mới</label>
           <input
             className={styles.input}
             type="datetime-local"
             value={endtime}
             onChange={(e) => setEndtime(e.target.value)}
           />
-          <button className={styles.button} type="submit">Save</button>
+          <button className={styles.button} type="submit">Lưu</button>
         </form>
       </div>
     </Layout>

@@ -25,11 +25,11 @@ export default function CheckIn() {
   const handleSubmit = (e) => {
     e.preventDefault();
     confirm(
-      "Are you sure you want to check in for your shift?",
+      "Bạn có chắc chắn muốn điểm danh vào ca làm việc của mình?",
       handleConfirmCheckIn,
       null,
-      "Check In",
-      "Cancel"
+      "Điểm danh vào",
+      "Hủy"
     );
   };
 
@@ -43,28 +43,29 @@ export default function CheckIn() {
       }
     } catch (error) {
       console.error("Error: " + error.message);
-      popup(<p style={{ color: "red" }}>Failed to check in</p>);
+      popup(<p style={{ color: "red" }}>Điểm danh vào thất bại</p>);
     }
   };
   return (
     <Layout Navbar={UserNav}>
       <div className={styles.container}>
-        <h2 className={styles.title}>Check In</h2>
+        <h2 className={styles.title}>Điểm danh vào</h2>
         <form className={styles.form} onSubmit={handleSubmit}>
           <input
             className={styles.input}
             type="text"
-            placeholder="Note (optional)"
+            placeholder="Ghi chú (tùy chọn)"
             value={note}
             onChange={(e) => setNote(e.target.value)}
           />
+          <label className={styles.label}>Thời gian kết thúc dự kiến</label>
           <input
             className={styles.input}
             type="time"
             value={endtime}
             onChange={(e) => setEndtime(e.target.value)}
           />
-          <button className={styles.button} type="submit">Check In</button>
+          <button className={styles.button} type="submit">Điểm danh vào</button>
         </form>
       </div>
     </Layout>

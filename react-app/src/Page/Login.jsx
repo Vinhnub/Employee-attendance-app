@@ -33,30 +33,30 @@ export default function Login() {
       }
     } catch (err) {
       console.error("Login failed:", err);
-      popup(<p style={{ color: "red" }}>Login failed</p>);
+      popup(<p style={{ color: "red" }}>Đăng nhập thất bại</p>);
     }
   };
 
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Login</h2>
+      <h2 className={styles.title}>Đăng nhập</h2>
       <form className={styles.form} onSubmit={handleLogin}>
         <input
           className={styles.input}
           type="text"
           value={username}
-          placeholder="Username"
+          placeholder="Tên đăng nhập"
           onChange={(e) => setUsername(e.target.value)}
         />
         <input
           className={styles.input}
           type="password"
           value={password}
-          placeholder="Password"
+          placeholder="Mật khẩu"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button className={styles.button} type="submit">Login</button>
+        <button className={styles.button} type="submit">Đăng nhập</button>
       </form>
     </div>
   );

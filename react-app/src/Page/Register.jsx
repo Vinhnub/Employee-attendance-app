@@ -14,6 +14,7 @@ export default function Register() {
   const [isLoading, setIsLoading] = useState(false);
 
   const roleOption = ["staff", "manager"];
+  const roleLabels = { staff: "Nhân viên", manager: "Quản lý" };
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -23,7 +24,7 @@ export default function Register() {
     if (!username.trim() || !password.trim() || !fullname.trim() || !role) {
       popup(
         <div style={{ color: "#dc3545", fontWeight: "500" }}>
-          Please fill in all fields
+          Vui lòng điền vào tất cả các trường
         </div>
       );
       setIsLoading(false);
@@ -33,7 +34,7 @@ export default function Register() {
     if (password.length < 6) {
       popup(
         <div style={{ color: "#dc3545", fontWeight: "500" }}>
-          Password must be at least 6 characters long
+          Mật khẩu phải có ít nhất 6 ký tự
         </div>
       );
       setIsLoading(false);
@@ -58,7 +59,7 @@ export default function Register() {
       } else {
         popup(
           <div style={{ color: "#dc3545", fontWeight: "500" }}>
-            Registration failed: {response.data.message}
+            Đăng ký thất bại: {response.data.message}
           </div>
         );
       }
@@ -66,7 +67,7 @@ export default function Register() {
       console.error(err);
       popup(
         <div style={{ color: "#dc3545", fontWeight: "500" }}>
-          Registration failed. Please try again.
+          Đăng ký thất bại. Vui lòng thử lại.
         </div>
       );
     } finally {
@@ -79,20 +80,20 @@ export default function Register() {
       <div className={styles.container}>
         <div className={styles.registerCard}>
           <div className={styles.header}>
-            <h2 className={styles.title}>Register New User</h2>
-            <p className={styles.subtitle}>Create a new account for staff or manager access</p>
+            <h2 className={styles.title}>Đăng ký người dùng mới</h2>
+            <p className={styles.subtitle}>Tạo tài khoản mới cho nhân viên hoặc quản lý</p>
           </div>
 
           <form className={styles.registerForm} onSubmit={handleRegister}>
             <div className={styles.formGroup}>
               <label htmlFor="fullname" className={styles.formLabel}>
-                Full Name
+                Họ và tên
               </label>
               <input
                 id="fullname"
                 type="text"
                 value={fullname}
-                placeholder="Enter full name"
+                placeholder="Nhập họ và tên"
                 onChange={(e) => setFullname(e.target.value)}
                 className={styles.formInput}
                 required
@@ -101,13 +102,13 @@ export default function Register() {
 
             <div className={styles.formGroup}>
               <label htmlFor="username" className={styles.formLabel}>
-                Username
+                Tên đăng nhập
               </label>
               <input
                 id="username"
                 type="text"
                 value={username}
-                placeholder="Choose a username"
+                placeholder="Chọn tên đăng nhập"
                 onChange={(e) => setUsername(e.target.value)}
                 className={styles.formInput}
                 required
@@ -116,7 +117,7 @@ export default function Register() {
 
             <div className={styles.formGroup}>
               <label htmlFor="role" className={styles.formLabel}>
-                User Role
+                Vai trò người dùng
               </label>
               <select
                 id="role"
@@ -125,10 +126,10 @@ export default function Register() {
                 className={styles.formSelect}
                 required
               >
-                <option value="">Select user role</option>
+                <option value="">Chọn vai trò người dùng</option>
                 {roleOption.map((roleOption, key) => (
                   <option key={key} value={roleOption}>
-                    {roleOption.charAt(0).toUpperCase() + roleOption.slice(1)}
+                    {roleLabels[roleOption]}
                   </option>
                 ))}
               </select>
@@ -136,13 +137,13 @@ export default function Register() {
 
             <div className={styles.formGroup}>
               <label htmlFor="password" className={styles.formLabel}>
-                Password
+                Mật khẩu
               </label>
               <input
                 id="password"
                 type="password"
                 value={password}
-                placeholder="Enter password (min 6 characters)"
+                placeholder="Nhập mật khẩu (tối thiểu 6 ký tự)"
                 onChange={(e) => setPassword(e.target.value)}
                 className={styles.formInput}
                 minLength="6"
@@ -169,10 +170,10 @@ export default function Register() {
                       />
                     </circle>
                   </svg>
-                  Registering...
+                  Đang đăng ký...
                 </span>
               ) : (
-                "Register User"
+                "Đăng ký người dùng"
               )}
             </button>
           </form>

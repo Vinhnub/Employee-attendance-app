@@ -15,6 +15,7 @@ export default function User() {
   const [cPassword, setCPassword] = useState("");
   const { popup, confirm } = usePopup();
   const [showPasswordBox, setShowPasswordBox] = useState(false);
+  const roleLabels = { staff: "Nhân viên", manager: "Quản lý" };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -46,12 +47,12 @@ export default function User() {
     e.preventDefault();
 
     if (password !== cPassword) {
-      popup(<p style={{ color: "red" }}>Passwords don't match!</p>);
+      popup(<p style={{ color: "red" }}>Mật khẩu không khớp!</p>);
       return;
     }
 
     if (!password.trim()) {
-      popup(<p style={{ color: "red" }}>Passwords can't be empty</p>);
+      popup(<p style={{ color: "red" }}>Mật khẩu không được để trống</p>);
       return;
     }
 
@@ -63,21 +64,21 @@ export default function User() {
         setPassword("");
         setCPassword("");
       } else {
-        popup(<p style={{ color: "red" }}>Failed to change password</p>);
+        popup(<p style={{ color: "red" }}>Thay đổi mật khẩu thất bại</p>);
       }
     } catch (err) {
       console.error("Error changing password:", err);
-      popup(<p style={{ color: "red" }}>Error changing password</p>);
+      popup(<p style={{ color: "red" }}>Lỗi khi thay đổi mật khẩu</p>);
     }
   };
 
   const handleDeleteClick = () => {
     confirm(
-      "Are you sure you want to delete this user?",
+      "Bạn có chắc chắn muốn xóa người dùng này?",
       handleConfirmDelete,
       null,
-      "Delete User",
-      "Cancel"
+      "Xóa người dùng",
+      "Hủy"
     );
   };
 
