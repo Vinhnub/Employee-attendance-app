@@ -7,6 +7,7 @@ import styles from "./Header.module.css";
 
 export default function Header() {
   const [user, setUser] = useState(null);
+  const [currentShift, setCurrentShift] = useState(null);
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
   const { confirm } = usePopup();
@@ -17,6 +18,7 @@ export default function Header() {
         const response = await me();
         if (response.data.status === "success") {
           setUser(response.data.data);
+          setCurrentShift(response.data.current_shift);
         }
       } catch (err) {
         console.error("Failed to fetch user info:", err);
@@ -40,12 +42,14 @@ export default function Header() {
       await logout();
       sessionStorage.removeItem("token");
       sessionStorage.removeItem("user");
+      sessionStorage.removeItem("current_shift");
       navigate("/login");
     } catch (err) {
       console.error("Failed to logout:", err);
       // Still clear token and redirect even if logout API fails
       sessionStorage.removeItem("token");
       sessionStorage.removeItem("user");
+      sessionStorage.removeItem("current_shift");
       navigate("/login");
     }
   };
@@ -77,9 +81,14 @@ export default function Header() {
               </div>
             </div>
             <div className={styles.bottomRow}>
-              <span className={styles.fullName}>{user.username}</span>
-              <span className={`${styles.roleLabel} ${styles[user.role]}`}>
-                {user.role?.charAt(0).toUpperCase() + user.role?.slice(1)}
+              <span className={styles.roleLabel}>
+                Chức vụ: {user.role?.charAt(0).toUpperCase() + user.role?.slice(1)}
+              </span>
+              <span className={styles.shiftInfo}>
+                {currentShift ?
+                  `Ca làm: ${currentShift.start_time.slice(0, 5)} - ${currentShift.end_time.slice(0, 5)}` :
+                  'Không có ca làm'
+                }
               </span>
             </div>
           </div>
