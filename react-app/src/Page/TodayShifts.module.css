@@ -2,7 +2,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: var(--bg-primary);
   min-height: 100vh;
 }
 
@@ -12,18 +12,18 @@
 }
 
 .title {
-  color: #333;
+  color: var(--text-primary);
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 8px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--gradient-primary);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .subtitle {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.95rem;
   margin: 0;
   line-height: 1.5;
@@ -43,7 +43,7 @@
   gap: 8px;
   font-size: 0.85rem;
   font-weight: 500;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .statusIndicator {
@@ -59,22 +59,22 @@
 }
 
 .statusWorking {
-  background-color: #dc3545;
+  background-color: var(--color-danger);
 }
 
 .statusCompleted {
-  background-color: #28a745;
+  background-color: var(--color-success);
 }
 
 .statusScheduled {
-  background-color: #ffc107;
+  background-color: var(--color-warning);
 }
 
 .tableWrapper {
-  background: white;
+  background: var(--bg-card);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px var(--shadow-medium);
 }
 
 .shiftsTable {
@@ -87,11 +87,11 @@
 .shiftsTable td {
   padding: 14px 16px;
   text-align: left;
-  border-bottom: 1px solid #e1e5e9;
+  border-bottom: 1px solid var(--border-light);
 }
 
 .shiftsTable th {
-  background-color: #4a90e2;
+  background: var(--gradient-primary);
   color: white;
   font-weight: 600;
   text-transform: uppercase;
@@ -109,11 +109,11 @@
 }
 
 .shiftRow:hover {
-  background-color: #f8f9fa;
+  background-color: var(--bg-secondary);
 }
 
 .shiftRow.expanded {
-  background-color: #f1f3f4;
+  background-color: var(--bg-tertiary);
 }
 
 .staffCell {
@@ -125,7 +125,7 @@
 
 .staffName {
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
   flex: 1;
 }
 
@@ -140,7 +140,7 @@
 .timeDisplay {
   font-weight: 500;
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  color: #555;
+  color: var(--text-secondary);
 }
 
 .noteCell {
@@ -149,7 +149,7 @@
 }
 
 .noteText {
-  color: #666;
+  color: var(--text-secondary);
   line-height: 1.4;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -166,7 +166,7 @@
   background: none;
   border: none;
   font-size: 14px;
-  color: #666;
+  color: var(--text-secondary);
   cursor: pointer;
   transition: transform 0.2s ease;
   padding: 4px;
@@ -174,21 +174,21 @@
 }
 
 .expandBtn:hover {
-  background-color: #e9ecef;
+  background-color: var(--bg-secondary);
 }
 
 .expandBtn.rotate {
   transform: rotate(180deg);
-  color: #4a90e2;
+  color: #667eea;
 }
 
 .detailRow {
-  background-color: #f8f9fa;
+  background-color: var(--bg-secondary);
 }
 
 .detailCell {
   padding: 0;
-  border-bottom: 2px solid #4a90e2;
+  border-bottom: 2px solid #667eea;
 }
 
 .detailContent {
@@ -209,7 +209,7 @@
   align-items: center;
   gap: 8px;
   font-size: 0.9rem;
-  color: #555;
+  color: var(--text-secondary);
 }
 
 .statusBadge {
@@ -222,16 +222,16 @@
 }
 
 .statusBadge.statusWorking {
-  background-color: #dc3545;
+  background-color: var(--color-danger);
 }
 
 .statusBadge.statusCompleted {
-  background-color: #28a745;
+  background-color: var(--color-success);
 }
 
 .statusBadge.statusScheduled {
-  background-color: #ffc107;
-  color: #212529;
+  background-color: var(--color-warning);
+  color: var(--text-primary);
 }
 
 .detailActions {
@@ -255,14 +255,14 @@
 }
 
 .checkOutBtn {
-  background-color: #28a745;
+  background-color: var(--color-success);
   color: white;
 }
 
 .checkOutBtn:hover {
-  background-color: #218838;
+  background-color: var(--color-employee);
   transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+  box-shadow: 0 2px 8px var(--color-success-bg);
 }
 
 .updateActions {
@@ -275,7 +275,7 @@
   align-items: center;
   justify-content: center;
   padding: 48px 24px;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .emptyIcon {

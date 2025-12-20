@@ -7,7 +7,7 @@ import styles from "./CheckIn.module.css";
 
 export default function CheckIn() {
   const [note, setNote] = useState("");
-  const popup = usePopup();
+  const { popup, confirm } = usePopup();
 
   const [endtime, setEndtime] = useState(() => {
     const now = new Date();
@@ -22,39 +22,50 @@ export default function CheckIn() {
     end_time: convert(endtime),
     note: note,
   };
-  const handleCheckIn = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    confirm(
+      "Bạn có chắc chắn muốn điểm danh vào ca làm việc của mình?",
+      handleConfirmCheckIn,
+      null,
+      "Điểm danh vào",
+      "Hủy"
+    );
+  };
+
+  const handleConfirmCheckIn = async () => {
     try {
       const response = await employeeService.start_shift(shiftInfo);
       if (response.data.status == "success") {
-        popup(<p style={{ color: "green" }}>{response.data.message}</p>);
       } else {
         console.log(JSON.stringify(response.data));
         popup(<p style={{ color: "green" }}>{response.data.message}</p>);
       }
     } catch (error) {
       console.error("Error: " + error.message);
+      popup(<p style={{ color: "red" }}>Điểm danh vào thất bại</p>);
     }
   };
   return (
     <Layout Navbar={UserNav}>
       <div className={styles.container}>
-        <h2 className={styles.title}>Check In</h2>
-        <form className={styles.form} onSubmit={handleCheckIn}>
+        <h2 className={styles.title}>Điểm danh vào</h2>
+        <form className={styles.form} onSubmit={handleSubmit}>
           <input
             className={styles.input}
             type="text"
-            placeholder="Note (optional)"
+            placeholder="Ghi chú (tùy chọn)"
             value={note}
             onChange={(e) => setNote(e.target.value)}
           />
+          <label className={styles.label}>Thời gian kết thúc dự kiến</label>
           <input
             className={styles.input}
             type="time"
             value={endtime}
             onChange={(e) => setEndtime(e.target.value)}
           />
-          <button className={styles.button} type="submit">Check In</button>
+          <button className={styles.button} type="submit">Điểm danh vào</button>
         </form>
       </div>
     </Layout>

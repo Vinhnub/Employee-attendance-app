@@ -2,18 +2,18 @@
   max-width: 600px;
   margin: 2rem auto;
   padding: 2rem;
-  background: white;
+  background: var(--bg-card);
   border-radius: 16px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px var(--shadow-medium);
 }
 
 .title {
-  color: #333;
+  color: var(--text-primary);
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 2rem;
   text-align: center;
-  background: linear-gradient(135deg, #fd7e14 0%, #ffc107 100%);
+  background: var(--gradient-warning);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -27,28 +27,29 @@
 
 .input {
   padding: 1rem 1.2rem;
-  border: 2px solid #e1e5e9;
+  border: 2px solid var(--border-light);
   border-radius: 8px;
   font-size: 1rem;
   font-family: inherit;
   transition: all 0.3s ease;
-  background: #f8f9fa;
+  background: var(--bg-input);
+  color: var(--text-primary);
 }
 
 .input:focus {
   outline: none;
-  border-color: #fd7e14;
-  background: white;
-  box-shadow: 0 0 0 3px rgba(253, 126, 20, 0.1);
+  border-color: var(--color-warning);
+  background: var(--bg-card);
+  box-shadow: 0 0 0 3px var(--color-warning-bg);
 }
 
 .input::placeholder {
-  color: #6c757d;
+  color: var(--text-muted);
 }
 
 .button {
   padding: 1rem 2rem;
-  background: linear-gradient(135deg, #fd7e14, #ffc107);
+  background: var(--gradient-warning);
   color: white;
   border: none;
   border-radius: 8px;
@@ -62,7 +63,7 @@
 
 .button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(253, 126, 20, 0.3);
+  box-shadow: 0 10px 25px var(--color-warning-bg);
 }
 
 .button:active {

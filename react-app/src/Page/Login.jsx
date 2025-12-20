@@ -7,7 +7,7 @@ import styles from "./Login.module.css";
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const popup = usePopup();
+  const { popup } = usePopup();
   const navigate = useNavigate();
 
   const loginInfo = {
@@ -18,12 +18,10 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const loading = popup(`Loading...`, "center-box");
       const response = await authService.login(loginInfo);
-      loading();
       if (response.data.status == "success") {
         sessionStorage.setItem("token", response.data.access_token);
-        popup(<p style={{ color: "green" }}>{response.data.message}</p>);
+        sessionStorage.removeItem("user"); // Clear cached user data for new login
         if (response.data.data.role=="manager") {
           navigate("../userlist");
         } else {
@@ -35,32 +33,30 @@ export default function Login() {
       }
     } catch (err) {
       console.error("Login failed:", err);
-      popup(<p style={{ color: "red" }}>{response.data.message}</p>);
+      popup(<p style={{ color: "red" }}>Đăng nhập thất bại</p>);
     }
   };
 
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
+    <div className={styles.container}>
+      <h2 className={styles.title}>Đăng nhập</h2>
+      <form className={styles.form} onSubmit={handleLogin}>
         <input
+          className={styles.input}
           type="text"
           value={username}
-          placeholder="Username"
+          placeholder="Tên đăng nhập"
           onChange={(e) => setUsername(e.target.value)}
         />
-        <br />
-        <br />
         <input
+          className={styles.input}
           type="password"
           value={password}
-          placeholder="Password"
+          placeholder="Mật khẩu"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <br />
-        <br />
-        <button type="submit">Login</button>
+        <button className={styles.button} type="submit">Đăng nhập</button>
       </form>
     </div>
   );

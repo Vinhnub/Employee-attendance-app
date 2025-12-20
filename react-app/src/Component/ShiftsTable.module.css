@@ -1,21 +1,21 @@
 .shiftsTable {
   width: 100%;
   border-collapse: collapse;
-  background: white;
+  background: var(--bg-card);
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px var(--shadow-light);
 }
 
 .shiftsTable th,
 .shiftsTable td {
   padding: 12px 16px;
   text-align: left;
-  border-bottom: 1px solid #e1e5e9;
+  border-bottom: 1px solid var(--border-light);
 }
 
 .shiftsTable th {
-  background: linear-gradient(135deg, #4a90e2, #357abd);
+  background: var(--gradient-primary);
   color: white;
   font-weight: 600;
   text-transform: uppercase;
@@ -29,21 +29,21 @@
 }
 
 .shiftRow:hover {
-  background-color: #f8f9fa;
+  background-color: var(--bg-secondary);
 }
 
 .shiftRow.working {
-  color: #dc3545;
+  color: var(--color-danger);
   font-weight: 600;
 }
 
 .shiftRow.completed {
-  color: #28a745;
+  color: var(--color-success);
   font-weight: 600;
 }
 
 .shiftCell {
-  border-right: 1px solid #e1e5e9;
+  border-right: 1px solid var(--border-light);
 }
 
 .shiftCell:last-child {
@@ -62,34 +62,36 @@
 
 .noShifts {
   text-align: center;
-  color: #666;
+  color: var(--text-secondary);
   font-style: italic;
   padding: 40px 16px;
 }
 
 .updateForm {
   padding: 16px;
-  background: #f8f9fa;
+  background: var(--bg-secondary);
   border-radius: 8px;
   margin-top: 8px;
 }
 
 .updateInput {
   padding: 8px 12px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-light);
   border-radius: 4px;
   margin-right: 8px;
   font-size: 0.9rem;
+  background: var(--bg-input);
+  color: var(--text-primary);
 }
 
 .updateInput:disabled {
-  background: #e9ecef;
+  background: var(--bg-tertiary);
   cursor: not-allowed;
 }
 
 .updateButton {
   padding: 8px 16px;
-  background: linear-gradient(135deg, #28a745, #20c997);
+  background: var(--gradient-success);
   color: white;
   border: none;
   border-radius: 4px;

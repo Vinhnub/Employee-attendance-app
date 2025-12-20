@@ -9,22 +9,82 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Light theme variables */
+  --bg-primary: #f5f7fa;
+  --bg-secondary: #f8f9fa;
+  --bg-tertiary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-input: #f8f9fa;
+  --bg-navbar: #ffffff;
+
+  --text-primary: #213547;
+  --text-secondary: #666666;
+  --text-muted: #6c757d;
+  --text-accent: #1a1a1a;
+
+  --border-color: rgba(0, 0, 0, 0.05);
+  --border-light: #e1e5e9;
+  --border-navbar: #e9ecef;
+
+  --shadow-light: rgba(0, 0, 0, 0.08);
+  --shadow-medium: rgba(0, 0, 0, 0.1);
+  --shadow-heavy: rgba(0, 0, 0, 0.12);
+
+  --gradient-primary: linear-gradient(135deg, #667eea, #764ba2);
+  --gradient-danger: linear-gradient(135deg, #dc3545, #e85d75);
+  --gradient-success: linear-gradient(135deg, #d1fae5, #a7f3d0);
+  --gradient-warning: linear-gradient(135deg, #fef3c7, #fde68a);
+
+  --color-success: #10b981;
+  --color-success-bg: rgba(16, 185, 129, 0.1);
+  --color-danger: #dc2626;
+  --color-danger-bg: rgba(220, 38, 38, 0.1);
+  --color-warning: #f59e0b;
+  --color-employee: #065f46;
+  --color-manager: #92400e;
+}
+
+[data-theme="dark"] {
+  /* Dark theme variables */
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2a2a2a;
+  --bg-tertiary: #333333;
+  --bg-card: #404040;
+  --bg-input: #333333;
+  --bg-navbar: #333333;
+
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+  --text-muted: #888888;
+  --text-accent: #ffffff;
+
+  --border-color: rgba(255, 255, 255, 0.1);
+  --border-light: #555555;
+  --border-navbar: #555555;
+
+  --shadow-light: rgba(0, 0, 0, 0.3);
+  --shadow-medium: rgba(0, 0, 0, 0.4);
+  --shadow-heavy: rgba(0, 0, 0, 0.5);
+
+  --gradient-primary: linear-gradient(135deg, #667eea, #764ba2);
+  --gradient-danger: linear-gradient(135deg, #dc3545, #e85d75);
+  --gradient-success: linear-gradient(135deg, #1f2937, #374151);
+  --gradient-warning: linear-gradient(135deg, #451a03, #78350f);
+
+  --color-success: #34d399;
+  --color-success-bg: rgba(52, 211, 153, 0.1);
+  --color-danger: #ef4444;
+  --color-danger-bg: rgba(239, 68, 68, 0.1);
+  --color-warning: #f59e0b;
+  --color-employee: #6ee7b7;
+  --color-manager: #fbbf24;
 }
 
 html, body {
   margin: 0;
   padding: 0;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }

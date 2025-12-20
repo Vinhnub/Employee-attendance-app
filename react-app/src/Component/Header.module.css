@@ -1,0 +1,128 @@
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.userInfoBox {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.userCard {
+  width: 100%;
+  padding: 20px 24px;
+  background: linear-gradient(145deg, var(--bg-card), var(--bg-secondary));
+  border-radius: 16px;
+  cursor: default;
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px var(--shadow-light);
+}
+
+.userCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--shadow-heavy);
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.topRowRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bottomRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.username {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-accent);
+  letter-spacing: -0.02em;
+}
+
+.fullName {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.statusLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-success);
+  background-color: var(--color-success-bg);
+  padding: 4px 8px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.statusLabel::before {
+  content: '●';
+  color: var(--color-success);
+}
+
+.roleLabel {
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 2px 4px var(--shadow-light);
+}
+
+.roleLabel.employee {
+  background: var(--gradient-success);
+  color: var(--color-employee);
+  border: 1px solid var(--color-success);
+}
+
+.roleLabel.manager {
+  background: var(--gradient-warning);
+  color: var(--color-manager);
+  border: 1px solid var(--color-warning);
+}
+
+.logoutButton {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-danger);
+  background-color: var(--color-danger-bg);
+  border: 1px solid var(--color-danger);
+  padding: 4px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.logoutButton:hover {
+  background-color: var(--color-danger);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px var(--color-danger-bg);
+}

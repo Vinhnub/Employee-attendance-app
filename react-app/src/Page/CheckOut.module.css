@@ -2,21 +2,21 @@
   max-width: 600px;
   margin: 2rem auto;
   padding: 2rem;
-  background: white;
+  background: var(--bg-card);
   border-radius: 16px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px var(--shadow-medium);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .title {
-  color: #333;
+  color: var(--text-primary);
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 2rem;
   text-align: center;
-  background: linear-gradient(135deg, #dc3545 0%, #e85d75 100%);
+  background: var(--gradient-danger);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -24,7 +24,7 @@
 
 .button {
   padding: 1rem 2rem;
-  background: linear-gradient(135deg, #dc3545, #e85d75);
+  background: var(--gradient-danger);
   color: white;
   border: none;
   border-radius: 8px;

@@ -8,30 +8,39 @@ import styles from "./CheckOut.module.css";
 export default function CheckOut() {
   const [status, setStatus] = useState(null);
   const [loading, setLoading] = useState(false);
-  const popup = usePopup();
+  const { popup, confirm } = usePopup();
 
-  const handleCheckOut = async () => {
+  const handleCheckOutClick = () => {
+    confirm(
+      "Bạn có chắc chắn muốn điểm danh ra khỏi ca làm việc?",
+      handleConfirmCheckOut,
+      null,
+      "Điểm danh ra",
+      "Hủy"
+    );
+  };
+
+  const handleConfirmCheckOut = async () => {
     setLoading(true);
     try {
-      const loading = popup(<p style={{ color: "green" }}>loading...</p>,"center-box");
       const response = await employeeService.CheckOut();
-      loading();
       if (response.data.status === "success") {
-        popup(<p style={{ color: "green" }}>{response.data.message}</p>);
       } else {
         popup(<p style={{ color: "red" }}>{response.data.message}</p>);
       }
     } catch (err) {
       console.error("Check out error:", err);
-      popup(<p style={{ color: "red" }}>{err.message}</p>);
+      popup(<p style={{ color: "red" }}>Điểm danh ra thất bại</p>);
+    } finally {
+      setLoading(false);
     }
   };
   return (
     <Layout Navbar={UserNav}>
       <div className={styles.container}>
-        <h2 className={styles.title}>Check Out</h2>
-        <button className={styles.button} onClick={handleCheckOut} disabled={loading}>
-          {loading ? "Checking Out..." : "Check Out"}
+        <h2 className={styles.title}>Điểm danh ra</h2>
+        <button className={styles.button} onClick={handleCheckOutClick} disabled={loading}>
+          {loading ? "Đang điểm danh ra..." : "Điểm danh ra"}
         </button>
       </div>
     </Layout>

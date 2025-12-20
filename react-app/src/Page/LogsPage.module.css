@@ -2,7 +2,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: var(--bg-primary);
   min-height: 100vh;
 }
 
@@ -12,39 +12,39 @@
 }
 
 .title {
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 20px;
   font-size: 2rem;
   font-weight: 600;
 }
 
 .successMessage {
-  background-color: #d4edda;
-  color: #155724;
+  background-color: var(--color-success-bg);
+  color: var(--color-employee);
   padding: 12px 20px;
   border-radius: 8px;
-  border: 1px solid #c3e6cb;
+  border: 1px solid var(--color-success);
   margin-bottom: 20px;
   font-weight: 500;
   font-size: 0.9rem;
 }
 
 .errorMessage {
-  background-color: #f8d7da;
-  color: #721c24;
+  background-color: var(--color-danger-bg);
+  color: var(--color-danger);
   padding: 12px 20px;
   border-radius: 8px;
-  border: 1px solid #f5c6cb;
+  border: 1px solid var(--color-danger);
   margin-bottom: 20px;
   font-weight: 500;
   font-size: 0.9rem;
 }
 
 .dateSelector {
-  background: white;
+  background: var(--bg-card);
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px var(--shadow-light);
   margin-bottom: 20px;
   display: flex;
   align-items: center;
@@ -53,18 +53,19 @@
 
 .dateLabel {
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
   font-size: 0.95rem;
 }
 
 .dateInput {
   padding: 8px 12px;
-  border: 2px solid #e9ecef;
+  border: 2px solid var(--border-light);
   border-radius: 8px;
   font-size: 1rem;
   cursor: pointer;
   transition: border-color 0.2s ease;
-  background-color: white;
+  background-color: var(--bg-input);
+  color: var(--text-primary);
 }
 
 .dateInput:hover {
@@ -87,10 +88,10 @@
 }
 
 .tableWrapper {
-  background: white;
+  background: var(--bg-card);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px var(--shadow-medium);
 }
 
 .logsTable {
@@ -103,11 +104,11 @@
 .logsTable td {
   padding: 16px 20px;
   text-align: left;
-  border-bottom: 1px solid #e1e5e9;
+  border-bottom: 1px solid var(--border-light);
 }
 
 .logsTable th {
-  background-color: #4a90e2;
+  background: var(--gradient-primary);
   color: white;
   font-weight: 600;
   text-transform: uppercase;
@@ -120,7 +121,7 @@
 }
 
 .logRow:hover {
-  background-color: #f8f9fa;
+  background-color: var(--bg-secondary);
 }
 
 .actorCell {
@@ -129,7 +130,7 @@
 
 .actorName {
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .timeCell {
@@ -138,13 +139,13 @@
 
 .timeText {
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
   font-size: 0.95rem;
   margin-bottom: 2px;
 }
 
 .dateText {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.8rem;
 }
 
@@ -153,14 +154,14 @@
 }
 
 .actionContent {
-  color: #555;
+  color: var(--text-secondary);
   line-height: 1.4;
   word-wrap: break-word;
 }
 
 .noLogs {
   text-align: center;
-  color: #6c757d;
+  color: var(--text-muted);
   font-style: italic;
   padding: 40px;
   font-size: 0.95rem;
@@ -188,7 +189,7 @@
     margin-left: 0;
     font-size: 1rem;
     font-weight: 600;
-    color: #333;
+    color: var(--text-primary);
   }
 
   .logsTable th,

@@ -8,6 +8,7 @@ import Layout from "../Component/Layout";
 export default function UserList() {
   const [userList, setUserList] = useState([]);
   const navigate = useNavigate();
+  const roleLabels = { staff: "Nhân viên", manager: "Quản lý" };
   useEffect(() => {
     const fetchUserList = async () => {
       try {
@@ -27,17 +28,17 @@ export default function UserList() {
   return (
     <Layout Navbar={ManagerNav}>
       <div className={styles.container}>
-        <h2 className={styles.title}>User List</h2>
+        <h2 className={styles.title}>Danh sách người dùng</h2>
 
         {/* Desktop Table View */}
         <div className={styles.desktopTable}>
           <table className={styles.userTable}>
             <thead>
               <tr>
-                <th>Username</th>
-                <th>Full Name</th>
-                <th>Role</th>
-                <th>Status</th>
+                <th>Tên đăng nhập</th>
+                <th>Họ và tên</th>
+                <th>Vai trò</th>
+                <th>Trạng thái</th>
               </tr>
             </thead>
             <tbody>
@@ -50,18 +51,18 @@ export default function UserList() {
                   >
                     <td>{user.username}</td>
                     <td>{user.fullname}</td>
-                    <td className={styles.roleCell}>{user.role}</td>
+                    <td className={styles.roleCell}>{roleLabels[user.role] || user.role}</td>
                     <td className={styles.statusCell}>
                       {user.isOnline || user.is_working ?
-                        <span className={styles.online}>Online</span> :
-                        <span className={styles.offline}>Offline</span>
+                        <span className={styles.online}>Trực tuyến</span> :
+                        <span className={styles.offline}>Ngoại tuyến</span>
                       }
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={4} className={styles.noUsers}>No users found</td>
+                  <td colSpan={4} className={styles.noUsers}>Không tìm thấy người dùng nào</td>
                 </tr>
               )}
             </tbody>
@@ -79,22 +80,22 @@ export default function UserList() {
               >
                 <div className={styles.userInfo}>
                   <div className={styles.topRow}>
-                    <span className={styles.username}>{user.username}</span>
+                    <span className={styles.username}>{user.fullname}</span>
                     <span className={`${styles.statusLabel} ${user.isOnline || user.is_working ? styles.onlineLabel : styles.offlineLabel}`}>
-                      {user.isOnline || user.is_working ? '● Online' : '● Offline'}
+                      {user.isOnline || user.is_working ? '● Trực tuyến' : '● Ngoại tuyến'}
                     </span>
                   </div>
                   <div className={styles.bottomRow}>
-                    <span className={styles.fullName}>{user.fullname || 'No name'}</span>
+                    <span className={styles.fullName}>{user.username || 'Không có tên'}</span>
                     <span className={`${styles.roleLabel} ${styles[user.role]}`}>
-                      {user.role?.charAt(0).toUpperCase() + user.role?.slice(1)}
+                      {roleLabels[user.role] || user.role}
                     </span>
                   </div>
                 </div>
               </div>
             ))
           ) : (
-            <div className={styles.noUsers}>No users found</div>
+            <div className={styles.noUsers}>Không tìm thấy người dùng nào</div>
           )}
         </div>
       </div>

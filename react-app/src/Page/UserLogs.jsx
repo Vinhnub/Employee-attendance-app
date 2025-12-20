@@ -24,13 +24,13 @@ export default function UserLogs() {
   return (
     <Layout Navbar={ManagerNav}>
       <div className={styles.container}>
-        <h2 className={styles.title}>User Logs</h2>
+        <h2 className={styles.title}>Nhật ký người dùng</h2>
         <div className={styles.tableWrapper}>
           <table className={styles.logsTable}>
             <thead>
               <tr>
-                <th className={styles.timeHeader}>Time</th>
-                <th className={styles.actionHeader}>Action</th>
+                <th className={styles.timeHeader}>Thời gian</th>
+                <th className={styles.actionHeader}>Hành động</th>
               </tr>
             </thead>
             <tbody>
@@ -45,7 +45,7 @@ export default function UserLogs() {
                 ))
               ) : (
                 <tr>
-                  <td className={styles.noLogs} colSpan={2}>No logs available</td>
+                  <td className={styles.noLogs} colSpan={2}>Không có nhật ký nào</td>
                 </tr>
               )}
             </tbody>

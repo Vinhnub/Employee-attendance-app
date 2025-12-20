@@ -7,16 +7,13 @@ import Layout from "../Component/Layout";
 
 export default function WorkPage() {
   const [shifts, setShifts] = useState([]);
-  const popup = usePopup();
+  const { popup } = usePopup();
   useEffect(() => {
     const fetchShifts = async () => {
       try {
-        const loading = popup(`Loading...`, "center-box");
         const response = await employeeService.shifts();
-        loading();
         if (response.data.status == "success") {
           setShifts(response.data.data);
-          popup(<h4 style={{ color: "green" }}>{response.data.message}</h4>);
         } else {
           setShifts([]);
           popup(<h4 style={{ color: "red" }}>{response.data.message}</h4>);
@@ -29,7 +26,7 @@ export default function WorkPage() {
   }, []);
   return (
     <Layout Navbar={UserNav}>
-      <h2>Work Shifts</h2>
+      <h2>Ca làm việc</h2>
       <ShiftsTable shifts={shifts} />
     </Layout>
   );

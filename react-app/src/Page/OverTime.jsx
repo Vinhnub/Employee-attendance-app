@@ -12,7 +12,7 @@ export default function OverTime() {
     now.setTime(now.getTime() + 7 * 60 * 60 * 1000);
     return now.toISOString().slice(0, 19);
   });
-  const popup = usePopup();
+  const { popup } = usePopup();
 
   function convert(date) {
     const nDate = date.replace(`T`, ` `);
@@ -27,7 +27,6 @@ export default function OverTime() {
     try {
       const response = await employeeService.OverTime(OverTimeInfo);
       if (response.data.status === "success") {
-        popup(<p style={{ color: "green" }}>{response.data.message}</p>);
       } else {
         popup(<p style={{ color: "red" }}>{response.data.message}</p>);
       }
@@ -39,22 +38,23 @@ export default function OverTime() {
   return (
     <Layout Navbar={UserNav}>
       <div className={styles.container}>
-        <h2 className={styles.title}>Over Time</h2>
+        <h2 className={styles.title}>Gia hạn thời gian</h2>
         <form className={styles.form} onSubmit={handleOverTime}>
           <input
             className={styles.input}
             type="text"
-            placeholder="Note (optional)"
+            placeholder="Ghi chú (tùy chọn)"
             value={note}
             onChange={(e) => setNote(e.target.value)}
           />
+          <label className={styles.label}>Thời gian kết thúc mới</label>
           <input
             className={styles.input}
             type="datetime-local"
             value={endtime}
             onChange={(e) => setEndtime(e.target.value)}
           />
-          <button className={styles.button} type="submit">Save</button>
+          <button className={styles.button} type="submit">Lưu</button>
         </form>
       </div>
     </Layout>

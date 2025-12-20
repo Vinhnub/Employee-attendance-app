@@ -8,47 +8,59 @@ import styles from "./ChangePassword.module.css";
 export default function ChangePassword() {
   const [old_password, setOldpassword] = useState("");
   const [new_password, setNewpassword] = useState("");
-  const popup = usePopup();
+  const { popup, confirm } = usePopup();
 
   const passwordInfo = {
     old_password: old_password,
     new_password: new_password,
   };
 
-  const handleChange = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    confirm(
+      "Bạn có chắc chắn muốn thay đổi mật khẩu?",
+      handleConfirmChangePassword,
+      null,
+      "Thay đổi mật khẩu",
+      "Hủy"
+    );
+  };
+
+  const handleConfirmChangePassword = async () => {
     try {
       const response = await authService.changePassword(passwordInfo);
       if (response.data.status == "success") {
-        popup(<p style={{ color: "green" }}>{response.data.message}</p>);
+        // Clear the form on success
+        setOldpassword("");
+        setNewpassword("");
       } else {
         popup(<p style={{ color: "red" }}>{response.data.message}</p>);
       }
     } catch (err) {
       console.error("Failed:", err);
-      popup(<p style={{ color: "red" }}>{response.data.message}</p>);
+      popup(<p style={{ color: "red" }}>Thay đổi mật khẩu thất bại</p>);
     }
   };
   return (
     <Layout Navbar={UserNav}>
       <div className={styles.container}>
-        <h2 className={styles.title}>Change Password</h2>
-        <form className={styles.form} onSubmit={handleChange}>
+        <h2 className={styles.title}>Thay đổi mật khẩu</h2>
+        <form className={styles.form} onSubmit={handleSubmit}>
           <input
             className={styles.input}
             type="password"
-            placeholder="Old Password"
+            placeholder="Mật khẩu cũ"
             value={old_password}
             onChange={(e) => setOldpassword(e.target.value)}
           />
           <input
             className={styles.input}
             type="password"
-            placeholder="New Password"
+            placeholder="Mật khẩu mới"
             value={new_password}
             onChange={(e) => setNewpassword(e.target.value)}
           />
-          <button className={styles.button} type="submit">Change Password</button>
+          <button className={styles.button} type="submit">Thay đổi mật khẩu</button>
         </form>
       </div>
     </Layout>

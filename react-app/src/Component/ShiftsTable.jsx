@@ -8,9 +8,9 @@ export function ShiftsTable({ shifts, func, extra }) {
     <table className={styles.shiftsTable}>
       <thead>
         <tr>
-          <th>Start Time</th>
-          <th>End Time</th>
-          <th>Note</th>
+          <th>Thời gian bắt đầu</th>
+          <th>Thời gian kết thúc</th>
+          <th>Ghi chú</th>
         </tr>
       </thead>
       <tbody>
@@ -21,15 +21,15 @@ export function ShiftsTable({ shifts, func, extra }) {
                 className={`${styles.shiftRow} ${shift.is_working ? styles.working : styles.completed}`}
                 onClick={() => { func && func({ ...shift }) }}
               >
-                <td className={`${styles.shiftCell} ${styles.timeCell}`}>{shift.start_time || 'N/A'}</td>
-                <td className={`${styles.shiftCell} ${styles.timeCell}`}>{shift.end_time || 'N/A'}</td>
+                <td className={`${styles.shiftCell} ${styles.timeCell}`}>{shift.start_time || 'Không có'}</td>
+                <td className={`${styles.shiftCell} ${styles.timeCell}`}>{shift.end_time || 'Không có'}</td>
                 <td className={`${styles.shiftCell} ${styles.noteCell}`}>{shift.note || ''}</td>
               </tr>
               {extra && extra(shift)}
             </React.Fragment>
           ))) : (
           <tr>
-            <td className={styles.noShifts} colSpan="3">No shifts found</td>
+            <td className={styles.noShifts} colSpan="3">Không tìm thấy ca làm việc</td>
           </tr>
         )}
       </tbody>
@@ -49,7 +49,6 @@ export function UpdateShift({shift,id,expandShift,setPopup = () => {}}) {
     try {
       const response = await managementService.editShifts(id, shift.id, editShift);
       if (response.data.status == "success") {
-        setPopup(<h4 style={{ color: "green" }}>{response.data.message}</h4>);
         expandShift(shift);
         shift.start_time = editShift.new_start_time;
         shift.note = editShift.new_note;
@@ -84,7 +83,7 @@ export function UpdateShift({shift,id,expandShift,setPopup = () => {}}) {
           value={note}
           onChange={(e) => setNote(e.target.value)}
         />
-        <button className={styles.updateButton} type="submit">Update</button>
+        <button className={styles.updateButton} type="submit">Cập nhật</button>
       </form>
     </div>
   );
