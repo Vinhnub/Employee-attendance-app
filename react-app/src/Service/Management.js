@@ -59,5 +59,5 @@ export function getLogs(date) {
 }
 
 export function refreshSheet() {
-  return API.get(`/refresh_sheet`);
+  return API.put(`/refresh_sheet`);
 }

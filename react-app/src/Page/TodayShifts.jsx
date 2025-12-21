@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import * as managementService from "../Service/Management";
 import * as authService from "../Service/Auth";
 import { UpdateShift } from "../Component/ShiftsTable";
@@ -13,6 +13,56 @@ export default function TodayShifts() {
   const [user, setUser] = useState(null);
   const { popup } = usePopup();
   const [expandedShift, setExpandedShift] = useState(null);
+
+  const fetchShifts = useCallback(async () => {
+    try {
+      const response = await managementService.getAllShifts();
+      if (response.data.status === "success") {
+        setShifts(response.data.data);
+      } else {
+        popup(
+          <div style={{ color: "#dc3545", fontWeight: "500" }}>
+            {response.data.message}
+          </div>
+        );
+      }
+    } catch (err) {
+      console.error(err);
+      popup(
+        <div style={{ color: "#dc3545", fontWeight: "500" }}>
+          {err.message}
+        </div>
+      );
+    }
+  }, [popup]);
+
+  const handleRefreshSheet = useCallback(async () => {
+    try {
+      const response = await managementService.refreshSheet();
+      if (response.data.status === "success") {
+        popup(
+          <div style={{ color: "#28a745", fontWeight: "500" }}>
+            Đồng bộ dữ liệu thành công!
+          </div>
+        );
+        // Refresh the shifts data after syncing
+        await fetchShifts();
+      } else {
+        popup(
+          <div style={{ color: "#dc3545", fontWeight: "500" }}>
+            {response.data.message}
+          </div>
+        );
+      }
+    } catch (err) {
+      console.error(err);
+      popup(
+        <div style={{ color: "#dc3545", fontWeight: "500" }}>
+          {err.message}
+        </div>
+      );
+    }
+  }, [popup, fetchShifts]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -29,29 +79,8 @@ export default function TodayShifts() {
   }, []);
 
   useEffect(() => {
-    const fetchShifts = async () => {
-      try {
-        const response = await managementService.getAllShifts();
-        if (response.data.status === "success") {
-          setShifts(response.data.data);
-        } else {
-          popup(
-            <div style={{ color: "#dc3545", fontWeight: "500" }}>
-              {response.data.message}
-            </div>
-          );
-        }
-      } catch (err) {
-        console.error(err);
-        popup(
-          <div style={{ color: "#dc3545", fontWeight: "500" }}>
-            {err.message}
-          </div>
-        );
-      }
-    };
     fetchShifts();
-  }, [popup]);
+  }, [fetchShifts]);
 
   function expandShift(shift) {
     setExpandedShift(shift.id === expandedShift ? null : shift.id);
@@ -108,10 +137,21 @@ export default function TodayShifts() {
     <Layout Navbar={isManager ? ManagerNav : UserNav}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2 className={styles.title}>Ca làm việc hôm nay</h2>
-          <p className={styles.subtitle}>
-            {isManager ? 'Giám sát và quản lý hoạt động ca làm việc hiện tại' : 'Xem lịch ca làm việc hôm nay'}
-          </p>
+          <div className={styles.headerContent}>
+            <div className={styles.titleSection}>
+              <h2 className={styles.title}>Ca làm việc hôm nay</h2>
+              <p className={styles.subtitle}>
+                {isManager ? 'Giám sát và quản lý hoạt động ca làm việc hiện tại' : 'Xem lịch ca làm việc hôm nay'}
+              </p>
+            </div>
+            <button
+              className={styles.refreshBtn}
+              onClick={handleRefreshSheet}
+              title="Đồng bộ dữ liệu với Google Sheets"
+            >
+              🔄 Đồng bộ
+            </button>
+          </div>
         </div>
 
         <div className={styles.legend}>
