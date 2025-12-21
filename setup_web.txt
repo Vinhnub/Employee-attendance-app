@@ -1,0 +1,4 @@
+-download nodejs
+npm install
+npm audit fix
+npm run dev -- --host 
