@@ -44,6 +44,7 @@ export function UpdateShift({shift,id,expandShift,setPopup = () => {}}) {
   const handleChange = async (shift) => {
     const editShift = {
       new_start_time: String(shift.start_time).slice(0, 10) + " " + startTime+":00",
+      new_end_time: String(shift.end_time).slice(0, 10) + " " + endTime+":00",
       new_note: note
     };
     try {
@@ -51,6 +52,7 @@ export function UpdateShift({shift,id,expandShift,setPopup = () => {}}) {
       if (response.data.status == "success") {
         expandShift(shift);
         shift.start_time = editShift.new_start_time;
+        shift.end_time = editShift.new_end_time;
         shift.note = editShift.new_note;
       } else {
         setPopup(<h4 style={{ color: "red" }}>{response.data.message}</h4>);
@@ -72,7 +74,6 @@ export function UpdateShift({shift,id,expandShift,setPopup = () => {}}) {
         />
         <input
           className={styles.updateInput}
-          disabled
           type="time"
           value={endTime}
           onChange={(e) => setEndTime(e.target.value)}

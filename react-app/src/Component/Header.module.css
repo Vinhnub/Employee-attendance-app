@@ -61,8 +61,8 @@
   letter-spacing: -0.02em;
 }
 
-.fullName {
-  font-size: 0.9rem;
+.shiftInfo {
+  font-size: 0.85rem;
   color: var(--text-secondary);
   font-weight: 500;
 }
