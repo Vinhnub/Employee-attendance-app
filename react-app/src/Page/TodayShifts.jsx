@@ -169,8 +169,7 @@ export default function TodayShifts() {
           </div>
         </div>
 
-        <div className={styles.tableWrapper}>
-          <table className={styles.shiftsTable}>
+        <table className={styles.shiftsTable}>
             <thead>
               <tr>
                 <th>Tên nhân viên</th>
@@ -187,21 +186,21 @@ export default function TodayShifts() {
                       className={`${styles.shiftRow} ${getStatusColor(shift)} ${expandedShift === shift.id ? styles.expanded : ''}`}
                       onClick={() => expandShift(shift)}
                     >
-                      <td className={styles.staffCell}>
+                      <td className={`${styles.shiftCell} ${styles.staffCell}`}>
                         <div className={styles.staffName}>{shift.fullname}</div>
                         <div className={`${styles.statusIndicator} ${styles.statusIndicatorSmall} ${getStatusColor(shift)}`}></div>
                       </td>
-                      <td className={styles.timeCell}>
+                      <td className={`${styles.shiftCell} ${styles.timeCell}`}>
                         <div className={styles.timeDisplay}>
                           {formatTime(shift.start_time)}
                         </div>
                       </td>
-                      <td className={styles.timeCell}>
+                      <td className={`${styles.shiftCell} ${styles.timeCell}`}>
                         <div className={styles.timeDisplay}>
                           {formatTime(shift.end_time)}
                         </div>
                       </td>
-                      <td className={styles.noteCell}>
+                      <td className={`${styles.shiftCell} ${styles.noteCell}`}>
                         <div className={styles.noteText} title={shift.note}>
                           {shift.note || "Không có ghi chú"}
                         </div>
@@ -272,7 +271,6 @@ export default function TodayShifts() {
               )}
             </tbody>
           </table>
-        </div>
       </div>
     </Layout>
   );

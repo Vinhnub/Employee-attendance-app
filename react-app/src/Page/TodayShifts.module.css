@@ -90,37 +90,45 @@
   height: 8px;
 }
 
-.statusWorking {
-  background-color: white;
+.shiftRow.statusWorking {
   color: var(--color-danger);
+  font-weight: 600;
 }
 
-.statusCompleted {
-  background-color: white;
+.shiftRow.statusCompleted {
   color: var(--color-success);
+  font-weight: 600;
 }
 
-.statusScheduled {
-  background-color: var(--text-primary);
+.shiftRow.statusScheduled {
   color: var(--color-warning);
+  font-weight: 600;
 }
 
-.tableWrapper {
-  background: var(--bg-card);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 6px var(--shadow-medium);
+.statusIndicator.statusWorking {
+  background-color: var(--color-danger);
+}
+
+.statusIndicator.statusCompleted {
+  background-color: var(--color-success);
+}
+
+.statusIndicator.statusScheduled {
+  background-color: var(--color-warning);
 }
 
 .shiftsTable {
   width: 100%;
   border-collapse: collapse;
-  font-size: 1rem;
+  background: var(--bg-card);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px var(--shadow-light);
 }
 
 .shiftsTable th,
 .shiftsTable td {
-  padding: 14px 16px;
+  padding: 12px 16px;
   text-align: left;
   border-bottom: 1px solid var(--border-light);
 }
@@ -132,15 +140,11 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   font-size: 0.9rem;
-  position: sticky;
-  top: 0;
-  z-index: 2;
 }
 
 .shiftRow {
   cursor: pointer;
   transition: all 0.2s ease;
-  position: relative;
 }
 
 .shiftRow:hover {
@@ -148,7 +152,14 @@
 }
 
 .shiftRow.expanded {
-  background-color: var(--bg-tertiary);
+}
+
+.shiftCell {
+  border-right: 1px solid var(--border-light);
+}
+
+.shiftCell:last-child {
+  border-right: none;
 }
 
 .staffCell {
@@ -257,18 +268,15 @@
 }
 
 .statusBadge.statusWorking {
-  background-color: white;
-  color: var(--color-danger);
+  background-color: var(--color-danger);
 }
 
 .statusBadge.statusCompleted {
-  background-color: white;
-  color: var(--color-success);
+  background-color: var(--color-success);
 }
 
 .statusBadge.statusScheduled {
-  background-color: var(--text-primary);
-  color: var(--color-warning);
+  background-color: var(--color-warning);
 }
 
 .detailActions {
@@ -329,7 +337,9 @@
 
 .noShifts {
   text-align: center;
-  padding: 0;
+  color: var(--text-secondary);
+  font-style: italic;
+  padding: 40px 16px;
 }
 
 /* Mobile responsive styles */
