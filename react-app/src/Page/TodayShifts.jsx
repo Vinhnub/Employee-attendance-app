@@ -202,7 +202,7 @@ export default function TodayShifts() {
                       </td>
                       <td className={`${styles.shiftCell} ${styles.noteCell}`}>
                         <div className={styles.noteText} title={shift.note}>
-                          {shift.note || "Không có ghi chú"}
+                          {shift.note}
                         </div>
                       </td>
                     </tr>

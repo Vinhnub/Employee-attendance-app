@@ -11,6 +11,7 @@ export default function Header() {
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
   const { confirm } = usePopup();
+  const roleLabels = { staff: "Nhân viên", manager: "Quản lý" };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -81,7 +82,7 @@ export default function Header() {
             </div>
             <div className={styles.bottomRow}>
               <span className={styles.roleLabel}>
-                Chức vụ: {user.role?.charAt(0).toUpperCase() + user.role?.slice(1)}
+                {roleLabels[user.role] || user.role}
               </span>
               <span className={styles.shiftInfo}>
                 {currentShift ?

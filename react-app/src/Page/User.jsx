@@ -108,7 +108,7 @@ export default function User() {
               <p className={styles.userDetail}><strong>User ID:</strong> {user.id}</p>
               <p className={styles.userDetail}><strong>Username:</strong> {user.username}</p>
               <p className={styles.userDetail}><strong>Full Name:</strong> {user.fullname}</p>
-              <p className={styles.userDetail}><strong>Role:</strong> {user.role}</p>
+              <p className={styles.userDetail}><strong>Role:</strong> {roleLabels[user.role] || user.role}</p>
             </div>
 
             <button className={styles.button} onClick={() => setShowPasswordBox(!showPasswordBox)}>
