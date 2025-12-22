@@ -180,7 +180,7 @@ export default function TodayShifts() {
             </thead>
             <tbody>
               {shifts.length > 0 ? (
-                shifts.map((shift) => (
+                [...shifts].reverse().map((shift) => (
                   <React.Fragment key={shift.id}>
                     <tr
                       className={`${styles.shiftRow} ${getStatusColor(shift)} ${expandedShift === shift.id ? styles.expanded : ''}`}

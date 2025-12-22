@@ -5,17 +5,17 @@ import Layout from "../Component/Layout";
 import UserNav from "../Component/UserNav";
 import styles from "./OverTime.module.css";
 
+  
 export default function OverTime() {
   const [note, setNote] = useState("");
   const [endtime, setEndtime] = useState(() => {
     const now = new Date();
     now.setTime(now.getTime() + 7 * 60 * 60 * 1000);
-    return now.toISOString().slice(0, 19);
+    return now.toISOString().slice(11, 16);
   });
   const { popup } = usePopup();
-
   function convert(date) {
-    const nDate = date.replace(`T`, ` `);
+    const nDate = new Date().toISOString().slice(0, 10) + " " + date + ":00";
     return nDate;
   }
   const OverTimeInfo = {
@@ -39,7 +39,7 @@ export default function OverTime() {
   return (
     <Layout Navbar={UserNav}>
       <div className={styles.container}>
-        <h2 className={styles.title}>Gia hạn thời gian</h2>
+        <h2 className={styles.title}>Thêm thời gian</h2>
         <form className={styles.form} onSubmit={handleOverTime}>
           <input
             className={styles.input}
@@ -51,7 +51,7 @@ export default function OverTime() {
           <label className={styles.label}>Thời gian kết thúc mới</label>
           <input
             className={styles.input}
-            type="datetime-local"
+            type="time"
             value={endtime}
             onChange={(e) => setEndtime(e.target.value)}
           />

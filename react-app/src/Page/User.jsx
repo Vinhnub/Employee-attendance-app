@@ -103,7 +103,7 @@ export default function User() {
           <div className={styles.notFound}><h1 className={styles.notFoundTitle}>No user found</h1></div>
         ) : (
           <div className={styles.userCard}>
-            <h2 className={styles.title}>User Details</h2>
+            <h2 className={styles.title}>Thông tin cụ thể</h2>
             <div className={styles.userInfo}>
               <p className={styles.userDetail}><strong>User ID:</strong> {user.id}</p>
               <p className={styles.userDetail}><strong>Username:</strong> {user.username}</p>
@@ -112,7 +112,7 @@ export default function User() {
             </div>
 
             <button className={styles.button} onClick={() => setShowPasswordBox(!showPasswordBox)}>
-              Change Password
+              Đổi mật khẩu
             </button>
             {showPasswordBox && (
               <form className={styles.passwordForm} onSubmit={handlePasswordSubmit}>
@@ -136,13 +136,13 @@ export default function User() {
 
             <div className={styles.buttonGroup}>
               <button className={styles.buttonSecondary} onClick={() => navigate(`shifts`)}>
-                Show shifts
+                Hiển thị ca làm
               </button>
               <button className={styles.buttonSecondary} onClick={() => navigate(`logs`)}>
-                Show Logs
+                Hiển thị lịch sử
               </button>
               <button className={styles.buttonDanger} onClick={handleDeleteClick}>
-                Delete user
+                Xóa người dùng
               </button>
             </div>
           </div>

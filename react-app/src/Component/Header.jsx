@@ -29,11 +29,11 @@ export default function Header() {
 
   const handleLogoutClick = () => {
     confirm(
-      "Are you sure you want to logout?",
+      "Đăng xuất?",
       handleConfirmLogout,
       null,
-      "Logout",
-      "Cancel"
+      "Xác nhận",
+      "Quay lại"
     );
   };
 

@@ -35,10 +35,10 @@ export default function UserLogs() {
             </thead>
             <tbody>
               {logs.length > 0 ? (
-                logs.map((log) => (
+                [...logs].reverse().map((log) => (
                   <React.Fragment key={log.id}>
                     <tr className={styles.logRow}>
-                      <td className={styles.timeCell}>{String(log.date_time).slice(11, 19)}</td>
+                      <td className={styles.timeCell}>{String(log.date_time)}</td>
                       <td className={styles.actionCell}>{log.content}</td>
                     </tr>
                   </React.Fragment>

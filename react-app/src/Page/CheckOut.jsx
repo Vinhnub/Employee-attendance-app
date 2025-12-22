@@ -15,7 +15,7 @@ export default function CheckOut() {
       "Bạn có chắc chắn muốn điểm danh ra khỏi ca làm việc?",
       handleConfirmCheckOut,
       null,
-      "Điểm danh ra",
+      "Xác nhận",
       "Hủy"
     );
   };
@@ -31,7 +31,7 @@ export default function CheckOut() {
       }
     } catch (err) {
       console.error("Check out error:", err);
-      popup(<p style={{ color: "red" }}>Điểm danh ra thất bại</p>);
+      popup(<p style={{ color: "red" }}>Điểm danh ra ca thất bại</p>);
     } finally {
       setLoading(false);
     }
@@ -39,9 +39,9 @@ export default function CheckOut() {
   return (
     <Layout Navbar={UserNav}>
       <div className={styles.container}>
-        <h2 className={styles.title}>Điểm danh ra</h2>
+        <h2 className={styles.title}>Điểm danh ra ca</h2>
         <button className={styles.button} onClick={handleCheckOutClick} disabled={loading}>
-          {loading ? "Đang điểm danh ra..." : "Vào ra"}
+          {loading ? "Đang điểm danh ra ca..." : "Ra ca"}
         </button>
       </div>
     </Layout>
