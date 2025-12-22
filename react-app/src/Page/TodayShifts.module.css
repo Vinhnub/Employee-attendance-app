@@ -91,15 +91,18 @@
 }
 
 .statusWorking {
-  background-color: var(--color-danger);
+  background-color: white;
+  color: var(--color-danger);
 }
 
 .statusCompleted {
-  background-color: var(--color-success);
+  background-color: white;
+  color: var(--color-success);
 }
 
 .statusScheduled {
-  background-color: var(--color-warning);
+  background-color: var(--text-primary);
+  color: var(--color-warning);
 }
 
 .tableWrapper {
