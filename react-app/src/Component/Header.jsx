@@ -74,9 +74,8 @@ export default function Header() {
             <div className={styles.topRow}>
               <span className={styles.username}>{user.fullname}</span>
               <div className={styles.topRowRight}>
-                <span className={styles.statusLabel}>Online</span>
                 <button className={styles.logoutButton} onClick={handleLogoutClick}>
-                  Logout
+                  Đăng xuất
                 </button>
               </div>
             </div>
