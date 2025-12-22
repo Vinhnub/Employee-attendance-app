@@ -6,7 +6,9 @@ export default defineConfig(({mode}) => {
   return {
     plugins: [react()],
     define: {
-      IP_NETWORK: JSON.stringify(env.VITE_IP_NETWORK),
+      IP_NETWORK: JSON.stringify("http://192.168.1.5:5555"),
     },
   };
+  
 });
+
