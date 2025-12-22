@@ -1,7 +1,8 @@
 .layout {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100dvh; /* Modern dynamic viewport height */
+  min-height: var(--vh, 100vh); /* Fallback for browsers without dvh support */
   background-color: var(--bg-primary);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
