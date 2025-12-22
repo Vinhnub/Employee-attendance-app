@@ -1,5 +1,6 @@
 .shiftsTable {
   width: 100%;
+  max-width: 90dvw;
   border-collapse: collapse;
   background: var(--bg-card);
   border-radius: 8px;

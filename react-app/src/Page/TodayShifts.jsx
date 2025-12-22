@@ -173,8 +173,8 @@ export default function TodayShifts() {
             <thead>
               <tr>
                 <th>Tên nhân viên</th>
-                <th>Thời gian bắt đầu</th>
-                <th>Thời gian kết thúc</th>
+                <th>Bắt đầu</th>
+                <th>Kết thúc</th>
                 <th>Ghi chú</th>
               </tr>
             </thead>
