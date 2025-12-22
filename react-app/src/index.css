@@ -17,6 +17,9 @@
   --bg-card: #ffffff;
   --bg-input: #f8f9fa;
   --bg-navbar: #ffffff;
+  --bg-vinh: #3E4BEA;
+  --bg-quan: #000000;
+
 
   --text-primary: #213547;
   --text-secondary: #666666;
@@ -53,6 +56,8 @@
   --bg-card: #404040;
   --bg-input: #333333;
   --bg-navbar: #333333;
+  --bg-vinh: #3E4BEA;
+  --bg-quan: #c5c5c5;
 
   --text-primary: #ffffff;
   --text-secondary: #cccccc;
@@ -72,8 +77,8 @@
   --gradient-success: linear-gradient(135deg, #1f2937, #374151);
   --gradient-warning: linear-gradient(135deg, #451a03, #78350f);
 
-  --color-success: #34d399;
-  --color-success-bg: rgba(52, 211, 153, 0.1);
+  --color-success: #00ffa2;
+  --color-success-bg: rgba(0, 255, 157, 0.1);
   --color-danger: #ef4444;
   --color-danger-bg: rgba(239, 68, 68, 0.1);
   --color-warning: #f59e0b;

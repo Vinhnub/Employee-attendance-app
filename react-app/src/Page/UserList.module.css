@@ -7,11 +7,14 @@
 }
 
 .title {
-  color: var(--text-primary);
+  background: linear-gradient(145deg, var(--bg-quan), var(--bg-vinh));
   margin-bottom: 30px;
   text-align: center;
   font-size: 2rem;
   font-weight: 600;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Desktop Table Styles */
