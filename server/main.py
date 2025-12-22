@@ -37,6 +37,7 @@ app.middleware("http")(auth_middleware)
 origins = [
     "http://26.212.75.55:5173",
     "http://26.253.176.29:5173",
+    "http://192.168.1.5:5173",
     "http://10.12.96.95:5173",
     "http://localhost:5173",
     "https://employee-attendance-app-wf8c.onrender.com",

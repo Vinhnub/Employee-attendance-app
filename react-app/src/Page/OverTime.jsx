@@ -27,6 +27,7 @@ export default function OverTime() {
     try {
       const response = await employeeService.OverTime(OverTimeInfo);
       if (response.data.status === "success") {
+        popup(<p style={{ color: "green" }}>{response.data.message}</p>);
       } else {
         popup(<p style={{ color: "red" }}>{response.data.message}</p>);
       }

@@ -25,6 +25,7 @@ export default function CheckOut() {
     try {
       const response = await employeeService.CheckOut();
       if (response.data.status === "success") {
+        popup(<p style={{ color: "green" }}>{response.data.message}</p>);
       } else {
         popup(<p style={{ color: "red" }}>{response.data.message}</p>);
       }
@@ -40,7 +41,7 @@ export default function CheckOut() {
       <div className={styles.container}>
         <h2 className={styles.title}>Điểm danh ra</h2>
         <button className={styles.button} onClick={handleCheckOutClick} disabled={loading}>
-          {loading ? "Đang điểm danh ra..." : "Điểm danh ra"}
+          {loading ? "Đang điểm danh ra..." : "Vào ra"}
         </button>
       </div>
     </Layout>
