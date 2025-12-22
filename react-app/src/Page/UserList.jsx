@@ -28,7 +28,7 @@ export default function UserList() {
   return (
     <Layout Navbar={ManagerNav}>
       <div className={styles.container}>
-        <h2 className={styles.title}>Danh sách người dùng</h2>
+        <h2 className={styles.title}>Danh sách Nhân viên</h2>
 
         {/* Desktop Table View */}
         <div className={styles.desktopTable}>

@@ -254,16 +254,18 @@
 }
 
 .statusBadge.statusWorking {
-  background-color: var(--color-danger);
+  background-color: white;
+  color: var(--color-danger);
 }
 
 .statusBadge.statusCompleted {
-  background-color: var(--color-success);
+  background-color: white;
+  color: var(--color-success);
 }
 
 .statusBadge.statusScheduled {
-  background-color: var(--color-warning);
-  color: var(--text-primary);
+  background-color: var(--text-primary);
+  color: var(--color-warning);
 }
 
 .detailActions {
