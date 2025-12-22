@@ -145,7 +145,7 @@ export default function TodayShifts() {
               </p>
             </div>
             <button
-              className={styles.refreshBtn}
+              className={`${styles.actionBtn} ${styles.refreshBtn}`}
               onClick={handleRefreshSheet}
               title="Đồng bộ dữ liệu với Google Sheets"
             >
