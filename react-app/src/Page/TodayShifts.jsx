@@ -177,7 +177,6 @@ export default function TodayShifts() {
                 <th>Thời gian bắt đầu</th>
                 <th>Thời gian kết thúc</th>
                 <th>Ghi chú</th>
-                <th>Hành động</th>
               </tr>
             </thead>
             <tbody>
@@ -206,11 +205,6 @@ export default function TodayShifts() {
                         <div className={styles.noteText} title={shift.note}>
                           {shift.note || "Không có ghi chú"}
                         </div>
-                      </td>
-                      <td className={styles.actionCell}>
-                        <button className={`${styles.expandBtn} ${expandedShift === shift.id ? styles.rotate : ''}`}>
-                          ▼
-                        </button>
                       </td>
                     </tr>
                     {expandedShift === shift.id && (
