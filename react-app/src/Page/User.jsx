@@ -60,6 +60,7 @@ export default function User() {
     try {
       const response = await managementService.resetPassword(id, newPassword);
       if (response.data.status === "success") {
+        popup(<p style={{ color: "green" }}>Thay đổi mật khẩu thành công</p>);
         setShowPasswordBox(false);
         setPassword("");
         setCPassword("");
@@ -86,6 +87,7 @@ export default function User() {
     try {
       const response = await managementService.deleteUser(id);
       if (response.data.status == "success") {
+        popup(<p style={{ color: "green" }}>{response.data.message}</p>);
         navigate(-1);
       } else {
         popup(<p style={{ color: "red" }}>{response.data.message}</p>);

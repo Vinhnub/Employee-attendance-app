@@ -26,7 +26,7 @@ export default function WorkPage() {
   }, []);
   return (
     <Layout Navbar={UserNav}>
-      <h2>Ca làm việc</h2>
+      <h2>Ca làm việc trong tháng</h2>
       <ShiftsTable shifts={shifts} />
     </Layout>
   );

@@ -12,10 +12,10 @@ export default function CheckIn() {
   const [endtime, setEndtime] = useState(() => {
     const now = new Date();
     now.setTime(now.getTime() + 7 * 60 * 60 * 1000);
-    return now.toISOString().slice(11, 16);
+    return now.toISOString().slice(11, 19);
   });
   function convert(date) {
-    const nDate = new Date().toISOString().slice(0, 10) + " " + date + ":00";
+    const nDate = new Date().toISOString().slice(0, 10) + " " + date;
     return nDate;
   }
   const shiftInfo = {
@@ -28,7 +28,7 @@ export default function CheckIn() {
       "Bạn có chắc chắn muốn điểm danh vào ca làm việc của mình?",
       handleConfirmCheckIn,
       null,
-      "Điểm danh vào",
+      "Xác nhận",
       "Hủy"
     );
   };
@@ -37,20 +37,19 @@ export default function CheckIn() {
     try {
       const response = await employeeService.start_shift(shiftInfo);
       if (response.data.status == "success") {
-        popup(<p style={{ color: "green" }}>{response.data.message}</p>);
       } else {
         console.log(JSON.stringify(response.data));
-        popup(<p style={{ color: "red" }}>{response.data.message}</p>);
+        popup(<p style={{ color: "green" }}>{response.data.message}</p>);
       }
     } catch (error) {
       console.error("Error: " + error.message);
-      popup(<p style={{ color: "red" }}>Điểm danh vào thất bại</p>);
+      popup(<p style={{ color: "red" }}>Điểm danh vào ca thất bại</p>);
     }
   };
   return (
     <Layout Navbar={UserNav}>
       <div className={styles.container}>
-        <h2 className={styles.title}>Điểm danh vào</h2>
+        <h2 className={styles.title}>Điểm danh vào ca</h2>
         <form className={styles.form} onSubmit={handleSubmit}>
           <input
             className={styles.input}
@@ -66,7 +65,7 @@ export default function CheckIn() {
             value={endtime}
             onChange={(e) => setEndtime(e.target.value)}
           />
-          <button className={styles.button} type="submit">Điểm danh vào</button>
+          <button className={styles.button} type="submit">Vào ca</button>
         </form>
       </div>
     </Layout>
