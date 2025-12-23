@@ -4,6 +4,7 @@ import { ShiftsTable } from "../Component/ShiftsTable";
 import { usePopup } from "../Component/PopUp";
 import UserNav from "../Component/UserNav";
 import Layout from "../Component/Layout";
+import styles from "./Workpage.module.css";
 
 export default function WorkPage() {
   const [shifts, setShifts] = useState([]);
@@ -26,7 +27,7 @@ export default function WorkPage() {
   }, []);
   return (
     <Layout Navbar={UserNav}>
-      <h2>Ca làm việc trong tháng</h2>
+      <h2 className={styles.title}>Ca làm việc trong tháng</h2>
       <ShiftsTable shifts={shifts} />
     </Layout>
   );
