@@ -8,8 +8,8 @@ export function ShiftsTable({ shifts, func, extra }) {
     <table className={styles.shiftsTable}>
       <thead>
         <tr>
-          <th>Thời gian bắt đầu</th>
-          <th>Thời gian kết thúc</th>
+          <th>Bắt đầu</th>
+          <th>Kết thúc</th>
           <th>Ghi chú</th>
         </tr>
       </thead>
