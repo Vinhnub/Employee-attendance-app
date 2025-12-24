@@ -1,0 +1,35 @@
+download nginx window to c:/nginx
+edit file vite.config:
+// vite.config.ts
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
+  define: {
+    IP_NETWORK: JSON.stringify('/api'),
+  },
+})
+npm run build and copy folder dist to file
+add this code to nginx.conf
+server {
+    listen 80;
+    server_name vinhnub.local;
+
+    root your_directory;
+    index index.html;
+
+    location / {
+        try_files $uri /index.html;
+    }
+
+    location /api/ {
+        proxy_pass http://127.0.0.1:5555/;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+nginx.exe -s reload
+cd C:\nginx
+nginx.exe (run with admin)

@@ -40,6 +40,7 @@ origins = [
     "http://192.168.1.5:5173",
     "http://10.12.96.95:5173",
     "http://localhost:5173",
+    "http://vinhnub.local:5173",
     "https://employee-attendance-app-wf8c.onrender.com",
     # "https://your-frontend-domain.com",  # add if deployed later
 ]

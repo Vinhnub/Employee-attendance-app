@@ -1,3 +1,20 @@
+// vite.config.ts
+// import { defineConfig } from 'vite'
+// import react from '@vitejs/plugin-react'
+
+// export default defineConfig({
+//   plugins: [react()],
+
+//   // KHÔNG server.proxy
+//   // KHÔNG allowedHosts
+//   // KHÔNG host / port
+
+//   define: {
+//     IP_NETWORK: JSON.stringify('/api'),
+//   },
+// })
+
+
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
