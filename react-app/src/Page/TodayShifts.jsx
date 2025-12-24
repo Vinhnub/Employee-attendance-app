@@ -200,8 +200,11 @@ export default function TodayShifts() {
                         </div>
                       </td>
                     </tr>
-                    <tr colSpan="3">
-                      <td className={`${styles.shiftCell} ${styles.noteCell}`}>
+                    <tr
+                      className={`${styles.shiftRow} ${getStatusColor(shift)} ${expandedShift === shift.id ? styles.expanded : ''}`}
+                      onClick={() => expandShift(shift)}
+                    >
+                      <td colSpan={3} className={`${styles.shiftCell} ${styles.noteCell}`}>
                         <div className={styles.noteText} title={shift.note}>
                           {shift.note}
                         </div>
