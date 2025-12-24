@@ -5,6 +5,7 @@ import * as managementService from "../Service/Management";
 import * as authService from "../Service/Auth";
 import ManagerNav from "../Component/ManagerNav";
 import Layout from "../Component/Layout";
+import { usePopup } from "../Component/PopUp";
 import styles from "./UserShifts.module.css";
 
 export default function UserShifts() {
@@ -13,7 +14,7 @@ export default function UserShifts() {
   const [user, setUser] = useState();
   const [currentUser, setCurrentUser] = useState();
   const [shifts, setShifts] = useState([]);
-  const [popup, setPopup] = useState();
+  const { popup } = usePopup();
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -54,6 +55,27 @@ export default function UserShifts() {
     };
     fetchUser();
   }, [id]);
+
+  const handleCheckOut = async (shift) => {
+    try {
+      const response = await managementService.endShifts(shift.id);
+      if (response.data.status === "success") {
+        setExpandedShift(null); // Close the expanded row after checkout
+      } else {
+        popup(
+          <div style={{ color: "#dc3545", fontWeight: "500" }}>
+            {response.data.message}
+          </div>
+        );
+      }
+    } catch (err) {
+      console.error(err);
+      popup(
+        <div style={{ color: "#dc3545", fontWeight: "500" }}>{err.message}</div>
+      );
+    }
+  };
+
   const [expandedShift, setExpandedShift] = useState(null);
   return (
     <Layout Navbar={ManagerNav}>
@@ -66,6 +88,7 @@ export default function UserShifts() {
           allowExpand={true}
           expandedShift={expandedShift}
           setExpandedShift={setExpandedShift}
+          handleCheckOut={handleCheckOut}
         />
       </div>
     </Layout>

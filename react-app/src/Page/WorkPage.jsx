@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react";
 import * as employeeService from "../Service/Employee";
+import * as authService from "../Service/Auth";
 import { ShiftsTable } from "../Component/ShiftsTable";
 import { usePopup } from "../Component/PopUp";
 import UserNav from "../Component/UserNav";
@@ -10,7 +11,6 @@ export default function WorkPage() {
   const [shifts, setShifts] = useState([]);
   const [expandedShift, setExpandedShift] = useState(null);
   const { popup } = usePopup();
-  const [user, setUser] = useState();
   const [currentUser, setCurrentUser] = useState();
 
   useEffect(() => {
@@ -26,6 +26,31 @@ export default function WorkPage() {
     };
     fetchCurrentUser();
   }, []);
+  const handleCheckOut = async (shift) => {
+    try {
+      const response = await employeeService.end_shift(shift.id);
+      if (response.data.status === "success") {
+        setExpandedShift(null); // Close the expanded row after checkout
+        // Refresh shifts
+        const res = await employeeService.shifts();
+        if (res.data.status == "success") {
+          setShifts(res.data.data);
+        }
+      } else {
+        popup(
+          <div style={{ color: "#dc3545", fontWeight: "500" }}>
+            {response.data.message}
+          </div>
+        );
+      }
+    } catch (err) {
+      console.error(err);
+      popup(
+        <div style={{ color: "#dc3545", fontWeight: "500" }}>{err.message}</div>
+      );
+    }
+  };
+
   useEffect(() => {
     const fetchShifts = async () => {
       try {
@@ -51,6 +76,7 @@ export default function WorkPage() {
         allowExpand={true}
         expandedShift={expandedShift}
         setExpandedShift={setExpandedShift}
+        handleCheckOut={handleCheckOut}
       />
     </Layout>
   );
