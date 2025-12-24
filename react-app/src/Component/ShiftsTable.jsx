@@ -161,20 +161,6 @@ export function ShiftsTable({
                                     shift={shift}
                                     id={shift.user_id || user?.id}
                                     expandShift={expandShift}
-                                    setPopup={(msg) =>
-                                      popup(
-                                        <div
-                                          style={{
-                                            color: msg.includes("success")
-                                              ? "#28a745"
-                                              : "#dc3545",
-                                            fontWeight: "500",
-                                          }}
-                                        >
-                                          {msg}
-                                        </div>
-                                      )
-                                    }
                                   />
                                 </div>
                               )
@@ -209,7 +195,7 @@ export function ShiftsTable({
   );
 }
 
-export function UpdateShift({ shift, id, expandShift, setPopup = () => {} }) {
+export function UpdateShift({ shift, id, expandShift}) {
   const [startTime, setStartTime] = useState(
     shift.start_time ? String(shift.start_time).slice(11, 16) : ""
   );
@@ -238,11 +224,11 @@ export function UpdateShift({ shift, id, expandShift, setPopup = () => {} }) {
         shift.note = editShift.new_note;
         popup(<div style={{ color: "green" }}>{response.data.message}</div>);
       } else {
-        setPopup(<h4 style={{ color: "red" }}>{response.data.message}</h4>);
+        popup(<div style={{ color: "red" }}>{response.data.message}</div>);
       }
     } catch (err) {
       console.error(err);
-      setPopup(<h4 style={{ color: "red" }}>{err.message}</h4>);
+      popup(<div style={{ color: "red" }}>{err.message}</div>);
     }
     setTimeout(() => setPopup(null), 5000);
   };
