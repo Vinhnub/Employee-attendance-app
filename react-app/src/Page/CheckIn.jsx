@@ -37,9 +37,10 @@ export default function CheckIn() {
     try {
       const response = await employeeService.start_shift(shiftInfo);
       if (response.data.status == "success") {
+        popup(<p style={{ color: "green" }}>{response.data.message}</p>);
       } else {
         console.log(JSON.stringify(response.data));
-        popup(<p style={{ color: "green" }}>{response.data.message}</p>);
+        popup(<p style={{ color: "red" }}>{response.data.message}</p>);
       }
     } catch (error) {
       console.error("Error: " + error.message);
