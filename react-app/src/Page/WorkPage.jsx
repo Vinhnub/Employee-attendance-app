@@ -36,6 +36,11 @@ export default function WorkPage() {
         const res = await employeeService.shifts();
         if (res.data.status == "success") {
           setShifts(res.data.data);
+          popup(
+          <div style={{ color: "green", fontWeight: "500" }}>
+            {response.data.message}
+          </div>
+        );
         }
       } else {
         popup(
