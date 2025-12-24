@@ -8,6 +8,7 @@ import styles from "./Workpage.module.css";
 
 export default function WorkPage() {
   const [shifts, setShifts] = useState([]);
+  const [expandedShift, setExpandedShift] = useState(null);
   const { popup } = usePopup();
   useEffect(() => {
     const fetchShifts = async () => {
@@ -28,7 +29,12 @@ export default function WorkPage() {
   return (
     <Layout Navbar={UserNav}>
       <h2 className={styles.title}>Ca làm việc trong tháng</h2>
-      <ShiftsTable shifts={shifts} />
+      <ShiftsTable
+        shifts={shifts}
+        allowExpand={true}
+        expandedShift={expandedShift}
+        setExpandedShift={setExpandedShift}
+      />
     </Layout>
   );
 }
