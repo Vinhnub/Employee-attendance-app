@@ -115,9 +115,9 @@ export function ShiftsTable({
                     >
                       <div className={styles.detailContent}>
                         <div className={styles.detailInfo}>
-                          <div className={styles.detailItem}>
-                            <strong>ID nhân viên:</strong> {shift.user_id}
-                          </div>
+                        <div className={styles.detailItem}>
+                          <strong>ID nhân viên:</strong> {shift.user_id || user?.id}
+                        </div>
                           <div className={styles.detailItem}>
                             <strong>ID ca làm việc:</strong> {shift.id}
                           </div>
@@ -142,25 +142,24 @@ export function ShiftsTable({
                             </div>
                           )}
                         </div>
-                        {user &&
-                          user.role === "manager" &&
-                          (isTodayShifts || allowExpand) && (
-                            <div className={styles.detailActions}>
-                              {shift.is_working ? (
-                                <button
-                                  className={`${styles.actionBtn} ${styles.checkOutBtn}`}
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleCheckOutInternal(shift);
-                                  }}
-                                >
-                                  🕐 Điểm danh ra
-                                </button>
-                              ) : (
+                        {user && (isTodayShifts || allowExpand) && (
+                          <div className={styles.detailActions}>
+                            {shift.is_working ? (
+                              <button
+                                className={`${styles.actionBtn} ${styles.checkOutBtn}`}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleCheckOutInternal(shift);
+                                }}
+                              >
+                                🕐 Điểm danh ra
+                              </button>
+                            ) : (
+                              user.role === "manager" && (
                                 <div className={styles.updateActions}>
                                   <UpdateShift
                                     shift={shift}
-                                    id={shift.user_id}
+                                    id={shift.user_id || user?.id}
                                     expandShift={expandShift}
                                     setPopup={(msg) =>
                                       popup(
@@ -178,9 +177,10 @@ export function ShiftsTable({
                                     }
                                   />
                                 </div>
-                              )}
-                            </div>
-                          )}
+                              )
+                            )}
+                          </div>
+                        )}
                       </div>
                     </td>
                   </tr>
