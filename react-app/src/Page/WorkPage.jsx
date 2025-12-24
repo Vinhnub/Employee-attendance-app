@@ -30,6 +30,7 @@ export default function WorkPage() {
     try {
       const response = await employeeService.end_shift(shift.id);
       if (response.data.status === "success") {
+        //popup(<p style={{ color: "green" }}>{response.data.message}</p>);
         setExpandedShift(null); // Close the expanded row after checkout
         // Refresh shifts
         const res = await employeeService.shifts();

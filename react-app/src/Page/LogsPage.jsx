@@ -67,7 +67,7 @@ export default function LogsPage() {
             </thead>
             <tbody>
               {logs.length > 0 ? (
-                logs.map((log) => (
+                [...logs].reverse().map((log) => (
                   <tr key={log.id} className={styles.logRow}>
                     <td className={styles.actorCell}>
                       <div className={styles.actorName}>{log.fullname}</div>
