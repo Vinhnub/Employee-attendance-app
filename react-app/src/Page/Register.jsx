@@ -51,6 +51,7 @@ export default function Register() {
     try {
       const response = await management.register(registerInfo);
       if (response.data.status === "success") {
+        popup(<p style={{ color: "green" }}>{response.data.message}</p>);
         // Reset form
         setUsername("");
         setPassword("");
