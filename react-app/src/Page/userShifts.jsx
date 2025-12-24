@@ -61,6 +61,11 @@ export default function UserShifts() {
       const response = await managementService.endShifts(shift.id);
       if (response.data.status === "success") {
         setExpandedShift(null); // Close the expanded row after checkout
+        popup(
+          <div style={{ color: "green", fontWeight: "500" }}>
+            {response.data.message}
+          </div>
+        );
       } else {
         popup(
           <div style={{ color: "#dc3545", fontWeight: "500" }}>

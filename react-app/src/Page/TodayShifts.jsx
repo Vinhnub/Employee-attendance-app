@@ -82,6 +82,11 @@ export default function TodayShifts() {
     try {
       const response = await managementService.endShifts(shift.id);
       if (response.data.status === "success") {
+        popup(
+          <div style={{ color: "green", fontWeight: "500" }}>
+            {response.data.message}
+          </div>
+        );
         setExpandedShift(null); // Close the expanded row after checkout
       } else {
         popup(
@@ -158,6 +163,7 @@ export default function TodayShifts() {
           shifts={shifts}
           showEmployeeName={true}
           user={user}
+          handleCheckOut={handleCheckOut}
           expandedShift={expandedShift}
           setExpandedShift={setExpandedShift}
           isTodayShifts={true}
