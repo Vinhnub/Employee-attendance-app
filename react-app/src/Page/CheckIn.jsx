@@ -12,10 +12,10 @@ export default function CheckIn() {
   const [endtime, setEndtime] = useState(() => {
     const now = new Date();
     now.setTime(now.getTime() + 7 * 60 * 60 * 1000);
-    return now.toISOString().slice(11, 19);
+    return now.toISOString().slice(11, 16);
   });
   function convert(date) {
-    const nDate = new Date().toISOString().slice(0, 10) + " " + date;
+    const nDate = new Date().toISOString().slice(0, 10) + " " + date + ":00";
     return nDate;
   }
   const shiftInfo = {
