@@ -175,7 +175,6 @@ export default function TodayShifts() {
                 <th>Tên nhân viên</th>
                 <th>Bắt đầu</th>
                 <th>Kết thúc</th>
-                <th>Ghi chú</th>
               </tr>
             </thead>
             <tbody>
@@ -200,6 +199,8 @@ export default function TodayShifts() {
                           {formatTime(shift.end_time)}
                         </div>
                       </td>
+                    </tr>
+                    <tr colSpan="3">
                       <td className={`${styles.shiftCell} ${styles.noteCell}`}>
                         <div className={styles.noteText} title={shift.note}>
                           {shift.note}
