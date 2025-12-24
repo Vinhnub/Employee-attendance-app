@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ShiftsTable } from "../Component/ShiftsTable";
 import * as managementService from "../Service/Management";
-import { UpdateShift } from "../Component/ShiftsTable";
+import * as authService from "../Service/Auth";
 import ManagerNav from "../Component/ManagerNav";
 import Layout from "../Component/Layout";
 import styles from "./UserShifts.module.css";
@@ -11,8 +11,23 @@ export default function UserShifts() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [user, setUser] = useState();
+  const [currentUser, setCurrentUser] = useState();
   const [shifts, setShifts] = useState([]);
   const [popup, setPopup] = useState();
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const response = await authService.me();
+        if (response.data.status === "success") {
+          setCurrentUser(response.data.data);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchCurrentUser();
+  }, []);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -39,10 +54,7 @@ export default function UserShifts() {
     };
     fetchUser();
   }, [id]);
-  const [expanedShift, setExpanedShift] = useState(null);
-  function expandShift(shift) {
-    setExpanedShift(shift.id == expanedShift ? null : shift.id);
-  }
+  const [expandedShift, setExpandedShift] = useState(null);
   return (
     <Layout Navbar={ManagerNav}>
       <div className={styles.container}>
@@ -50,21 +62,10 @@ export default function UserShifts() {
         <h2 className={styles.title}>Ca làm việc của người dùng</h2>
         <ShiftsTable
           shifts={shifts}
-          extra={(shift) =>
-            expanedShift == shift.id && (
-              <tr>
-                <td colSpan={3}>
-                  <UpdateShift
-                    id={id}
-                    shift={shift}
-                    expandShift={expandShift}
-                    setPopup={setPopup}
-                  />
-                </td>
-              </tr>
-            )
-          }
-          func={(shift) => expandShift(shift)}
+          user={currentUser}
+          allowExpand={true}
+          expandedShift={expandedShift}
+          setExpandedShift={setExpandedShift}
         />
       </div>
     </Layout>

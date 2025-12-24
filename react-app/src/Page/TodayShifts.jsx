@@ -78,7 +78,7 @@ export default function TodayShifts() {
     fetchShifts();
   }, [fetchShifts]);
 
-  const handleCheckOut = async (shift) => {
+    const handleCheckOut = async (shift) => {
     try {
       const response = await managementService.endShifts(shift.id);
       if (response.data.status === "success") {
@@ -160,7 +160,6 @@ export default function TodayShifts() {
           user={user}
           expandedShift={expandedShift}
           setExpandedShift={setExpandedShift}
-          handleCheckOut={handleCheckOut}
           isTodayShifts={true}
         />
       </div>
