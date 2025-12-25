@@ -71,91 +71,138 @@ Traditional attendance tracking in small businesses (cafes, retail stores) often
 ## 📁 Project Structure
 
 ```
-employee-attendance-app/
-├── react-app/                          # React Frontend Application
-│   ├── src/
-│   │   ├── Component/                  # Reusable UI Components
-│   │   │   ├── Header.jsx             # Application header
-│   │   │   ├── Navbar.jsx             # Navigation component
-│   │   │   ├── PopUp.jsx              # Modal dialogs
-│   │   │   ├── ShiftsTable.jsx        # Data display tables
-│   │   │   └── Layout.jsx             # Page layout wrapper
-│   │   ├── Page/                      # Application Pages/Routes
-│   │   │   ├── Login.jsx              # Authentication page
-│   │   │   ├── CheckIn.jsx            # Staff check-in interface
-│   │   │   ├── CheckOut.jsx           # Staff check-out interface
-│   │   │   ├── WorkPage.jsx           # Staff work status dashboard
-│   │   │   ├── OverTime.jsx           # Overtime logging
-│   │   │   ├── ManagerMenu.jsx        # Manager dashboard
-│   │   │   ├── StaffMenu.jsx          # Staff dashboard
-│   │   │   ├── UserList.jsx           # User management
-│   │   │   ├── TodayShifts.jsx        # Daily attendance view
-│   │   │   ├── UserLogs.jsx           # Activity logs
-│   │   │   ├── User.jsx               # User profile management
-│   │   │   ├── UserShifts.jsx         # Individual shift history
-│   │   │   ├── ChangePassword.jsx     # Password management
-│   │   │   ├── Register.jsx           # New user registration
-│   │   │   ├── LogsPage.jsx           # System logs
-│   │   │   ├── Menu.jsx               # Main navigation
-│   │   │   └── Unauthorized.jsx       # Access denied page
-│   │   ├── Service/                   # API Service Layer
-│   │   │   ├── Auth.js                # Authentication services
-│   │   │   ├── Employee.js            # Staff operations
-│   │   │   ├── Management.js          # Manager operations
-│   │   │   └── Authorization.jsx      # Route protection
-│   │   ├── App.jsx                    # Main application component
-│   │   ├── App.css                    # Global styles
-│   │   ├── main.jsx                   # Application entry point
-│   │   └── index.css                  # Base styles
-│   ├── public/                        # Static assets
-│   ├── .env.development               # Development configuration
-│   ├── .env.production                # Production configuration
-│   ├── vite.config.js                 # Vite build configuration
-│   ├── package.json                   # Frontend dependencies
-│   └── eslint.config.js               # Code linting rules
-├── server/                            # FastAPI Backend Server
-│   ├── controllers/                   # Business Logic Controllers
-│   │   ├── auth_controller.py         # Authentication operations
-│   │   ├── employee_controller.py     # Staff shift management
-│   │   └── manager_controller.py      # Administrative operations
-│   ├── database/                      # Database Layer
-│   │   ├── access_database.py         # Database connection
-│   │   ├── schema.sql                 # Database schema
-│   │   ├── data.db                    # SQLite database file
-│   │   ├── database_tester.py         # Database testing utilities
-│   │   ├── current_month.txt          # Month tracking
-│   │   ├── data_per_month/            # Monthly Excel exports
-│   │   └── images/                    # Database diagrams
-│   ├── middleware/                    # Server Middleware
-│   │   ├── auth_middleware.py         # JWT authentication
-│   │   └── logging_middleware.py      # Request logging
-│   ├── models/                        # Data Models
-│   │   ├── user.py                    # User entity
-│   │   ├── shift.py                   # Shift entity
-│   │   └── log.py                     # Activity log entity
-│   ├── routes/                        # API Route Definitions
-│   │   ├── auth_router.py             # Authentication endpoints
-│   │   ├── employee_router.py         # Staff endpoints
-│   │   └── manager_router.py          # Manager endpoints
-│   ├── services/                      # Business Services
-│   │   ├── user_service.py            # User management
-│   │   ├── shift_service.py           # Shift operations
-│   │   ├── log_service.py             # Logging service
-│   │   ├── gsheet_service.py          # Google Sheets integration
-│   │   └── base_service.py            # Base service class
-│   ├── utils/                         # Utility Functions
-│   │   ├── config.py                  # Configuration constants
-│   │   ├── jwt_handler.py             # JWT utilities
-│   │   └── hashing.py                 # Password hashing
-│   ├── main.py                        # FastAPI application
-│   ├── server.py                      # Server management
-│   └── dependencies.py                # Dependency injection
-├── requirements.txt                   # Python dependencies
-├── report.docx                        # Project documentation
-├── report.pdf                         # Project report
-├── Web attendance report.docx         # Web report
-├── .gitignore                         # Git ignore rules
-└── README.md                          # Project documentation
+├── 📁 react-app
+│   ├── 📁 public
+│   │   └── 🖼️ vite.svg
+│   ├── 📁 src
+│   │   ├── 📁 Component
+│   │   │   ├── 📄 Calendar.jsx
+│   │   │   ├── 🎨 Calendar.module.css
+│   │   │   ├── 🎨 Component.module.css
+│   │   │   ├── 📄 Header.jsx
+│   │   │   ├── 🎨 Header.module.css
+│   │   │   ├── 📄 Layout.jsx
+│   │   │   ├── 🎨 Layout.module.css
+│   │   │   ├── 📄 ManagerNav.jsx
+│   │   │   ├── 📄 Navbar.jsx
+│   │   │   ├── 🎨 Navbar.module.css
+│   │   │   ├── 📄 PopUp.jsx
+│   │   │   ├── 📄 ShiftsTable.jsx
+│   │   │   ├── 🎨 ShiftsTable.module.css
+│   │   │   ├── 📄 ThemeContext.jsx
+│   │   │   └── 📄 UserNav.jsx
+│   │   ├── 📁 Page
+│   │   │   ├── 📄 ChangePassword.jsx
+│   │   │   ├── 🎨 ChangePassword.module.css
+│   │   │   ├── 📄 CheckIn.jsx
+│   │   │   ├── 🎨 CheckIn.module.css
+│   │   │   ├── 📄 CheckOut.jsx
+│   │   │   ├── 🎨 CheckOut.module.css
+│   │   │   ├── 📄 Login.jsx
+│   │   │   ├── 🎨 Login.module.css
+│   │   │   ├── 📄 LogsPage.jsx
+│   │   │   ├── 🎨 LogsPage.module.css
+│   │   │   ├── 📄 OverTime.jsx
+│   │   │   ├── 🎨 OverTime.module.css
+│   │   │   ├── 📄 Register.jsx
+│   │   │   ├── 🎨 Register.module.css
+│   │   │   ├── 📄 TodayShifts.jsx
+│   │   │   ├── 🎨 TodayShifts.module.css
+│   │   │   ├── 📄 Unauthorized.jsx
+│   │   │   ├── 🎨 Unauthorized.module.css
+│   │   │   ├── 📄 User.jsx
+│   │   │   ├── 🎨 User.module.css
+│   │   │   ├── 📄 UserList.jsx
+│   │   │   ├── 🎨 UserList.module.css
+│   │   │   ├── 📄 UserLogs.jsx
+│   │   │   ├── 🎨 UserLogs.module.css
+│   │   │   ├── 🎨 UserShifts.module.css
+│   │   │   ├── 📄 WorkPage.jsx
+│   │   │   ├── 🎨 WorkPage.module.css
+│   │   │   └── 📄 userShifts.jsx
+│   │   ├── 📁 Service
+│   │   │   ├── 📄 Auth.js
+│   │   │   ├── 📄 Authorization.jsx
+│   │   │   ├── 📄 Employee.js
+│   │   │   └── 📄 Management.js
+│   │   ├── 📁 assets
+│   │   │   └── 🖼️ react.svg
+│   │   ├── 📁 utils
+│   │   │   └── 📄 viewportHeight.js
+│   │   ├── 🎨 App.css
+│   │   ├── 📄 App.jsx
+│   │   ├── 🎨 index.css
+│   │   └── 📄 main.jsx
+│   ├── ⚙️ .dockerignore
+│   ├── ⚙️ .gitignore
+│   ├── 🐳 Dockerfile
+│   ├── 📝 README.md
+│   ├── ⚙️ db.json
+│   ├── 📄 eslint.config.js
+│   ├── 🌐 index.html
+│   ├── ⚙️ package-lock.json
+│   ├── ⚙️ package.json
+│   └── 📄 vite.config.js
+├── 📁 server
+│   ├── 📁 controllers
+│   │   ├── 🐍 __init__.py
+│   │   ├── 🐍 auth_controller.py
+│   │   ├── 🐍 employee_controller.py
+│   │   └── 🐍 manager_controller.py
+│   ├── 📁 database
+│   │   ├── 📁 data_per_month
+│   │   │   ├── 📄 10-2025.xlsx
+│   │   │   ├── 📄 11-2025.xlsx
+│   │   │   └── 📄 12-2025.xlsx
+│   │   ├── 📁 images
+│   │   │   ├── 🖼️ ERD.png
+│   │   │   └── 🖼️ diagram.png
+│   │   ├── 🐍 __init__.py
+│   │   ├── 🐍 access_database.py
+│   │   ├── 📄 current_month.txt
+│   │   ├── 📄 data.db
+│   │   ├── 🐍 database_tester.py
+│   │   └── 📄 schema.sql
+│   ├── 📁 middleware
+│   │   ├── 🐍 __init__.py
+│   │   ├── 🐍 auth_middleware.py
+│   │   └── 🐍 logging_middleware.py
+│   ├── 📁 models
+│   │   ├── 🐍 __init__.py
+│   │   ├── 🐍 log.py
+│   │   ├── 🐍 shift.py
+│   │   └── 🐍 user.py
+│   ├── 📁 routes
+│   │   ├── 🐍 __init__.py
+│   │   ├── 🐍 auth_router.py
+│   │   ├── 🐍 employee_router.py
+│   │   └── 🐍 manager_router.py
+│   ├── 📁 services
+│   │   ├── 🐍 __init__.py
+│   │   ├── 🐍 base_service.py
+│   │   ├── 🐍 gsheet_service.py
+│   │   ├── 🐍 log_service.py
+│   │   ├── 🐍 shift_service.py
+│   │   └── 🐍 user_service.py
+│   ├── 📁 utils
+│   │   ├── 🐍 __init__.py
+│   │   ├── 🐍 config.py
+│   │   ├── 🐍 hashing.py
+│   │   └── 🐍 jwt_handler.py
+│   ├── ⚙️ .dockerignore
+│   ├── 🐳 Dockerfile
+│   ├── 🐍 __init__.py
+│   ├── 🐍 dependencies.py
+│   ├── ⚙️ logging.yaml
+│   ├── 🐍 main.py
+│   ├── 📄 requirements.txt
+│   └── 🐍 server_instance.py
+├── ⚙️ .gitignore
+├── 📝 README.md
+├── ⚙️ docker-compose.yml
+├── 📄 docker_&_nssm_command.txt
+├── 📄 gg_sheet_api_getting.txt
+└── 📄 setup_host.txt
 ```
 
 ## 🗄 Database Schema
@@ -215,7 +262,7 @@ CREATE TABLE UserLog (
 
 1. **Navigate to server directory:**
    ```bash
-   cd server
+   cd app folder (main folder)
    ```
 
 2. **Install Python dependencies:**
@@ -229,13 +276,12 @@ CREATE TABLE UserLog (
    SERVER_IP=127.0.0.1
    PORT_TCP=8000
    SECRET_KEY=your-super-secret-jwt-key-here
-   GSHEET_CREDENTIALS=path/to/service-account.json
+   GSHEET_CREDENTIALS="server/database/credentials.json"
    SHEET_ID=your-google-sheet-id
    ```
-
-4. **Initialize database:**
-   ```bash
-   python -c "from server.database.access_database import DatabaseFetcher; DatabaseFetcher.initialize_database()"
+4. **How to get credentials.json:**
+   ```
+   Tutorial in gg_sheet_api_getting.txt
    ```
 
 ### Frontend Configuration
@@ -266,8 +312,7 @@ CREATE TABLE UserLog (
 
 1. **Start Backend Server:**
    ```bash
-   cd server
-   python main.py
+   python -m server.main
    ```
    Server runs on `http://127.0.0.1:8000`
 
@@ -292,6 +337,12 @@ CREATE TABLE UserLog (
    ```bash
    python main.py
    ```
+2. **Deploy Production:**
+   Use nssm to install service for app (automatic run)
+   ```bash
+   Detail in file setup_host.txt
+   ```
+
 
 ## 📡 API Reference
 
@@ -384,12 +435,7 @@ The system integrates with Google Sheets for real-time data synchronization:
 
 ### Common Issues
 
-**Database Connection Errors:**
-```bash
-# Reinitialize database
-cd server
-python -c "from server.database.access_database import DatabaseFetcher; DatabaseFetcher.initialize_database()"
-```
+
 
 **Google Sheets API Issues:**
 - Verify service account credentials
@@ -437,6 +483,7 @@ For technical support or questions:
 - Create an issue in the repository
 - Contact the development team
 - Check the project documentation in `report.docx`
+- Or contact Vinhnub (gmail: vinhvane685@gmail.com)
 
 ## 🎯 Future Enhancements
 

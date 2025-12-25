@@ -46,7 +46,7 @@ class ManagerController:
         result = self.user_service.reset_password(user_id, target_id, new_password)
 
         if result:
-            self.log_service.write_log(f"Đặt lại mật khẩu cho {target_id}", user_id)
+            self.log_service.write_log(f"Đặt lại mật khẩu cho {result}", user_id)
             return {
                 "status" : "success",
                 "message" : "Thành công"
@@ -66,7 +66,7 @@ class ManagerController:
         result = self.user_service.delete_user(user_id, target_id)
 
         if result:
-            self.log_service.write_log(f"Xóa tài khoản {target_id}", user_id)
+            self.log_service.write_log(f"Xóa tài khoản {result}", user_id)
             return {
                 "status" : "success",
                 "message" : "Thành công"
@@ -246,7 +246,6 @@ class ManagerController:
             }
 
         all_shifts_current_month = self.shift_service.get_all_shifts_current_month()
-        print(all_shifts_current_month)
         server_instance.refresh_sheet(all_shifts_current_month)
 
         return {

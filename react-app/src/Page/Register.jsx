@@ -31,10 +31,10 @@ export default function Register() {
       return;
     }
 
-    if (password.length < 6) {
+    if (password.length < 1) {
       popup(
         <div style={{ color: "#dc3545", fontWeight: "500" }}>
-          Mật khẩu phải có ít nhất 6 ký tự
+          Mật khẩu phải có ít nhất 1 ký tự
         </div>
       );
       setIsLoading(false);
@@ -144,7 +144,7 @@ export default function Register() {
                 id="password"
                 type="password"
                 value={password}
-                placeholder="Nhập mật khẩu (tối thiểu 6 ký tự)"
+                placeholder="Nhập mật khẩu (tối thiểu 1 ký tự)"
                 onChange={(e) => setPassword(e.target.value)}
                 className={styles.formInput}
                 required
