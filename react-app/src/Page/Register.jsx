@@ -147,7 +147,6 @@ export default function Register() {
                 placeholder="Nhập mật khẩu (tối thiểu 6 ký tự)"
                 onChange={(e) => setPassword(e.target.value)}
                 className={styles.formInput}
-                minLength="6"
                 required
               />
             </div>
