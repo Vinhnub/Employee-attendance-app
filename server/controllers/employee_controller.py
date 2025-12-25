@@ -46,7 +46,6 @@ class EmployeeController:
             }
 
         result = self.shift_service.end_shift(user_id, server.get_staff_on_working())
-
         if result:
             self.log_service.write_log(f"Kết thúc ca", user_id)
             return {

@@ -71,9 +71,12 @@ class ShiftService(BaseService):
         query = "SELECT * FROM Shift WHERE id=?"
         shift = self.db.execute(query, (shift_id, ), fetchone=True)
         o_shift = Shift(shift[1], shift[2], shift[3], shift_id=shift[0], user_id=shift[4])
+        now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         if not o_shift:
             return False
         if o_shift.end_time < new_start_time:
+            return False
+        if o_shift.start_time > new_end_time or new_end_time > now_str:
             return False
 
         time_delta = (datetime.strptime(o_shift.start_time, "%Y-%m-%d %H:%M:%S") - datetime.strptime(new_start_time,"%Y-%m-%d %H:%M:%S") 
