@@ -28,19 +28,19 @@ export default function WorkPage() {
   }, []);
   const handleCheckOut = async (shift) => {
     try {
-      const response = await employeeService.end_shift(shift.id);
+      const response = await employeeService.CheckOut(shift.id);
       if (response.data.status === "success") {
         //popup(<p style={{ color: "green" }}>{response.data.message}</p>);
         setExpandedShift(null); // Close the expanded row after checkout
         // Refresh shifts
-        const res = await employeeService.shifts();
-        if (res.data.status == "success") {
-          setShifts(res.data.data);
-          popup(
+        popup(
           <div style={{ color: "green", fontWeight: "500" }}>
             {response.data.message}
           </div>
         );
+        const res = await employeeService.shifts();
+        if (res.data.status == "success") {
+          setShifts(res.data.data);
         }
       } else {
         popup(
