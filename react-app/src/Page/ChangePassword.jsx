@@ -53,6 +53,7 @@ export default function ChangePassword() {
             placeholder="Mật khẩu cũ"
             value={old_password}
             onChange={(e) => setOldpassword(e.target.value)}
+            required
           />
           <input
             className={styles.input}
@@ -60,6 +61,7 @@ export default function ChangePassword() {
             placeholder="Mật khẩu mới"
             value={new_password}
             onChange={(e) => setNewpassword(e.target.value)}
+            required
           />
           <button className={styles.button} type="submit">Thay đổi mật khẩu</button>
         </form>
