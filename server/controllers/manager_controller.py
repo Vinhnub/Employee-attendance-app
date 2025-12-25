@@ -246,6 +246,7 @@ class ManagerController:
             }
 
         all_shifts_current_month = self.shift_service.get_all_shifts_current_month()
+        print(all_shifts_current_month)
         server_instance.refresh_sheet(all_shifts_current_month)
 
         return {
