@@ -1,3 +1,5 @@
+// config for production
+
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
@@ -13,6 +15,7 @@ export default defineConfig({
   },
 })
 
+// config for development
 
 // import { defineConfig } from 'vite'
 // import react from '@vitejs/plugin-react'

@@ -1,6 +1,7 @@
 ================================
         SETUP FRONTEND
 ================================
+0. Change your pc's name to your domain 
 1. Download nginx window to c:/nginx
 2. edit file vite.config:
 // vite.config.ts

@@ -56,6 +56,7 @@ def end_shift(
             background_tasks.add_task(server_instance.emp_controller.update_data, user_id, server_instance, result["time_delta"])
         return result
     except Exception as e:
+        logger.debug(e)
         raise HTTPException(status_code=400, detail=str(e))
     
 @employee_router.put("/edit_shift", status_code=status.HTTP_200_OK)
@@ -74,6 +75,7 @@ def edit_shift(
             background_tasks.add_task(server_instance.emp_controller.update_data, user_id, server_instance, result["time_delta"])
         return result
     except Exception as e:
+        logger.debug(e)
         raise HTTPException(status_code=400, detail=str(e))
     
 @employee_router.get("/shifts") #shift in current month
@@ -87,4 +89,5 @@ def get_shifts_current_month(
         
         return server_instance.emp_controller.get_shifts_of(user_id)
     except Exception as e:
+        logger.debug(e)
         raise HTTPException(status_code=400, detail=str(e))

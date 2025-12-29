@@ -1,7 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Request
 from pydantic import BaseModel
 from server.dependencies import get_server
+from server.middleware.logging_middleware import setup_logger
+import logging
 
+logger = setup_logger(
+    name="my_app",
+    log_file="server/server.log",
+    level=logging.DEBUG
+)
 auth_router = APIRouter(prefix="/auth", tags=["Auth"])
 
 class LoginRequest(BaseModel):
@@ -23,6 +30,7 @@ def me(
         
         return server_instance.auth_controller.me(user_id, server_instance)
     except Exception as e:
+        logger.debug(e)
         raise HTTPException(status_code=400, detail=str(e))
 
 @auth_router.post("/login")
@@ -33,6 +41,7 @@ def login(
     try:
         return server_instance.auth_controller.login(data.username, data.password, server_instance)
     except Exception as e:
+        logger.debug(e)
         raise HTTPException(status_code=400, detail=str(e))
 
 @auth_router.put("/logout")
@@ -48,6 +57,7 @@ def login(
 
         return server_instance.auth_controller.logout(user_id, role, token, expire, server_instance)
     except Exception as e:
+        logger.debug(e)
         raise HTTPException(status_code=400, detail=str(e))
 
 @auth_router.put("/change_password", status_code=status.HTTP_200_OK)
@@ -64,6 +74,7 @@ def change_password(
             user_id, data.old_password, data.new_password
         )
     except Exception as e:
+        logger.debug(e)
         raise HTTPException(status_code=400, detail=str(e))
     
 
