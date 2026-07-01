@@ -1,230 +1,147 @@
-# Employee Attendance Management System
+<div align="center">
+  <h1 align="center">🏪 Employee Attendance Management System</h1>
+  <p align="center">
+    <strong>A modern full-stack web application for automated employee attendance tracking and time management.</strong>
+  </p>
+  <p align="center">
+    <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
+    <img src="https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E" alt="Vite" />
+    <img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi" alt="FastAPI" />
+    <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
+    <img src="https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite" />
+  </p>
+</div>
 
-A comprehensive full-stack web application for automated employee attendance tracking and time management, designed specifically for small cafes and retail businesses. The system replaces manual attendance methods with digital check-in/out functionality, real-time monitoring, and automated reporting.
+---
+
+## 📖 Table of Contents
+- [🎯 Problem Statement](#-problem-statement)
+- [✨ Key Features](#-key-features)
+- [🛠 Technology Stack](#-technology-stack)
+- [🗄 Database Schema](#-database-schema)
+- [📁 Project Structure](#-project-structure)
+- [🚀 Installation & Setup](#-installation--setup)
+- [📡 API Reference](#-api-reference)
+- [👥 Roles & Permissions](#-roles--permissions)
+- [📊 Google Sheets Integration](#-google-sheets-integration)
+- [🐛 Troubleshooting](#-troubleshooting)
+- [👨‍💻 Authors](#-authors)
+
+---
 
 ## 🎯 Problem Statement
 
 Traditional attendance tracking in small businesses (cafes, retail stores) often relies on manual methods like handwritten logs or basic spreadsheets. This project addresses the need for automated, accurate, and real-time employee attendance management with the following goals:
 
-- **Automation**: Replace manual attendance tracking with digital check-in/check-out
-- **Real-time Monitoring**: Live tracking of employee work status
-- **Data Export**: Automated generation of attendance reports and Excel exports
-- **User Management**: Role-based access control for staff and managers
-- **Local Network**: Secure operation within local network environments
+- **Automation**: Replace manual attendance tracking with a digital check-in/check-out system.
+- **Real-time Monitoring**: Live tracking of employee work status.
+- **Data Export**: Automated generation of attendance reports and Excel exports.
+- **User Management**: Role-based access control for Staff and Managers.
+- **Local Network**: Secure operation and smooth performance within local network environments.
+
+---
 
 ## ✨ Key Features
 
 ### 👥 For Staff Members
-- **Digital Check-in/Out**: Start and end work shifts with timestamp recording
-- **Shift Management**: Set expected end times and add notes for shift changes
-- **Real-time Status**: View current work status and active shift information
-- **Work History**: Access personal shift history and monthly summaries
-- **Password Management**: Secure account password changes
-- **Automatic Shift Ending**: System automatically ends shifts at scheduled times
+- **Digital Check-in/Out**: Start and end work shifts with precise timestamp recording.
+- **Shift Management**: Set expected end times and add notes for shift changes.
+- **Real-time Status**: View current work status and active shift information.
+- **Work History**: Access personal shift history and monthly summaries.
+- **Password Management**: Securely change account passwords.
+- **Automatic Shift Ending**: The system automatically ends shifts at scheduled times.
 
 ### 👨‍💼 For Managers
-- **Employee Management**: Register new staff members and manage accounts
-- **Live Monitoring**: View real-time status of all employees currently working
-- **Attendance Reports**: Access daily, monthly, and historical attendance data
-- **User Administration**: Reset passwords and manage user accounts
-- **Data Export**: Generate Excel reports and Google Sheets integration
-- **Activity Logs**: Monitor system activities and user actions
-- **Shift Oversight**: View and modify employee shifts when necessary
+- **Employee Management**: Register new staff members and manage accounts.
+- **Live Monitoring**: View real-time status of all currently working employees.
+- **Attendance Reports**: Access daily, monthly, and historical attendance data.
+- **User Administration**: Reset passwords and manage user accounts.
+- **Data Export**: Generate Excel reports and synchronize directly with Google Sheets.
+- **Activity Logs**: Monitor system activities and user actions.
+- **Shift Oversight**: View and modify employee shifts when necessary.
 
-### 🤖 System Automation
-- **Real-time Updates**: Automatic Google Sheets synchronization every 30 seconds
-- **Monthly Reports**: Automated Excel export at month-end
-- **Shift Validation**: Prevent invalid shift operations (double check-in, etc.)
-- **Token Management**: Automatic cleanup of expired authentication tokens
-- **Background Processing**: Asynchronous data updates and sheet refreshes
+---
 
 ## 🛠 Technology Stack
 
-### Frontend (React Application)
-- **React 19** - Modern JavaScript library with hooks and functional components
-- **Vite** - Lightning-fast build tool and development server
-- **React Router v7** - Declarative routing for React applications
-- **Axios** - Promise-based HTTP client for API communication
-- **CSS Modules** - Scoped styling for component isolation
+### 🎨 Frontend (React Application)
+- **React 19**: Modern JavaScript library with hooks and functional components.
+- **Vite**: Lightning-fast build tool and development server.
+- **React Router v7**: Declarative routing for React applications.
+- **Axios**: Promise-based HTTP client for API communication.
+- **CSS Modules**: Scoped styling for component isolation.
 
-### Backend (FastAPI Server)
-- **FastAPI** - High-performance web framework for building APIs
-- **SQLite** - Embedded database for local data storage
-- **SQLAlchemy** - Python SQL toolkit and Object-Relational Mapping
-- **PyJWT** - JSON Web Token implementation for authentication
-- **bcrypt** - Secure password hashing
-- **Google Sheets API** - Real-time spreadsheet integration
-- **Uvicorn** - ASGI server for production deployment
+### ⚙️ Backend (FastAPI Server)
+- **FastAPI**: High-performance web framework for building APIs in Python.
+- **SQLite**: Embedded database for local data storage.
+- **SQLAlchemy**: Powerful Python SQL toolkit and Object-Relational Mapping (ORM).
+- **PyJWT**: JSON Web Token implementation for authentication.
+- **bcrypt**: Secure password hashing.
+- **Google Sheets API**: Real-time spreadsheet integration.
+- **Uvicorn**: ASGI server for production deployment.
 
-### Security & Authentication
-- **JWT Tokens**: Stateless authentication with configurable expiration
-- **Role-Based Access Control**: Staff and Manager permission levels
-- **Password Security**: bcrypt hashing with salt
-- **CORS Middleware**: Cross-origin resource sharing configuration
-- **Request Logging**: Comprehensive audit trail middleware
-
-### External Integrations
-- **Google Sheets**: Real-time attendance data synchronization
-- **Google Drive API**: Automated file storage and sharing
-- **Excel Export**: Monthly attendance reports in .xlsx format
-
-## 📁 Project Structure
-
-```
-employee-attendance-app/
-├── react-app/                          # React Frontend Application
-│   ├── src/
-│   │   ├── Component/                  # Reusable UI Components
-│   │   │   ├── Header.jsx             # Application header
-│   │   │   ├── Navbar.jsx             # Navigation component
-│   │   │   ├── PopUp.jsx              # Modal dialogs
-│   │   │   ├── ShiftsTable.jsx        # Data display tables
-│   │   │   └── Layout.jsx             # Page layout wrapper
-│   │   ├── Page/                      # Application Pages/Routes
-│   │   │   ├── Login.jsx              # Authentication page
-│   │   │   ├── CheckIn.jsx            # Staff check-in interface
-│   │   │   ├── CheckOut.jsx           # Staff check-out interface
-│   │   │   ├── WorkPage.jsx           # Staff work status dashboard
-│   │   │   ├── OverTime.jsx           # Overtime logging
-│   │   │   ├── ManagerMenu.jsx        # Manager dashboard
-│   │   │   ├── StaffMenu.jsx          # Staff dashboard
-│   │   │   ├── UserList.jsx           # User management
-│   │   │   ├── TodayShifts.jsx        # Daily attendance view
-│   │   │   ├── UserLogs.jsx           # Activity logs
-│   │   │   ├── User.jsx               # User profile management
-│   │   │   ├── UserShifts.jsx         # Individual shift history
-│   │   │   ├── ChangePassword.jsx     # Password management
-│   │   │   ├── Register.jsx           # New user registration
-│   │   │   ├── LogsPage.jsx           # System logs
-│   │   │   ├── Menu.jsx               # Main navigation
-│   │   │   └── Unauthorized.jsx       # Access denied page
-│   │   ├── Service/                   # API Service Layer
-│   │   │   ├── Auth.js                # Authentication services
-│   │   │   ├── Employee.js            # Staff operations
-│   │   │   ├── Management.js          # Manager operations
-│   │   │   └── Authorization.jsx      # Route protection
-│   │   ├── App.jsx                    # Main application component
-│   │   ├── App.css                    # Global styles
-│   │   ├── main.jsx                   # Application entry point
-│   │   └── index.css                  # Base styles
-│   ├── public/                        # Static assets
-│   ├── .env.development               # Development configuration
-│   ├── .env.production                # Production configuration
-│   ├── vite.config.js                 # Vite build configuration
-│   ├── package.json                   # Frontend dependencies
-│   └── eslint.config.js               # Code linting rules
-├── server/                            # FastAPI Backend Server
-│   ├── controllers/                   # Business Logic Controllers
-│   │   ├── auth_controller.py         # Authentication operations
-│   │   ├── employee_controller.py     # Staff shift management
-│   │   └── manager_controller.py      # Administrative operations
-│   ├── database/                      # Database Layer
-│   │   ├── access_database.py         # Database connection
-│   │   ├── schema.sql                 # Database schema
-│   │   ├── data.db                    # SQLite database file
-│   │   ├── database_tester.py         # Database testing utilities
-│   │   ├── current_month.txt          # Month tracking
-│   │   ├── data_per_month/            # Monthly Excel exports
-│   │   └── images/                    # Database diagrams
-│   ├── middleware/                    # Server Middleware
-│   │   ├── auth_middleware.py         # JWT authentication
-│   │   └── logging_middleware.py      # Request logging
-│   ├── models/                        # Data Models
-│   │   ├── user.py                    # User entity
-│   │   ├── shift.py                   # Shift entity
-│   │   └── log.py                     # Activity log entity
-│   ├── routes/                        # API Route Definitions
-│   │   ├── auth_router.py             # Authentication endpoints
-│   │   ├── employee_router.py         # Staff endpoints
-│   │   └── manager_router.py          # Manager endpoints
-│   ├── services/                      # Business Services
-│   │   ├── user_service.py            # User management
-│   │   ├── shift_service.py           # Shift operations
-│   │   ├── log_service.py             # Logging service
-│   │   ├── gsheet_service.py          # Google Sheets integration
-│   │   └── base_service.py            # Base service class
-│   ├── utils/                         # Utility Functions
-│   │   ├── config.py                  # Configuration constants
-│   │   ├── jwt_handler.py             # JWT utilities
-│   │   └── hashing.py                 # Password hashing
-│   ├── main.py                        # FastAPI application
-│   ├── server.py                      # Server management
-│   └── dependencies.py                # Dependency injection
-├── requirements.txt                   # Python dependencies
-├── report.docx                        # Project documentation
-├── report.pdf                         # Project report
-├── Web attendance report.docx         # Web report
-├── .gitignore                         # Git ignore rules
-└── README.md                          # Project documentation
-```
+---
 
 ## 🗄 Database Schema
 
-The application uses SQLite with three primary tables:
+> 💡 **Entity-Relationship Diagram (ERD)** can be found at `server/database/images/ERD.png`.
 
-### User Table
-```sql
-CREATE TABLE User (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL,
-    fullname TEXT,
-    role TEXT
-);
-```
-- Stores employee account information and role assignments
+The application uses **SQLite** with three primary tables:
 
-### Shift Table
-```sql
-CREATE TABLE Shift (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    start_time TEXT,
-    end_time TEXT,
-    note TEXT,
-    user_id INTEGER,
-    FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
-);
-```
-- Records individual work shifts with timestamps
-- Supports shift notes for special circumstances
-- Cascading deletion maintains data integrity
+1. **User**: Stores employee account information and role assignments (staff/manager).
+2. **Shift**: Records individual work shifts with timestamps and notes. Linked to the User table.
+3. **UserLog**: Audit trail for all user activities, supporting manager oversight and debugging.
 
-### UserLog Table
-```sql
-CREATE TABLE UserLog (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    content TEXT,
-    date_time TEXT,
-    user_id INTEGER,
-    FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
-);
+---
+
+## 📁 Project Structure
+
+```text
+employee-attendance-app/
+├── react-app/                          # React Frontend Application
+│   ├── src/                            # Main frontend source code
+│   │   ├── Component/                  # Reusable UI Components
+│   │   ├── Page/                       # Application Pages (Login, Dashboard...)
+│   │   ├── Service/                    # API connections (Auth, Employee...)
+│   │   └── ...                         # App.jsx, main.jsx, global CSS
+│   ├── vite.config.js                  # Vite configuration
+│   └── package.json                    # Frontend dependencies
+├── server/                             # FastAPI Backend Server
+│   ├── controllers/                    # API logic (auth, employee, manager)
+│   ├── database/                       # Database management & ERD
+│   ├── middleware/                     # Middleware (JWT auth, Logging)
+│   ├── models/                         # Data Models (User, Shift, Log)
+│   ├── routes/                         # API routing
+│   ├── services/                       # Business logic & G-Sheets integration
+│   ├── utils/                          # Utility functions (hashing, config)
+│   └── main.py                         # FastAPI application entry point
+├── requirements.txt                    # Python dependencies
+├── .gitignore                          # Git ignore rules
+└── README.md                           # Project documentation (this file)
 ```
-- Audit trail for all user activities
-- Timestamps for activity monitoring
-- Supports manager oversight and debugging
+
+---
 
 ## 🚀 Installation & Setup
 
 ### Prerequisites
-- **Node.js** (v16 or higher) - Frontend development
-- **Python** (v3.8 or higher) - Backend development
-- **Git** - Version control
-- **Google Cloud Project** - For Google Sheets API (optional)
+- **Node.js** (v16 or higher) - For Frontend development.
+- **Python** (v3.8 or higher) - For Backend development.
+- **Git** - Version control.
+- **Google Cloud Project** - For Google Sheets API credentials.
 
-### Backend Configuration
+### ⚙️ 1. Backend Setup (FastAPI)
 
-1. **Navigate to server directory:**
+1. **Navigate to the server directory:**
    ```bash
    cd server
    ```
-
 2. **Install Python dependencies:**
    ```bash
    pip install -r ../requirements.txt
    ```
-
-3. **Configure environment variables:**
-   Create `.env` file in server directory:
+3. **Configure environment variables (`.env`):**
+   Create a `.env` file inside the `server` directory:
    ```env
    SERVER_IP=127.0.0.1
    PORT_TCP=8000
@@ -232,223 +149,97 @@ CREATE TABLE UserLog (
    GSHEET_CREDENTIALS=path/to/service-account.json
    SHEET_ID=your-google-sheet-id
    ```
-
-4. **Initialize database:**
+4. **Initialize Database:**
    ```bash
-   python -c "from server.database.access_database import DatabaseFetcher; DatabaseFetcher.initialize_database()"
+   python -c "from database.access_database import DatabaseFetcher; DatabaseFetcher.initialize_database()"
    ```
+5. **Run the Server (Development Mode):**
+   ```bash
+   python main.py
+   ```
+   > 🌐 Server runs on: `http://127.0.0.1:8000`
 
-### Frontend Configuration
+### 🎨 2. Frontend Setup (React)
 
-1. **Navigate to React application:**
+1. **Navigate to the react-app directory:**
    ```bash
    cd react-app
    ```
-
 2. **Install Node.js dependencies:**
    ```bash
    npm install
    ```
-
-3. **Configure API endpoints:**
-   Update `.env.development` for development:
+3. **Configure API Endpoints (`.env.development`):**
+   Update the URL to point to your backend:
    ```env
    VITE_IP_NETWORK=http://127.0.0.1:8000
    ```
-   Update `.env.production` for production:
-   ```env
-   VITE_IP_NETWORK=https://your-production-server.com
-   ```
-
-## 🏃‍♂️ Running the Application
-
-### Development Environment
-
-1. **Start Backend Server:**
+4. **Start the Frontend:**
    ```bash
-   cd server
-   python main.py
-   ```
-   Server runs on `http://127.0.0.1:8000`
-
-2. **Start Frontend Development Server:**
-   ```bash
-   cd react-app
    npm run dev
    ```
-   Application available at `http://localhost:5173`
-
-### Production Deployment
-
-1. **Build Frontend Application:**
-   ```bash
-   cd react-app
-   npm run build
-   ```
-   Production files generated in `react-app/dist/`
-
-2. **Deploy Backend:**
-   Configure production server with proper environment variables and start with:
-   ```bash
-   python main.py
-   ```
-
-## 📡 API Reference
-
-### Authentication Endpoints
-- `POST /auth/login` - User authentication
-- `GET /auth/me` - Get current user information
-- `PUT /auth/logout` - User logout
-- `PUT /auth/change_password` - Password update
-
-### Employee Endpoints
-- `POST /employee/start_shift` - Begin work shift
-- `PUT /employee/end_shift` - End work shift
-- `PUT /employee/edit_shift` - Modify active shift
-- `GET /employee/shifts` - Get monthly shift history
-
-### Manager Endpoints
-- `POST /manager/register` - Create new user account
-- `GET /manager/users` - List all users
-- `GET /manager/user/{id}` - Get specific user details
-- `PUT /manager/user/{id}/reset_password` - Reset user password
-- `DELETE /manager/user/{id}` - Remove user account
-- `GET /manager/today` - Get today's shifts
-- `GET /manager/logs/{date}` - Get logs by date
-- `GET /manager/user/{id}/logs` - Get user-specific logs
-- `GET /manager/user/{id}/shifts` - Get user shifts
-- `PUT /manager/refresh_sheet` - Sync Google Sheets data
-
-## 👥 User Roles & Permissions
-
-### Staff Role (nhân viên)
-- ✅ Check in/out with shift scheduling
-- ✅ View personal work history
-- ✅ Edit active shifts (end time only)
-- ✅ Add shift notes
-- ✅ Change account password
-- ✅ View current shift status
-
-### Manager Role (quản lý)
-- ✅ All Staff permissions
-- ✅ Register new employees
-- ✅ View all employee data
-- ✅ Reset employee passwords
-- ✅ Delete user accounts
-- ✅ Access system logs
-- ✅ Export attendance reports
-- ✅ Real-time attendance monitoring
-- ✅ Google Sheets data synchronization
-
-## 🔒 Security Features
-
-- **JWT Authentication**: Stateless token-based authentication
-- **Password Hashing**: bcrypt with salt for secure password storage
-- **Role-Based Access**: Granular permission system
-- **Request Validation**: Pydantic models for data validation
-- **CORS Protection**: Configured cross-origin policies
-- **Audit Logging**: Comprehensive activity tracking
-- **Token Expiration**: Automatic cleanup of expired sessions
-
-## 📊 Google Sheets Integration
-
-The system integrates with Google Sheets for real-time data synchronization:
-
-### Features
-- **Live Updates**: Automatic synchronization every 30 seconds
-- **Daily Tracking**: Separate sheets for daily and monthly views
-- **Monthly Archives**: Automatic Excel export at month-end
-- **Real-time Status**: Live employee status indicators
-- **Data Visualization**: Formatted spreadsheets with timestamps
-
-### Sheet Structure
-1. **Daily Sheet**: Current day attendance with live status
-2. **Monthly Sheet**: Complete month overview with totals
-3. **Archive Files**: Monthly Excel exports in `data_per_month/`
-
-## 🔄 System Automation
-
-### Background Processes
-- **Real-time Sync**: 30-second interval Google Sheets updates
-- **Automatic Shift Ending**: Scheduled shift completion
-- **Monthly Data Export**: End-of-month Excel generation
-- **Token Cleanup**: Expired authentication token removal
-- **Cache Management**: Memory optimization and data refresh
-
-### Scheduled Tasks
-- **New Month Detection**: Automatic monthly data initialization
-- **Data Archiving**: Monthly attendance data preservation
-- **Sheet Reset**: Clean monthly sheet preparation
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**Database Connection Errors:**
-```bash
-# Reinitialize database
-cd server
-python -c "from server.database.access_database import DatabaseFetcher; DatabaseFetcher.initialize_database()"
-```
-
-**Google Sheets API Issues:**
-- Verify service account credentials
-- Check Google Cloud project permissions
-- Ensure Sheets API is enabled
-
-**Frontend Build Errors:**
-```bash
-cd react-app
-rm -rf node_modules package-lock.json
-npm install
-```
-
-**Port Conflicts:**
-- Modify `PORT_TCP` in server `.env`
-- Update `VITE_IP_NETWORK` in React config
-
-## 🤝 Contributing
-
-1. **Fork the Repository**
-2. **Create Feature Branch:**
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
-3. **Make Changes and Test**
-4. **Commit Changes:**
-   ```bash
-   git commit -m "Add: brief description of changes"
-   ```
-5. **Push and Create Pull Request**
-
-### Development Guidelines
-- Follow existing code style and structure
-- Add appropriate error handling
-- Update documentation for new features
-- Test thoroughly before submitting
-
-## 📄 License
-
-This project is licensed under the MIT License. See LICENSE file for details.
-
-## 📞 Support & Contact
-
-For technical support or questions:
-- Create an issue in the repository
-- Contact the development team
-- Check the project documentation in `report.docx`
-
-## 🎯 Future Enhancements
-
-- Mobile application development
-- Advanced reporting and analytics
-- Multi-location support
-- Integration with payroll systems
-- Facial recognition check-in
-- SMS/Email notifications
-- Advanced shift scheduling
-- Time-off request management
+   > 🌐 Application is available at: `http://localhost:5173`
 
 ---
 
-**Note**: This system is designed for local network deployment and includes Vietnamese language support in the backend responses. The application automatically handles timezone conversion for Vietnam (UTC+7).
+## 📡 API Reference
+
+Detailed API documentation (Swagger UI) is available at `http://127.0.0.1:8000/docs` after starting the backend.
+
+- **`/auth/`**: Handles login, logout, password change, and user authentication.
+- **`/employee/`**: Staff-specific endpoints (Check-in, Check-out, shift history).
+- **`/manager/`**: Manager endpoints (Account registration, view all shifts, manage logs, sync Google Sheets).
+
+---
+
+## 👥 Roles & Permissions
+
+| Permission | Staff | Manager |
+|------------|:-----:|:-------:|
+| **Check-in / Check-out** | ✅ | ✅ |
+| **Change personal password**| ✅ | ✅ |
+| **View personal history** | ✅ | ✅ |
+| **Register new employees** | ❌ | ✅ |
+| **Reset employee passwords**| ❌ | ✅ |
+| **View system logs** | ❌ | ✅ |
+| **Sync Google Sheets** | ❌ | ✅ |
+
+---
+
+## 📊 Google Sheets Integration
+
+The system integrates with the Google Sheets API to automatically synchronize real-time data:
+- **Live Updates**: Automatic synchronization every 30 seconds.
+- **Daily Tracking**: Separate sheets to view attendance data for the current day.
+- **Monthly Archives**: Automatically generates Excel archive files (`data_per_month/`) at the end of the month.
+- **Real-time Status**: Displays live employee status directly on the Sheets.
+
+---
+
+## 🐛 Troubleshooting
+
+**1. Database Connection Errors:**
+- Ensure you have run the database initialization script. Delete the `data.db` file (if there's a schema error) and re-run the initialization command.
+
+**2. Google Sheets API Errors:**
+- Verify the `service-account.json` path.
+- Ensure the Service account (bot email) has **Editor** access to your Google Sheet.
+- Enable the "Google Sheets API" in your Google Cloud Console.
+
+**3. Frontend cannot reach Backend:**
+- Check if the Backend server is running.
+- Verify the `VITE_IP_NETWORK` environment variable in the frontend `.env.development` file.
+- Ensure FastAPI CORS is configured correctly (check `main.py`).
+
+---
+
+## 👨‍💻 Authors
+
+- **Nguyen Van Vinh** - Backend Development
+- **Pham Hong Quan** - Frontend Development
+
+---
+
+<div align="center">
+  <i>Designed for Local Network deployment.<br/>Automatically handles Vietnam timezone (UTC+7).</i>
+</div>
