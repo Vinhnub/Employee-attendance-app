@@ -16,7 +16,7 @@ class BaseService:
         query = "SELECT username FROM User WHERE id=?"
         row = self.db.execute(query, (user_id,), fetchone=True)
         if row:
-            return True
+            return row[0]
         return False
     
     def _check_username_exist_by_name(self, username):

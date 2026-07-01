@@ -24,7 +24,7 @@ class ManagerController:
         result = self.user_service.create_user(user_id, username, password, fullname, role)
 
         if result:
-            self.log_service.write_log(f"Create new account {username} {fullname} {role}", user_id)
+            self.log_service.write_log(f"Tạo tài khoản mới, username: {username}, fullname: {fullname}, role: {role}", user_id)
             server.append_staff(result)
             return {
                 "status" : "success",
@@ -46,7 +46,7 @@ class ManagerController:
         result = self.user_service.reset_password(user_id, target_id, new_password)
 
         if result:
-            self.log_service.write_log(f"Reset password {target_id}", user_id)
+            self.log_service.write_log(f"Đặt lại mật khẩu cho {result}", user_id)
             return {
                 "status" : "success",
                 "message" : "Thành công"
@@ -66,7 +66,7 @@ class ManagerController:
         result = self.user_service.delete_user(user_id, target_id)
 
         if result:
-            self.log_service.write_log(f"Delete account {target_id}", user_id)
+            self.log_service.write_log(f"Xóa tài khoản {result}", user_id)
             return {
                 "status" : "success",
                 "message" : "Thành công"
@@ -170,7 +170,7 @@ class ManagerController:
             "message" : "Ca làm đã kết thúc"
         }
 
-    def edit_shift(self, user_id, role, target_id, shift_id, new_start_time, new_note, staff_on_working):
+    def edit_shift(self, user_id, role, target_id, shift_id, new_start_time, new_end_time, new_note, staff_on_working):
         if role != "manager":
             return {
                 "status": "fail",
@@ -183,10 +183,10 @@ class ManagerController:
                 "message" : "Nhân viên đang làm việc"
             }
 
-        result = self.shift_service.edit_shift_by_manager(shift_id, new_start_time, new_note)
+        result = self.shift_service.edit_shift_by_manager(shift_id, new_start_time, new_end_time, new_note)
 
         if result:
-            self.log_service.write_log(f"Edit shift new start time {new_start_time}, new note {new_note} by manager", user_id)
+            self.log_service.write_log(f"Chỉnh sửa thời gian bắt đầu và kết thúc của ca {shift_id} thành {new_start_time} đến {new_end_time}, note mới {new_note} bởi manager", user_id)
             return {
                 "status": "success",
                 "message": "Chỉnh sửa thành công",

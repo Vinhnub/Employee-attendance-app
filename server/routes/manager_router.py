@@ -1,7 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks, Request
 from pydantic import BaseModel
 from server.dependencies import get_server
+from server.middleware.logging_middleware import setup_logger
+import logging
 
+logger = setup_logger(
+    name="my_app",
+    log_file="server/server.log",
+    level=logging.DEBUG
+)
 manager_router = APIRouter(prefix="/manager", tags=["Manager"])
 
 class CreateAccountRequest(BaseModel):
@@ -15,6 +22,7 @@ class ResetPasswordRequest(BaseModel):
 
 class EditShiftRequestManager(BaseModel):
     new_start_time: str
+    new_end_time: str
     new_note: str
 
 @manager_router.post("/create_account", status_code=status.HTTP_200_OK)
@@ -32,6 +40,7 @@ def create_account(
         )
         return result
     except Exception as e:
+        logger.debug(e)
         raise HTTPException(status_code=400, detail=str(e))
 
 
@@ -46,6 +55,7 @@ def get_all_users(
 
         return server_instance.manager_controller.users(user_id, role)
     except Exception as e:
+        logger.debug(e)
         raise HTTPException(status_code=400, detail=str(e))
 
 @manager_router.delete("/users/{target_id}", status_code=status.HTTP_200_OK)
@@ -63,6 +73,7 @@ def delete_account(
         )
         return result
     except Exception as e:
+        logger.debug(e)
         raise HTTPException(status_code=400, detail=str(e))
 
     
@@ -78,6 +89,7 @@ def get_user_by_id(
         target_id = int(target_id)
         return server_instance.manager_controller.get_data_of(user_id, role, target_id)
     except Exception as e:
+        logger.debug(e)
         raise HTTPException(status_code=400, detail=str(e))
 
 @manager_router.put("/users/{target_id}/reset_password", status_code=status.HTTP_200_OK)
@@ -96,6 +108,7 @@ def reset_password(
         )
         return result
     except Exception as e:
+        logger.debug(e)
         raise HTTPException(status_code=400, detail=str(e))
 
 
@@ -111,6 +124,7 @@ def get_all_shifts_current_month(
         target_id = int(target_id)
         return server_instance.manager_controller.get_shifts_of(user_id, role, target_id)
     except Exception as e:
+        logger.debug(e)
         raise HTTPException(status_code=400, detail=str(e))
     
 @manager_router.put("/users/{target_id}/shifts/{shift_id}/edit_shift") # edit the shift which have id = shift_id
@@ -127,12 +141,13 @@ def edit_shift_by_manager(
         role = request.state.role
         target_id = int(target_id)
         shift_id = int(shift_id)
-        result = server_instance.manager_controller.edit_shift(user_id, role, int(target_id), shift_id, data.new_start_time, data.new_note, server_instance.get_staff_on_working())
+        result = server_instance.manager_controller.edit_shift(user_id, role, int(target_id), shift_id, data.new_start_time, data.new_end_time, data.new_note, server_instance.get_staff_on_working())
         if result["status"] == "success":
             background_tasks.add_task(server_instance.emp_controller.update_data, result["staff_id"], server_instance, result["time_delta"], day=data.new_start_time)
         return result
 
     except Exception as e:
+        logger.debug(e)
         raise HTTPException(status_code=400, detail=str(e))
     
 @manager_router.get("/users/{target_id}/logs")
@@ -147,6 +162,7 @@ def get_log_by_user_id(
         target_id = int(target_id)
         return server_instance.manager_controller.get_log_by_user_id(user_id, role, target_id)
     except Exception as e:
+        logger.debug(e)
         raise HTTPException(status_code=400, detail=str(e))
     
 @manager_router.get("/shifts") # get list of shift today
@@ -160,6 +176,7 @@ def get_all_shifts_today(
         
         return server_instance.manager_controller.get_all_shifts_today(user_id, role, server_instance)
     except Exception as e:
+        logger.debug(e)
         raise HTTPException(status_code=400, detail=str(e))
     
 @manager_router.put("/shifts/{target_id}/end_shift") # end shift which have id = {id}
@@ -178,6 +195,7 @@ def end_shift_id(
             background_tasks.add_task(server_instance.emp_controller.update_data, result["staff_id"], server_instance, result["time_delta"])
         return result   
     except Exception as e:
+        logger.debug(e)
         raise HTTPException(status_code=400, detail=str(e))
     
 @manager_router.get("/logs/{year}/{month}/{day}")  # get logs by date
@@ -194,6 +212,7 @@ def get_log_by_day(
         
         return server_instance.manager_controller.get_log_by_day(user_id, role, year, month, day)
     except Exception as e:
+        logger.debug(e)
         raise HTTPException(status_code=400, detail=str(e))
 
 @manager_router.put("/refresh_sheet")
@@ -206,4 +225,5 @@ def refresh_sheet(
         role = request.state.role
         return server_instance.manager_controller.refresh_sheet(user_id, role, server_instance)
     except Exception as e:
+        logger.debug(e)
         raise HTTPException(status_code=400, detail=str(e))

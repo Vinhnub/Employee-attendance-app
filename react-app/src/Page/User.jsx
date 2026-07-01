@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import * as managementService from "../Service/Management";
 import { usePopup } from "../Component/PopUp";
+import ManagerNav from "../Component/ManagerNav";
+import Layout from "../Component/Layout";
+import styles from "./User.module.css";
 
 export default function User() {
   const { id } = useParams();
@@ -10,8 +13,9 @@ export default function User() {
   const [shifts, setShifts] = useState([]);
   const [password, setPassword] = useState("");
   const [cPassword, setCPassword] = useState("");
-  const popup = usePopup();
+  const { popup, confirm } = usePopup();
   const [showPasswordBox, setShowPasswordBox] = useState(false);
+  const roleLabels = { staff: "Nhân viên", manager: "Quản lý" };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -43,12 +47,12 @@ export default function User() {
     e.preventDefault();
 
     if (password !== cPassword) {
-      alert(`Passwords don't match!`);
+      popup(<p style={{ color: "red" }}>Mật khẩu không khớp!</p>);
       return;
     }
 
     if (!password.trim()) {
-      alert(`Passwords can't be empty`);
+      popup(<p style={{ color: "red" }}>Mật khẩu không được để trống</p>);
       return;
     }
 
@@ -56,81 +60,96 @@ export default function User() {
     try {
       const response = await managementService.resetPassword(id, newPassword);
       if (response.data.status === "success") {
-        alert("Password changed successfully");
+        popup(<p style={{ color: "green" }}>Thay đổi mật khẩu thành công</p>);
         setShowPasswordBox(false);
         setPassword("");
         setCPassword("");
       } else {
-        alert("Failed to change password");
+        popup(<p style={{ color: "red" }}>Thay đổi mật khẩu thất bại</p>);
       }
     } catch (err) {
-      console.error(err);
-      alert("Error changing password");
+      console.error("Error changing password:", err);
+      popup(<p style={{ color: "red" }}>Lỗi khi thay đổi mật khẩu</p>);
     }
   };
 
-  const handleDelete = async () => {
+  const handleDeleteClick = () => {
+    confirm(
+      "Bạn có chắc chắn muốn xóa người dùng này?",
+      handleConfirmDelete,
+      null,
+      "Xóa người dùng",
+      "Hủy"
+    );
+  };
+
+  const handleConfirmDelete = async () => {
     try {
-      if (confirm("Are you sure?")) {
-        const response = await managementService.deleteUser(id);
-        if (response.data.status == "success") {
-          setPopup(<h4 style={{ color: "green" }}>{response.data.message}</h4>)
-          setTimeout(() => setPopup(null), 5000);
-          navigate(-1);
-        }
-        else {
-          setPopup(<h4 style={{ color: "red" }}>{response.data.message}</h4>)
-          setTimeout(() => setPopup(null), 5000);
-        }
+      const response = await managementService.deleteUser(id);
+      if (response.data.status == "success") {
+        popup(<p style={{ color: "green" }}>{response.data.message}</p>);
+        navigate(-1);
+      } else {
+        popup(<p style={{ color: "red" }}>{response.data.message}</p>);
       }
     } catch (err) {
-      console.error(err);
+      console.error("Error deleting user:", err);
+      popup(<p style={{ color: "red" }}>Error deleting user</p>);
     }
-  }
+  };
 
   return (
-    <div>
-      {!user ? (
-        <div><h1>No user found</h1></div>
-      ) : (
-        <div>
-          <h4>User ID: {user.id}</h4> <br />
-          <h4>UserName: {user.username}</h4> <br />
-          <h4>Full Name: {user.fullname}</h4> <br />
-          <h4>Role: {user.role}</h4> <br />
+    <Layout Navbar={ManagerNav}>
+      <div className={styles.container}>
+        {!user ? (
+          <div className={styles.notFound}><h1 className={styles.notFoundTitle}>No user found</h1></div>
+        ) : (
+          <div className={styles.userCard}>
+            <h2 className={styles.title}>Thông tin cụ thể</h2>
+            <div className={styles.userInfo}>
+              <p className={styles.userDetail}><strong>User ID:</strong> {user.id}</p>
+              <p className={styles.userDetail}><strong>Username:</strong> {user.username}</p>
+              <p className={styles.userDetail}><strong>Full Name:</strong> {user.fullname}</p>
+              <p className={styles.userDetail}><strong>Role:</strong> {roleLabels[user.role] || user.role}</p>
+            </div>
 
-          <button onClick={() => setShowPasswordBox(!showPasswordBox)}>
-            Change Password
-          </button>
-          {showPasswordBox && (
-            <form onSubmit={handlePasswordSubmit}>
-              <input
-                type="password"
-                placeholder="New password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              /><br />
-              <input
-                type="password"
-                placeholder="Confirm password"
-                value={cPassword}
-                onChange={(e) => setCPassword(e.target.value)}
-              /><br />
-              <button type="submit">Confirm Change</button>
-            </form>
-          )} <br />
+            <button className={styles.button} onClick={() => setShowPasswordBox(!showPasswordBox)}>
+              Đổi mật khẩu
+            </button>
+            {showPasswordBox && (
+              <form className={styles.passwordForm} onSubmit={handlePasswordSubmit}>
+                <input
+                  className={styles.input}
+                  type="password"
+                  placeholder="New password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <input
+                  className={styles.input}
+                  type="password"
+                  placeholder="Confirm password"
+                  value={cPassword}
+                  onChange={(e) => setCPassword(e.target.value)}
+                />
+                <button className={styles.button} type="submit">Confirm Change</button>
+              </form>
+            )}
 
-          <button onClick={() => navigate(`shifts`)}>
-            Show shifts
-          </button> <br/>
-          <button onClick={() => navigate(`logs`)}>
-            Show Logs
-          </button> <br/>
-          <button onClick={() => handleDelete()}>
-            Delete user
-          </button>
-        </div>
-      )}
-    </div >
+            <div className={styles.buttonGroup}>
+              <button className={styles.buttonSecondary} onClick={() => navigate(`shifts`)}>
+                Hiển thị ca làm
+              </button>
+              <button className={styles.buttonSecondary} onClick={() => navigate(`logs`)}>
+                Hiển thị lịch sử
+              </button>
+              <button className={styles.buttonDanger} onClick={handleDeleteClick}>
+                Xóa người dùng
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </Layout>
   );
 }

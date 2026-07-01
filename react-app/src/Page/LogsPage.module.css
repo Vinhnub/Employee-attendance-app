@@ -1,0 +1,251 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: var(--bg-primary);
+  min-height: 100vh;
+}
+
+.header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.title {
+  background: linear-gradient(145deg, var(--bg-quan), var(--bg-vinh));
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.successMessage {
+  background-color: var(--color-success-bg);
+  color: var(--color-employee);
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 1px solid var(--color-success);
+  margin-bottom: 20px;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.errorMessage {
+  background-color: var(--color-danger-bg);
+  color: var(--color-danger);
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 1px solid var(--color-danger);
+  margin-bottom: 20px;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.dateSelector {
+  background: var(--bg-card);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px var(--shadow-light);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.dateLabel {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.dateInput {
+  padding: 8px 12px;
+  border: 2px solid var(--border-light);
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  background-color: var(--bg-input);
+  color: var(--text-primary);
+}
+
+.dateInput:hover {
+  border-color: #4a90e2;
+}
+
+.dateInput:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.calendarWrapper {
+  flex: 1;
+  margin-left: auto;
+}
+
+.calendarWrapper > * {
+  width: 100%;
+}
+
+.tableWrapper {
+  background: var(--bg-card);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px var(--shadow-medium);
+}
+
+.logsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+
+.logsTable th,
+.logsTable td {
+  padding: 16px 20px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.logsTable th {
+  background: var(--gradient-primary);
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
+}
+
+.logRow {
+  transition: background-color 0.2s ease;
+}
+
+.logRow:hover {
+  background-color: var(--bg-secondary);
+}
+
+.actorCell {
+  min-width: 150px;
+}
+
+.actorName {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.timeCell {
+  min-width: 120px;
+}
+
+.timeText {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  margin-bottom: 2px;
+}
+
+.dateText {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+
+.actionCell {
+  min-width: 200px;
+}
+
+.actionContent {
+  color: var(--text-secondary);
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.noLogs {
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+  padding: 40px;
+  font-size: 0.95rem;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+  }
+
+  .dateSelector {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .selectedDate {
+    margin-left: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .logsTable th,
+  .logsTable td {
+    padding: 12px 8px;
+    font-size: 0.9rem;
+  }
+
+  .logsTable th {
+    font-size: 0.8rem;
+  }
+
+  .actorCell,
+  .actionCell {
+    min-width: auto;
+  }
+
+  .timeCell {
+    min-width: 100px;
+  }
+
+  .timeText {
+    font-size: 0.85rem;
+  }
+
+  .dateText {
+    font-size: 0.75rem;
+  }
+
+  .noLogs {
+    padding: 30px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 12px;
+  }
+
+  .dateSelector {
+    padding: 12px;
+  }
+
+  .logsTable th,
+  .logsTable td {
+    padding: 8px 6px;
+    font-size: 0.85rem;
+  }
+
+  .logsTable th {
+    font-size: 0.75rem;
+    padding: 8px 4px;
+  }
+}

@@ -208,3 +208,8 @@ __marimo__/
 server/database/credentials.json
 server/utils/secret.py
 server/database/data_per_month/*.xlsx
+
+
+react-app/.env.development
+react-app/.env.fakeserver
+react-app/.env.production

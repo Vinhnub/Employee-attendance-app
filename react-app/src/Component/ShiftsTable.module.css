@@ -1,0 +1,361 @@
+.shiftsTable {
+  width: 100%;
+  max-width: 90dvw;
+  border-collapse: collapse;
+  background: var(--bg-card);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px var(--shadow-light);
+}
+
+.shiftsTable th,
+.shiftsTable td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.shiftsTable th {
+  background: var(--gradient-primary);
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
+}
+
+.shiftRow {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.shiftRow:hover {
+  background-color: var(--bg-secondary);
+}
+
+.shiftRow.working {
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+.shiftRow.completed {
+  color: var(--color-success);
+  font-weight: 600;
+}
+
+.shiftRow.scheduled {
+  color: var(--color-warning);
+  font-weight: 600;
+}
+
+.shiftRow.expanded {
+}
+
+.shiftCell {
+  border-right: 1px solid var(--border-light);
+}
+
+.shiftCell:last-child {
+  border-right: none;
+}
+
+.staffCell {
+  min-width: 100px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.staffName {
+  font-weight: 600;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.statusIndicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.statusIndicatorSmall {
+  width: 8px;
+  height: 8px;
+}
+
+.statusIndicator.working {
+  background-color: var(--color-danger);
+}
+
+.statusIndicator.completed {
+  background-color: var(--color-success);
+}
+
+.statusIndicator.scheduled {
+  background-color: var(--color-warning);
+}
+
+.timeCell {
+  min-width: 80px;
+}
+
+.timeDisplay {
+  font-weight: 500;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  color: var(--text-secondary);
+}
+
+.noteCell {
+  min-width: 150px;
+  max-width: 200px;
+}
+
+.noteText {
+  color: var(--text-secondary);
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.noShifts {
+  text-align: center;
+  color: var(--text-secondary);
+  font-style: italic;
+  padding: 40px 16px;
+}
+
+.updateForm {
+  padding: 16px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+.updateInput {
+  padding: 8px 12px;
+  border: 1px solid var(--border-light);
+  border-radius: 4px;
+  margin-right: 8px;
+  font-size: 0.9rem;
+  background: var(--bg-input);
+  color: var(--text-primary);
+}
+
+.updateInput:disabled {
+  background: var(--bg-tertiary);
+  cursor: not-allowed;
+}
+
+.updateButton {
+  padding: 8px 16px;
+  background: var(--gradient-success);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.updateButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .shiftsTable th,
+  .shiftsTable td {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+
+  .noteCell {
+    max-width: 150px;
+  }
+}
+
+.detailRow {
+  background-color: var(--bg-secondary);
+}
+
+.detailCell {
+  padding: 0;
+  border-bottom: 2px solid #667eea;
+}
+
+.detailContent {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.detailInfo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.statusBadge {
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: white;
+}
+
+.statusBadge.working {
+  background-color: var(--color-danger);
+}
+
+.statusBadge.completed {
+  background-color: var(--color-success);
+}
+
+.statusBadge.scheduled {
+  background-color: var(--color-warning);
+}
+
+.detailActions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.actionBtn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkOutBtn {
+  background-color: var(--color-success);
+  color: white;
+}
+
+.checkOutBtn:hover {
+  background-color: var(--color-employee);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px var(--color-success-bg);
+}
+
+.updateActions {
+  width: 100%;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  color: var(--text-secondary);
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.emptyMessage {
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .shiftsTable th,
+  .shiftsTable td {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+
+  .noteCell {
+    max-width: 150px;
+  }
+
+  .staffCell {
+    min-width: 140px;
+    gap: 8px;
+  }
+
+  .detailContent {
+    padding: 16px;
+  }
+
+  .detailInfo {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .detailActions {
+    align-items: stretch;
+  }
+
+  .actionBtn {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .shiftsTable {
+    font-size: 0.85rem;
+  }
+
+  .shiftsTable th,
+  .shiftsTable td {
+    padding: 6px 8px;
+  }
+
+  .noteCell {
+    max-width: 120px;
+  }
+
+  .staffCell {
+    min-width: 120px;
+  }
+
+  .timeCell {
+    min-width: 80px;
+  }
+
+  .timeDisplay {
+    font-size: 0.85rem;
+  }
+
+  .noteText {
+    font-size: 0.8rem;
+  }
+
+  .detailContent {
+    padding: 12px;
+  }
+
+  .actionBtn {
+    font-size: 0.85rem;
+  }
+}

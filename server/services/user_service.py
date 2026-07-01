@@ -44,20 +44,23 @@ class UserService(BaseService):
 
         
     def reset_password(self, user_id, target_id, new_password):
-        if not self._check_username_exist_by_id(target_id):
+        username = self._check_username_exist_by_id(target_id)
+        if not username:
             return False
     
         new_password_hashed = hash_password(new_password)
         query = "UPDATE User SET password=? WHERE id=?"
         self.db.execute(query, (new_password_hashed, target_id))
-        return True
+        return username
     
     def delete_user(self, user_id, target_id):
-        if not self._check_username_exist_by_id(target_id):
+        username = self._check_username_exist_by_id(target_id)
+        if not username:
             return False
+        
         query = "DELETE FROM User WHERE id=?"
         self.db.execute(query, (target_id,))
-        return True
+        return username
     
     def get_all_user(self, user_id):
         query = "SELECT * FROM User"

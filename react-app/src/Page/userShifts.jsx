@@ -2,16 +2,33 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ShiftsTable } from "../Component/ShiftsTable";
 import * as managementService from "../Service/Management";
-import { UpdateShift } from "../Component/ShiftsTable";
+import * as authService from "../Service/Auth";
 import ManagerNav from "../Component/ManagerNav";
 import Layout from "../Component/Layout";
+import { usePopup } from "../Component/PopUp";
+import styles from "./UserShifts.module.css";
 
 export default function UserShifts() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [user, setUser] = useState();
+  const [currentUser, setCurrentUser] = useState();
   const [shifts, setShifts] = useState([]);
-  const [popup, setPopup] = useState();
+  const { popup } = usePopup();
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const response = await authService.me();
+        if (response.data.status === "success") {
+          setCurrentUser(response.data.data);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchCurrentUser();
+  }, []);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -38,31 +55,47 @@ export default function UserShifts() {
     };
     fetchUser();
   }, [id]);
-  const [expanedShift, setExpanedShift] = useState(null);
-  function expandShift(shift) {
-    setExpanedShift(shift.id == expanedShift ? null : shift.id);
-  }
+
+  const handleCheckOut = async (shift) => {
+    try {
+      const response = await managementService.endShifts(shift.id);
+      if (response.data.status === "success") {
+        setExpandedShift(null); // Close the expanded row after checkout
+        popup(
+          <div style={{ color: "green", fontWeight: "500" }}>
+            {response.data.message}
+          </div>
+        );
+      } else {
+        popup(
+          <div style={{ color: "#dc3545", fontWeight: "500" }}>
+            {response.data.message}
+          </div>
+        );
+      }
+    } catch (err) {
+      console.error(err);
+      popup(
+        <div style={{ color: "#dc3545", fontWeight: "500" }}>{err.message}</div>
+      );
+    }
+  };
+
+  const [expandedShift, setExpandedShift] = useState(null);
   return (
     <Layout Navbar={ManagerNav}>
-      {popup}
-      <ShiftsTable
-        shifts={shifts}
-        extra={(shift) =>
-          expanedShift == shift.id && (
-            <tr>
-              <td colSpan={3}>
-                <UpdateShift
-                  id={id}
-                  shift={shift}
-                  expandShift={expandShift}
-                  setPopup={setPopup}
-                />
-              </td>
-            </tr>
-          )
-        }
-        func={(shift) => expandShift(shift)}
-      />
+      <div className={styles.container}>
+        {popup}
+        <h2 className={styles.title}>Ca làm việc của người dùng</h2>
+        <ShiftsTable
+          shifts={shifts}
+          user={currentUser}
+          allowExpand={true}
+          expandedShift={expandedShift}
+          setExpandedShift={setExpandedShift}
+          handleCheckOut={handleCheckOut}
+        />
+      </div>
     </Layout>
   );
 }

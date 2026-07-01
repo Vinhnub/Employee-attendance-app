@@ -110,6 +110,7 @@ class Server:
         self.sheet.append_shift_current_month(list_shifts, row, column)
 
     def refresh_sheet(self, all_shifts_current_month):
+        self._set_staff_index(self.manager_controller.get_staffs())
         staffs = self.manager_controller.get_staffs()
         self.sheet.draw_new_month(staffs)
         days = self.sheet.get_days_of_current_month()
@@ -124,7 +125,6 @@ class Server:
             end_dt = datetime.strptime(shift["end_time"], "%Y-%m-%d %H:%M:%S")
             row = staff_index[shift["user_id"]] - 2
             col = start_dt.day - 1
-
             start = shift["start_time"][11:16]
             end = shift["end_time"][11:16]
             note = shift["note"]

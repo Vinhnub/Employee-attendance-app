@@ -48,7 +48,7 @@ class AuthController:
         else:
             current_shift = None
 
-        self.log_service.write_log("Login", user_data["id"])
+        self.log_service.write_log(f"Đăng nhập", user_data["id"])
         return {
             "status": "success",
             "message": "Đăng nhập thành công",
@@ -69,7 +69,7 @@ class AuthController:
         result = self.user_service.change_password(user_id, old_password, new_password)
 
         if result:
-            self.log_service.write_log("Change password", user_id)
+            self.log_service.write_log("Đổi mật khẩu", user_id)
             return {
                 "status": "success",
                 "message": "Đổi mật khẩu thành công"

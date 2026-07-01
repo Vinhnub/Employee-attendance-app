@@ -1,104 +1,174 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import * as managementService from "../Service/Management";
-import { UpdateShift } from "../Component/ShiftsTable";
+import * as authService from "../Service/Auth";
+import { ShiftsTable } from "../Component/ShiftsTable";
 import ManagerNav from "../Component/ManagerNav";
+import UserNav from "../Component/UserNav";
 import Layout from "../Component/Layout";
 import { usePopup } from "../Component/PopUp";
+import styles from "./TodayShifts.module.css";
 
 export default function TodayShifts() {
   const [shifts, setShifts] = useState([]);
-  const popup = usePopup();
-  useEffect(() => {
-    const fetchShifts = async () => {
-      try {
-        const response = await managementService.getAllShifts();
-        if (response.data.status == "success") {
-          setShifts(response.data.data);
-          popup(<h4 style={{ color: "green" }}>{response.data.message}</h4>);
-        } else {
-          popup(<h4 style={{ color: "red" }}>{response.data.message}</h4>);
-        }
-      } catch (err) {
-        console.error(err);
-        popup(<h4 style={{ color: "red" }}>{err.message}</h4>);
-      }
-    };
-    fetchShifts();
-  }, []);
-  const [expanedShift, setExpanedShift] = useState(null);
-  function expandShift(shift) {
-    setExpanedShift(shift.id == expanedShift ? null : shift.id);
-  }
-  const handleCheckOut = async (shift) => {
+  const [user, setUser] = useState(null);
+  const { popup } = usePopup();
+  const [expandedShift, setExpandedShift] = useState(null);
+
+  const fetchShifts = useCallback(async () => {
     try {
-      const response = await managementService.endShifts(shift.id);
-      if (response.data.status == "success") {
-        popup(<h4 style={{ color: "green" }}>{response.data.message}</h4>);
-        expandShift(shift);
+      const response = await managementService.getAllShifts();
+      if (response.data.status === "success") {
+        setShifts(response.data.data);
       } else {
-        popup(<h4 style={{ color: "red" }}>{response.data.message}</h4>);
+        popup(
+          <div style={{ color: "#dc3545", fontWeight: "500" }}>
+            {response.data.message}
+          </div>
+        );
       }
     } catch (err) {
       console.error(err);
-      popup(<h4 style={{ color: "red" }}>{err.message}</h4>);
+      popup(
+        <div style={{ color: "#dc3545", fontWeight: "500" }}>{err.message}</div>
+      );
+    }
+  }, [popup]);
+
+  const handleRefreshSheet = useCallback(async () => {
+    try {
+      const response = await managementService.refreshSheet();
+      if (response.data.status === "success") {
+        popup(
+          <div style={{ color: "#28a745", fontWeight: "500" }}>
+            Đồng bộ dữ liệu thành công!
+          </div>
+        );
+        // Refresh the shifts data after syncing
+        await fetchShifts();
+      } else {
+        popup(
+          <div style={{ color: "#dc3545", fontWeight: "500" }}>
+            {response.data.message}
+          </div>
+        );
+      }
+    } catch (err) {
+      console.error(err);
+      popup(
+        <div style={{ color: "#dc3545", fontWeight: "500" }}>{err.message}</div>
+      );
+    }
+  }, [popup, fetchShifts]);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await authService.me();
+        if (response.data.status === "success") {
+          setUser(response.data.data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch user:", err);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
+    fetchShifts();
+  }, [fetchShifts]);
+
+  const handleCheckOut = async (shift) => {
+    try {
+      const response = await managementService.endShifts(shift.id);
+      if (response.data.status === "success") {
+        popup(
+          <div style={{ color: "green", fontWeight: "500" }}>
+            {response.data.message}
+          </div>
+        );
+        setExpandedShift(null); // Close the expanded row after checkout
+      } else {
+        popup(
+          <div style={{ color: "#dc3545", fontWeight: "500" }}>
+            {response.data.message}
+          </div>
+        );
+      }
+    } catch (err) {
+      console.error(err);
+      popup(
+        <div style={{ color: "#dc3545", fontWeight: "500" }}>{err.message}</div>
+      );
     }
   };
+
+  if (!user) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>Đang tải...</h2>
+        </div>
+      </div>
+    );
+  }
+
+  const isManager = user.role === "manager";
+
   return (
-    <Layout Navbar={ManagerNav}>
-      <table>
-        <thead>
-          <tr>
-            <th>Staff name</th>
-            <th>Start time</th>
-            <th>End time</th>
-            <th>Note</th>
-          </tr>
-        </thead>
-        <tbody>
-          {shifts.length > 0 ? (
-            shifts.map((shift) => (
-              <React.Fragment key={shift.id}>
-                <tr
-                  style={{
-                    color: `${shift.is_working ? "#ff0000" : "#00ff00"}`,
-                  }}
-                  onClick={() => expandShift(shift)}
-                >
-                  <td style={{ border: `5px solid pink` }}>{shift.fullname}</td>
-                  <td style={{ border: `5px solid pink` }}>
-                    {String(shift.start_time).slice(11, 16)}
-                  </td>
-                  <td style={{ border: `5px solid pink` }}>
-                    {String(shift.end_time).slice(11, 16)}
-                  </td>
-                  <td style={{ border: `5px solid pink` }}>{shift.note}</td>
-                </tr>
-                {expanedShift == shift.id && (
-                  <tr>
-                    <td colSpan={4} style={{ border: `5px solid pink` }}>
-                      {shift.is_working ? (
-                        <button onClick={() => handleCheckOut(shift)}>
-                          check out
-                        </button>
-                      ) : (
-                        <UpdateShift
-                          shift={shift}
-                          id={shift.user_id}
-                          expandShift={expandShift}
-                        />
-                      )}
-                    </td>
-                  </tr>
-                )}
-              </React.Fragment>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={4}>No shifts today</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+    <Layout Navbar={isManager ? ManagerNav : UserNav}>
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <div className={styles.headerContent}>
+            <div className={styles.titleSection}>
+              <h2 className={styles.title}>Ca làm việc hôm nay</h2>
+              <p className={styles.subtitle}>
+                {isManager
+                  ? "Giám sát và quản lý hoạt động ca làm việc hiện tại"
+                  : "Xem lịch ca làm việc hôm nay"}
+              </p>
+            </div>
+            <button
+              className={`${styles.actionBtn} ${styles.refreshBtn}`}
+              onClick={handleRefreshSheet}
+              title="Đồng bộ dữ liệu với Google Sheets"
+            >
+              🔄 Đồng bộ
+            </button>
+          </div>
+        </div>
+
+        <div className={styles.legend}>
+          <div className={styles.legendItem}>
+            <div
+              className={`${styles.statusIndicator} ${styles.statusWorking}`}
+            ></div>
+            <span>Đang làm việc</span>
+          </div>
+          <div className={styles.legendItem}>
+            <div
+              className={`${styles.statusIndicator} ${styles.statusCompleted}`}
+            ></div>
+            <span>Hoàn thành</span>
+          </div>
+          <div className={styles.legendItem}>
+            <div
+              className={`${styles.statusIndicator} ${styles.statusScheduled}`}
+            ></div>
+            <span>Đã lên lịch</span>
+          </div>
+        </div>
+
+        <ShiftsTable
+          shifts={shifts}
+          showEmployeeName={true}
+          user={user}
+          handleCheckOut={handleCheckOut}
+          expandedShift={expandedShift}
+          setExpandedShift={setExpandedShift}
+          isTodayShifts={true}
+        />
+      </div>
     </Layout>
   );
 }

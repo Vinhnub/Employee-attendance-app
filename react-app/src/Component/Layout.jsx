@@ -1,10 +1,15 @@
 import React from "react";
+import Header from "./Header";
+import styles from "./Layout.module.css";
 
 export default function Layout({ Navbar, children }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-      <div style={{ flex: "1", overflowY: "auto" }}>{children}</div>
-      <div style={{ height: "30px", display: "flex" }}>
+    <div className={styles.layout}>
+      <Header />
+      <div className={styles.content}>
+        {children}
+      </div>
+      <div className={styles.navbar}>
         <Navbar />
       </div>
     </div>

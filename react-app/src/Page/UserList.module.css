@@ -1,7 +1,288 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: var(--bg-primary);
+  min-height: 100vh;
+}
+
+.title {
+  background: linear-gradient(145deg, var(--bg-quan), var(--bg-vinh));
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Desktop Table Styles */
+.tableWrapper {
+  background: var(--bg-card);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px var(--shadow-medium);
+}
+
+.userTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+
+.userTable th,
+.userTable td {
+  padding: 15px 20px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.userTable th {
+  background: var(--gradient-primary);
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
+}
+
 .user {
-  transition: transform 0.1s ease-in-out;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border-left: 4px solid transparent;
 }
 
 .user:hover {
-  transform: scale(1.1);
+  background-color: var(--bg-secondary);
+  border-left-color: #667eea;
+}
+
+.roleCell {
+  position: relative;
+}
+
+.roleCell::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #28a745;
+}
+
+.roleCell {
+  text-transform: capitalize;
+}
+
+.roleCell:contains('admin')::before {
+  background-color: #dc3545;
+}
+
+.roleCell:contains('manager')::before {
+  background-color: #ffc107;
+}
+
+.roleCell:contains('user')::before {
+  background-color: #28a745;
+}
+
+.noUsers {
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+  padding: 40px !important;
+}
+
+.statusCell {
+  text-align: center;
+}
+
+.online {
+  background-color: var(--color-success-bg);
+  color: var(--color-employee);
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid var(--color-success);
+  position: relative;
+}
+
+.online::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-success);
+}
+
+.offline {
+  background-color: var(--color-danger-bg);
+  color: var(--color-danger);
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid var(--color-danger);
+  position: relative;
+}
+
+.offline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-danger);
+}
+
+/* Mobile List Layout */
+.mobileList {
+  display: none;
+}
+
+.desktopTable {
+  display: block;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .desktopTable {
+    display: none;
+  }
+
+  .mobileList {
+    display: block;
+    background: var(--bg-card);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px var(--shadow-light);
+  }
+
+  .userRow {
+    cursor: pointer;
+    background: linear-gradient(145deg, var(--bg-card), var(--bg-primary));
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-light);
+    transition: background-color 0.2s ease;
+  }
+
+  .userRow:hover {
+    background-color: var(--bg-secondary);
+  }
+
+  .userRow:last-child {
+    border-bottom: none;
+  }
+
+  .userInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .topRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .bottomRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .username {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .fullName {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .statusLabel {
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .onlineLabel {
+    color: var(--color-success);
+  }
+
+  .offlineLabel {
+    color: var(--color-danger);
+  }
+
+  .roleLabel {
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+  }
+
+  .roleLabel.admin {
+    background-color: var(--color-danger-bg);
+    color: var(--color-danger);
+  }
+
+  .roleLabel.manager {
+    background-color: var(--color-warning-bg);
+    color: var(--color-manager);
+  }
+
+  .roleLabel.user {
+    background-color: var(--color-success-bg);
+    color: var(--color-employee);
+  }
+
+  .noUsers {
+    text-align: center;
+    color: var(--text-muted);
+    font-style: italic;
+    padding: 40px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mobileList {
+    margin: 0 12px;
+  }
+
+  .userRow {
+    padding: 14px 16px;
+  }
+
+  .username {
+    font-size: 0.95rem;
+  }
+
+  .fullName {
+    font-size: 0.8rem;
+  }
+
+  .statusLabel {
+    font-size: 0.75rem;
+  }
+
+  .roleLabel {
+    padding: 2px 6px;
+    font-size: 0.65rem;
+  }
 }

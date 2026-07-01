@@ -7,6 +7,7 @@ export default function UserNav() {
     { icon: "🚪", link: "/checkout" },
     { icon: "⌛", link: "/overtime" },
     { icon: "💼", link: "/workpage" },
+    { icon: "📅", link: "/today" },
     { icon: "🔐", link: "/change_password" },
   ];
   return <Navbar components={items} />;

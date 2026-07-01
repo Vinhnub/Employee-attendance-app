@@ -1,0 +1,463 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: var(--bg-primary);
+  min-height: 100vh;
+}
+
+.header {
+  margin-bottom: 32px;
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.titleSection {
+  flex: 1;
+  text-align: center;
+}
+
+.refreshBtn {
+  padding: 1rem 2rem;
+  background: var(--gradient-success);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.refreshBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(40, 167, 69, 0.3);
+}
+
+.refreshBtn:active {
+  transform: translateY(0);
+}
+
+.title {
+  color: var(--text-primary);
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  background: linear-gradient(145deg, var(--bg-quan), var(--bg-vinh));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.statusIndicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.statusIndicatorSmall {
+  width: 8px;
+  height: 8px;
+}
+
+.shiftRow.statusWorking {
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+.shiftRow.statusCompleted {
+  color: var(--color-success);
+  font-weight: 600;
+}
+
+.shiftRow.statusScheduled {
+  color: var(--color-warning);
+  font-weight: 600;
+}
+
+.statusIndicator.statusWorking {
+  background-color: var(--color-danger);
+}
+
+.statusIndicator.statusCompleted {
+  background-color: var(--color-success);
+}
+
+.statusIndicator.statusScheduled {
+  background-color: var(--color-warning);
+}
+
+.shiftsTable {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-card);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px var(--shadow-light);
+}
+
+.shiftsTable th,
+.shiftsTable td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.shiftsTable th {
+  background: var(--gradient-primary);
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
+}
+
+.shiftRow {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.shiftRow:hover {
+  background-color: var(--bg-secondary);
+}
+
+/* .shiftRow.expanded {
+} */
+
+.shiftCell {
+  border-right: 1px solid var(--border-light);
+}
+
+.shiftCell:last-child {
+  border-right: none;
+}
+
+.staffCell {
+  min-width: 100px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.staffName {
+  font-weight: 600;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.statusIndicatorSmall {
+  flex-shrink: 0;
+}
+
+.timeCell {
+  min-width: 80px;
+}
+
+.timeDisplay {
+  font-weight: 500;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  color: var(--text-secondary);
+}
+
+.noteCell {
+  min-width: 150px;
+  max-width: 200px;
+}
+
+.noteText {
+  color: var(--text-secondary);
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.actionCell {
+  text-align: center;
+  min-width: 80px;
+}
+
+.expandBtn {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.expandBtn:hover {
+  background-color: var(--bg-secondary);
+}
+
+.expandBtn.rotate {
+  transform: rotate(180deg);
+  color: #667eea;
+}
+
+.detailRow {
+  background-color: var(--bg-secondary);
+}
+
+.detailCell {
+  padding: 0;
+  border-bottom: 2px solid #667eea;
+}
+
+.detailContent {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.detailInfo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.statusBadge {
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: white;
+}
+
+.statusBadge.statusWorking {
+  background-color: var(--color-danger);
+}
+
+.statusBadge.statusCompleted {
+  background-color: var(--color-success);
+}
+
+.statusBadge.statusScheduled {
+  background-color: var(--color-warning);
+}
+
+.detailActions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.actionBtn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkOutBtn {
+  background-color: var(--color-success);
+  color: white;
+}
+
+.checkOutBtn:hover {
+  background-color: var(--color-employee);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px var(--color-success-bg);
+}
+
+.updateActions {
+  width: 100%;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  color: var(--text-secondary);
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.emptyMessage {
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.noShifts {
+  text-align: center;
+  color: var(--text-secondary);
+  font-style: italic;
+  padding: 40px 16px;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  .headerContent {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .titleSection {
+    text-align: center;
+  }
+
+  .refreshBtn {
+    padding: 0.9rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .legend {
+    gap: 16px;
+  }
+
+  .shiftsTable th,
+  .shiftsTable td {
+    padding: 10px 8px;
+    font-size: 0.9rem;
+  }
+
+  .staffCell {
+    min-width: 140px;
+    gap: 8px;
+  }
+
+  .noteCell {
+    min-width: 120px;
+    max-width: 150px;
+  }
+
+  .detailContent {
+    padding: 16px;
+  }
+
+  .detailInfo {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .detailActions {
+    align-items: stretch;
+  }
+
+  .actionBtn {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 12px;
+  }
+
+  .title {
+    font-size: 1.6rem;
+  }
+
+  .legend {
+    gap: 12px;
+    justify-content: flex-start;
+  }
+
+  .shiftsTable {
+    font-size: 0.85rem;
+  }
+
+  .shiftsTable th,
+  .shiftsTable td {
+    padding: 8px 6px;
+  }
+
+  .staffCell {
+    min-width: 120px;
+  }
+
+  .timeCell {
+    min-width: 80px;
+  }
+
+  .noteCell {
+    min-width: 100px;
+    max-width: 120px;
+  }
+
+  .timeDisplay {
+    font-size: 0.85rem;
+  }
+
+  .noteText {
+    font-size: 0.8rem;
+  }
+
+  .detailContent {
+    padding: 12px;
+  }
+
+  .actionBtn {
+    font-size: 0.85rem;
+  }
+}

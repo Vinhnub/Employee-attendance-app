@@ -1,31 +1,48 @@
-import sys
-from fastapi import FastAPI, Request
-import traceback
 import logging
+from logging.handlers import RotatingFileHandler
+import os
 
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-)
+def setup_logger(
+    name="app_logger",
+    log_file="app.log",
+    level=logging.INFO,
+    max_bytes=5 * 1024 * 1024,  # 5MB
+    backup_count=3
+):
+    """
+    Tạo logger ghi log vào file .log
 
-logging.getLogger("urllib3").setLevel(logging.WARNING)
-logging.getLogger("googleapiclient").setLevel(logging.WARNING)
-logging.getLogger("uvicorn.access").setLevel(logging.INFO)
-logging.getLogger("uvicorn.error").setLevel(logging.DEBUG)
-logging.getLogger("fastapi").setLevel(logging.DEBUG)
+    :param name: Tên logger
+    :param log_file: Tên file log
+    :param level: Mức log (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+    :param max_bytes: Dung lượng tối đa của file log
+    :param backup_count: Số file log backup
+    :return: logger
+    """
 
+    log_dir = os.path.dirname(log_file)
+    if log_dir and not os.path.exists(log_dir):
+        os.makedirs(log_dir)
 
-logger = logging.getLogger(__name__)
+    logger = logging.getLogger(name)
+    logger.setLevel(level)
 
-app = FastAPI()
+    if logger.handlers:
+        return logger
 
-@app.middleware("http")
-async def log_exceptions(request: Request, call_next):
-    try:
-        response = await call_next(request)
-        print(dir(response))
-        return response
-    except Exception as e:
-        logger.error("Exception: %s", e, exc_info=True)
-        traceback.print_exc()
-        raise e
+    formatter = logging.Formatter(
+        "%(asctime)s | %(levelname)s | %(filename)s:%(lineno)d | %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S"
+    )
+
+    handler = RotatingFileHandler(
+        log_file,
+        maxBytes=max_bytes,
+        backupCount=backup_count,
+        encoding="utf-8"
+    )
+    handler.setFormatter(formatter)
+
+    logger.addHandler(handler)
+
+    return logger

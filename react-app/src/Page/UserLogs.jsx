@@ -3,6 +3,7 @@ import * as managementService from "../Service/Management";
 import { useParams } from "react-router-dom";
 import ManagerNav from "../Component/ManagerNav";
 import Layout from "../Component/Layout";
+import styles from "./UserLogs.module.css";
 
 export default function UserLogs() {
   const { id } = useParams();
@@ -22,30 +23,35 @@ export default function UserLogs() {
   }, [id]);
   return (
     <Layout Navbar={ManagerNav}>
-      <table>
-        <thead>
-          <tr>
-            <th>Time</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {logs.length > 0 ? (
-            logs.map((log) => (
-              <React.Fragment key={log.id}>
+      <div className={styles.container}>
+        <h2 className={styles.title}>Nhật ký người dùng</h2>
+        <div className={styles.tableWrapper}>
+          <table className={styles.logsTable}>
+            <thead>
+              <tr>
+                <th className={styles.timeHeader}>Thời gian</th>
+                <th className={styles.actionHeader}>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {logs.length > 0 ? (
+                [...logs].reverse().map((log) => (
+                  <React.Fragment key={log.id}>
+                    <tr className={styles.logRow}>
+                      <td className={styles.timeCell}>{String(log.date_time)}</td>
+                      <td className={styles.actionCell}>{log.content}</td>
+                    </tr>
+                  </React.Fragment>
+                ))
+              ) : (
                 <tr>
-                  <td>{String(log.date_time).slice(11, 19)}</td>
-                  <td>{log.content}</td>
+                  <td className={styles.noLogs} colSpan={2}>Không có nhật ký nào</td>
                 </tr>
-              </React.Fragment>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={2}>Use have no log</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </Layout>
   );
 }

@@ -1,0 +1,58 @@
+================================
+        SETUP FRONTEND
+================================
+0. Change your pc's name to your domain 
+1. Download nginx window to c:/nginx
+2. edit file vite.config:
+// vite.config.ts
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
+  define: {
+    IP_NETWORK: JSON.stringify('/api'),
+  },
+})
+3. npm run build and copy folder dist to file (can ignore if built)
+4. add this code to nginx.conf
+server {
+    listen 80;
+    server_name vinhnub.local;
+
+    root your_directory;
+    index index.html;
+
+    location / {
+        try_files $uri /index.html;
+    }
+
+    location /api/ {
+        proxy_pass http://127.0.0.1:5555/;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+5. Run cmd with admin
+cd C:\nginx
+nginx.exe -s reload
+nginx.exe (run with admin)
+6. config file hosts
+C:\Windows\System32\drivers\etc\hosts
+127.0.0.1   vinhnub.local
+7. Install service with nssm (path: ../nginx.exe, startup directory: nginx folder, arg: none)
+8. set service automatic run
+
+================================
+        SETUP BACKEND
+================================
+
+1. get ggsheetapikey and ggsheet id paste to .env
+2. install service with nssm (path: ../python.exe (venv), startup directory: main folder project, arg: -m server.main)
+3. set service automatic run
+================================
+    INSTALL NSSM AND NGINX
+================================
+1. Download nssm and move nssm64.ext to window/system32
+2. Download nginx and move to C:/nginx
